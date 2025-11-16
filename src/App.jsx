@@ -14,10 +14,10 @@ const ALL_MAPS = [
   "Menace nucléaire",
   "Mine hantée",
   "Passe d'Alterac",
-  "Tombe de la Reine araignée",
   "Sanctuaires infernaux",
   "Temple céleste",
   "Temple d'Hanamura",
+  "Tombe de la Reine araignée",
   "Tours du destin",
   "Val maudit",
 ];
@@ -2437,9 +2437,6 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
             </div>
           );
         })}
-        {items.length === 0 && (
-          <div className="text-xs opacity-60">(vide)</div>
-        )}
       </div>
     </div>
   );
@@ -2453,7 +2450,7 @@ function AddHeroInput({ placeholder, onAdd, disabled }) {
     setValue("");
   };
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center mb-2">
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -2543,11 +2540,10 @@ function GlobalScores({ DB, state }) {
     <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-3 flex items-center justify-center gap-6">
       <div className="text-sm opacity-70"></div>
       <div className="text-lg font-semibold">
-        Alliés: <span className="text-emerald-300">{alliesScore.toFixed(1)}</span>
+        Alliés : <span className="text-emerald-300">{alliesScore.toFixed(1)}</span>
       </div>
-      <div className="opacity-40">|</div>
       <div className="text-lg font-semibold">
-        Adversaires: <span className="text-rose-300">{enemiesScore.toFixed(1)}</span>
+        Adversaires : <span className="text-rose-300">{enemiesScore.toFixed(1)}</span>
       </div>
     </div>
   );
@@ -2600,7 +2596,7 @@ export default function DraftAssistant() {
         score: computeScore(h, DB, state),
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 9);
+      .slice(0, 12);
   }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
 
   const enemyPotential = useMemo(() => {
@@ -2631,7 +2627,7 @@ export default function DraftAssistant() {
 
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(26,32,54,0.7),transparent)] bg-[#05070d] text-slate-100">
-      <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90 border-b border-slate-800">
+      <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90  border-slate-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between p-3">
           <div className="text-xl font-semibold">Draft Assistant</div>
           <div className="flex-1 text-sm text-center">
@@ -2709,7 +2705,6 @@ export default function DraftAssistant() {
               disabled={bansAllies.length >= 3}
             />
             <ListBox
-              title="Bans"
               items={bansAllies}
               onRemove={(i) => removeFrom(setBansAllies, bansAllies, i)}
               compact
@@ -2725,7 +2720,6 @@ export default function DraftAssistant() {
               onAdd={(v) => addTo(setAllies, allies, v)}
             />
             <ListBox
-              title="Alliés"
               items={allies}
               onRemove={(i) => removeFrom(setAllies, allies, i)}
               DB={DB}
@@ -2826,7 +2820,6 @@ export default function DraftAssistant() {
               disabled={bansEnemies.length >= 3}
             />
             <ListBox
-              title="Bans adverses"
               items={bansEnemies}
               onRemove={(i) => removeFrom(setBansEnemies, bansEnemies, i)}
               compact
@@ -2842,7 +2835,6 @@ export default function DraftAssistant() {
               onAdd={(v) => addTo(setEnemies, enemies, v)}
             />
             <ListBox
-              title="Ennemis"
               items={enemies}
               onRemove={(i) => removeFrom(setEnemies, enemies, i)}
               DB={DB}
