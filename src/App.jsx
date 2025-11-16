@@ -2739,11 +2739,6 @@ export default function DraftAssistant() {
         <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
           <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-2 text-xs">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="opacity-70 mr-1">Composition idéale :</span>
-              <span className="opacity-80">
-                Guerrier défensif · Guerrier offensif · Healer · Mage OU Melee assassin · AA OU
-                Melee assassin
-              </span>
               <StatusChip
                 label="Guerrier défensif"
                 state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
@@ -2763,10 +2758,6 @@ export default function DraftAssistant() {
               <StatusChip
                 label="AA OU Melee"
                 state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMelee ? "warn" : "ok"}
-              />
-              <StatusChip
-                label="≤ 1 Melee"
-                state={comp.noDoubleMelee ? "ok" : "warn"}
               />
             </div>
           </div>
