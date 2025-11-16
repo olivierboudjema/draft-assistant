@@ -1,0 +1,1383 @@
+import React, { useMemo, useState } from "react";
+
+const ALL_MAPS = [
+    "Tombe de la Reine araignée",
+    "Laboratoire de Braxis",
+    "Mine hantée",
+    "Sanctuaires infernaux",
+    "Tours du destin",
+    "Champs de l'Éternité",
+    "Baie de Cœur-Noir",
+    "Temple céleste",
+    "Menace nucléaire",
+    "Temple d'Hanamura",
+    "Comté du dragon",
+    "Passe d'Alterac",
+    "Val maudit",
+    "Fonderie de Volskaya",
+    "Jardins de Terreur",
+];
+
+const HERO_LIST = [
+    "Johanna",
+    "Diablo",
+    "Muradin",
+    "Anub'arak",
+    "Blaze",
+    "Garrosh",
+    "Tyraël",
+    "Balafré",
+    "Dehaka",
+    "Yrel",
+    "Sonya",
+    "Artanis",
+    "Impérius",
+    "Thrall",
+    "Léoric",
+    "Varian",
+    "Stukov",
+    "Anduin",
+    "Rehgar",
+    "Uther",
+    "Tyrande",
+    "Deckard",
+    "Malfurion",
+    "Brightwing",
+    "Lt Morales",
+    "Alexstrasza",
+    "Ana",
+    "Kharazim",
+    "Lúcio",
+    "Valla",
+    "Raynor",
+    "Hanzo",
+    "Falstad",
+    "Greymane",
+    "Tychus",
+    "Cassia",
+    "Zul’jin",
+    "Sylvanas",
+    "Lunara",
+    "Kael’thas",
+    "Jaina",
+    "Li-Ming",
+    "Chromie",
+    "Tassadar",
+    "Orphéa",
+    "Gul’dan",
+    "Méphisto",
+    "Nasibo",
+    "Asmodan",
+    "Genji",
+    "Tracer",
+    "Zeratul",
+    "Illidan",
+    "Maiev",
+    "Kerrigan",
+    "Samuro",
+    "Valeera",
+    "Alarak",
+    "Qhira",
+    "Lili",
+    "ETC",
+    "Chogall",
+    "Mephisto",
+    "Le boucher",
+    "Kel'thuzad",
+    "Xul",
+    "Arthas",
+    "Mal'Ganis",
+    "Mei",
+    "Chen",
+    "Aile-de-mort",
+    "D.Va",
+    "Gazleu",
+    "Lardeur",
+    "Malthaël",
+    "Ragnaros",
+    "Rexxar",
+    "Fénix",
+    "Chacal",
+    "Nova",
+    "EDN-OS",
+    "Sgt. Marteau",
+    "Zagara",
+    "Bourbie",
+    "Auriel",
+    "Blanchetête",
+    "Abathur",
+    "Medivh",
+    "Les Vikings Perdus",
+    "Zarya"
+];
+
+const BASE_ROLE = {
+    Johanna: "guerrier defensif",
+    Diablo: "guerrier defensif",
+    "Muradin": "guerrier defensif",
+    "Anub'arak": "guerrier defensif",
+    Garrosh: "guerrier defensif",
+    "Tyraël": "guerrier defensif",
+    "Balafré": "guerrier defensif",
+    Mei: "guerrier defensif",
+    Blaze: "guerrier offensif",
+    Dehaka: "guerrier offensif",
+    Yrel: "guerrier offensif",
+    Sonya: "guerrier offensif",
+    Artanis: "guerrier offensif",
+    Impérius: "guerrier offensif",
+    Thrall: "guerrier offensif",
+    "Léoric": "guerrier offensif",
+    Varian: "guerrier defensif",
+    Stukov: "healer",
+    Anduin: "healer",
+    Rehgar: "healer",
+    Uther: "healer",
+    Tyrande: "healer",
+    Deckard: "healer",
+    Malfurion: "healer",
+    Brightwing: "healer",
+    "Lt Morales": "healer",
+    Alexstrasza: "healer",
+    Ana: "healer",
+    Kharazim: "healer",
+    "Lúcio": "healer",
+    Valla: "dps range auto attack",
+    Raynor: "dps range auto attack",
+    Hanzo: "dps range auto attack",
+    Falstad: "dps range auto attack",
+    Greymane: "dps range auto attack",
+    Tychus: "dps range auto attack",
+    Cassia: "dps range auto attack",
+    "Zul’jin": "dps range auto attack",
+    Sylvanas: "dps range auto attack",
+    Lunara: "dps range auto attack",
+    "Kael’thas": "dps range mage",
+    Jaina: "dps range mage",
+    "Li-Ming": "dps range mage",
+    Chromie: "dps range mage",
+    Tassadar: "dps range mage",
+    Orphéa: "dps range mage",
+    "Gul’dan": "dps range mage",
+    "Méphisto": "dps range mage",
+    Nasibo: "dps range mage",
+    Asmodan: "dps range mage",
+    Genji: "dps melee",
+    Tracer: "dps melee",
+    Zeratul: "dps melee",
+    Illidan: "dps melee",
+    Maiev: "dps melee",
+    Kerrigan: "dps melee",
+    Samuro: "dps melee",
+    Valeera: "dps melee",
+    Alarak: "dps melee",
+    Qhira: "dps melee",
+    Chogall: "dps range mage",
+    Mephisto: "dps range mage",
+    "Le boucher": "dps melee",
+    "Kel'thuzad": "dps range mage",
+    Xul: "guerrier offensif",
+    Lili: "healer",
+    ETC: "guerrier defensif",
+    Arthas: "guerrier defensif",
+    "Mal'Ganis": "guerrier defensif",
+    Chen: "guerrier offensif",
+    "Aile-de-mort": "guerrier offensif",
+    "D.Va": "guerrier offensif",
+    Gazleu: "dps range mage",
+    Lardeur: "guerrier offensif",
+    "Malthaël": "dps melee",
+    Ragnaros: "dps range mage",
+    Rexxar: "dps range auto attack",
+    "Fénix": "dps range auto attack",
+    Chacal: "dps range mage",
+    Nova: "dps range auto attack",
+    "EDN-OS": "dps range mage",
+    "Sgt. Marteau": "dps range auto attack",
+    Zagara: "dps range mage",
+    Bourbie: "dps melee",
+    Auriel: "healer",
+    Blanchetête: "healer",
+    Abathur: "dps range mage",
+    Medivh: "dps range mage",
+    "Les Vikings Perdus": "dps melee",
+    Zarya: "guerrier defensif",
+};
+
+const TIER = {
+    Johanna: "S",
+    Diablo: "S",
+    Blaze: "S",
+    "Muradin": "A",
+    "Anub'arak": "A",
+    Dehaka: "A",
+    Garrosh: "A",
+    Yrel: "A",
+    Mei: "A",
+    "Tyraël": "B",
+    "Balafré": "B",
+    Varian: "B",
+    Sonya: "B",
+    Artanis: "B",
+    Impérius: "B",
+    Thrall: "B",
+    "Léoric": "B",
+    Stukov: "S",
+    Brightwing: "S",
+    Anduin: "A",
+    Rehgar: "A",
+    "Lúcio": "A",
+    Uther: "B",
+    Tyrande: "B",
+    Deckard: "B",
+    Malfurion: "B",
+    "Lt Morales": "B",
+    Alexstrasza: "B",
+    Ana: "A",
+    Kharazim: "B",
+    Valla: "A",
+    Hanzo: "A",
+    Falstad: "A",
+    Greymane: "A",
+    Tychus: "A",
+    "Zul’jin": "A",
+    Raynor: "B",
+    Cassia: "B",
+    Sylvanas: "B",
+    Lunara: "B",
+    "Kael’thas": "A",
+    Jaina: "A",
+    "Li-Ming": "A",
+    "Gul’dan": "A",
+    Chromie: "B",
+    Tassadar: "B",
+    Orphéa: "B",
+    "Méphisto": "B",
+    Nasibo: "A",
+    Asmodan: "B",
+    Zeratul: "A",
+    Genji: "B",
+    Tracer: "B",
+    Illidan: "B",
+    Maiev: "B",
+    Kerrigan: "B",
+    Samuro: "B",
+    Valeera: "B",
+    Alarak: "B",
+    Qhira: "B",
+    Chogall: "B",
+    Lili: "B",
+    ETC: "B",
+    Mephisto: "B",
+    "Le boucher": "B",
+    "Kel'thuzad": "B",
+    Xul: "B",
+    Arthas: "B",
+    "Mal'Ganis": "B",
+    Chen: "B",
+    "Aile-de-mort": "B",
+    "D.Va": "B",
+    Gazleu: "B",
+    Lardeur: "B",
+    "Malthaël": "B",
+    Ragnaros: "B",
+    Rexxar: "A",
+    "Fénix": "B",
+    Chacal: "B",
+    Nova: "B",
+    "EDN-OS": "B",
+    "Sgt. Marteau": "A",
+    Zagara: "B",
+    Bourbie: "B",
+    Auriel: "A",
+    Blanchetête: "B",
+    Abathur: "B",
+    Medivh: "B",
+    "Les Vikings Perdus": "B",
+    Zarya: "B"
+};
+
+const TIER_BONUS = { S: 2, A: 1, B: 0, C: -1, D: -2 };
+
+const SYNERGY = {
+    "Johanna": ["Anduin", "Stukov", "Jaina", "Kael’thas", "Li-Ming", "Valla", "Raynor", "Tyrande", "Brightwing"],
+    "Diablo": ["Stukov", "Jaina", "Kael’thas", "Anduin", "Rehgar", "Tyrande", "Li-Ming", "Méphisto"],
+    "Anub'arak": ["Li-Ming", "Kael’thas", "Jaina", "Stukov", "Anduin", "Tyrande"],
+
+    "Blaze": ["Anduin", "Rehgar", "Stukov", "Tyrande", "Jaina", "Méphisto"],
+    "Garrosh": ["Anduin", "Stukov", "Jaina", "Li-Ming", "Tyrande", "Rehgar"],
+    "Tyraël": ["Greymane", "Valla", "Tracer", "Zeratul", "Rehgar"],
+    "Balafré": ["Jaina", "Kael’thas", "Falstad", "Anduin"],
+    "Dehaka": ["Brightwing", "Falstad", "Valla", "Méphisto", "Rehgar"],
+    "Yrel": ["Anduin", "Rehgar", "Valla"],
+    "Sonya": ["Anduin", "Rehgar", "Greymane", "Valla"],
+    "Artanis": ["Anduin", "Rehgar", "Jaina", "Li-Ming"],
+    "Impérius": ["Uther", "Anduin", "Jaina", "Li-Ming", "Tyrande"],
+    "Thrall": ["Anduin", "Rehgar", "Jaina", "Méphisto"],
+    "Léoric": ["Anduin", "Stukov", "Valla", "Jaina"],
+    "Varian": ["Malfurion", "Jaina", "Anduin", "E.T.C.", "Blaze"],
+
+    "Stukov": ["Diablo", "Johanna", "Anub'arak", "Garrosh", "Valla", "Cassia"],
+    "Anduin": ["Johanna", "Diablo", "Blaze", "Garrosh", "Valla", "Zul’jin"],
+    "Rehgar": ["Diablo", "Greymane", "Muradin", "Blaze", "Tyraël", "Valla"],
+    "Uther": ["Zeratul", "Illidan", "Kerrigan", "Maiev"], // burst support
+    "Tyrande": ["Diablo", "Illidan", "Zeratul", "Valla", "Greymane"],
+    "Deckard": ["Johanna", "Diablo", "Garrosh", "Blaze"],
+    "Malfurion": ["Varian", "Johanna", "Diablo", "Maiev"],
+    "Brightwing": ["Falstad", "Dehaka", "Zeratul", "Tracer", "Genji", "Illidan"],
+    "Lt Morales": ["Raynor", "Valla", "Greymane"],
+    "Alexstrasza": ["Johanna", "Diablo", "Blaze"],
+    "Kharazim": ["Illidan", "Greymane", "Zeratul"],
+    "Lúcio": ["Illidan", "Tracer", "Zeratul", "Greymane"],
+
+    "Valla": ["Johanna", "Anduin", "Tyrande", "Rehgar", "Brightwing", "Tyraël"],
+    "Raynor": ["Johanna", "Anduin", "Stukov"],
+    "Hanzo": ["Johanna", "Tyrande", "Anduin"],
+    "Falstad": ["Johanna", "Brightwing", "Dehaka"],
+    "Greymane": ["Johanna", "Anduin", "Rehgar", "Tyraël"],
+    "Tychus": ["Johanna", "Anduin", "Rehgar", "Tyraël"],
+    "Cassia": ["Johanna", "Anduin", "Rehgar"],
+    "Zul’jin": ["Anduin", "Rehgar", "Brightwing"],
+    "Sylvanas": ["Johanna", "Anduin", "Rehgar"],
+    "Lunara": ["Johanna", "Anduin"],
+
+    "Kael’thas": ["Johanna", "Diablo", "Garrosh", "Anub'arak"],
+    "Jaina": ["Johanna", "Diablo", "Muradin", "Garrosh", "Varian"],
+    "Li-Ming": ["Garrosh", "Anub'arak", "Muradin", "Johanna"],
+    "Chromie": ["Johanna", "Tyrande"],
+    "Tassadar": ["Johanna", "Anduin"],
+    "Orphéa": ["Johanna", "Anduin"],
+    "Gul’dan": ["Johanna", "Diablo", "Muradin"],
+    "Méphisto": ["Johanna", "Blaze", "Tyraël", "Rehgar"],
+
+    "Genji": ["Johanna", "Brightwing", "Anduin"],
+    "Tracer": ["Tyraël", "Johanna", "Brightwing", "Anduin"],
+    "Zeratul": ["Uther", "Tyrande", "Brightwing", "Anduin"],
+    "Illidan": ["Tyrande", "Lúcio", "Rehgar", "Tyraël"],
+    "Maiev": ["Uther", "Anduin", "Malfurion"],
+    "Kerrigan": ["Uther", "Tyrande", "Anduin"],
+    "Samuro": ["Anduin", "Rehgar"],
+    "Valeera": ["Uther", "Anduin", "Tyrande"],
+    "Alarak": ["Uther", "Anduin", "Tyrande"],
+    "Qhira": ["Anduin", "Uther"],
+
+    "Muradin": ["Anduin", "Rehgar", "Stukov", "Jaina", "Li-Ming"],
+    "Lili": ["Illidan", "Thrall", "Sonya", "Greymane", "Johanna"],
+    "E.T.C.": ["Anduin", "Rehgar", "Stukov", "Jaina", "Li-Ming", "Valla"],
+    "Nasibo": ["Johanna", "Diablo", "Anduin", "Rehgar"],
+    "Asmodan": ["Johanna", "Diablo", "Garrosh", "Anduin", "Rehgar"],
+    "Mephisto": ["Johanna", "Blaze", "Tyraël", "Rehgar"],
+    "Le boucher": ["Uther", "Rehgar", "Tyrande", "Lili"],
+    "Kel'thuzad": ["Johanna", "Diablo", "Garrosh", "Anub'arak"],
+    "Xul": ["Anduin", "Rehgar", "Johanna", "Diablo"],
+
+    "Arthas": ["Anduin", "Rehgar", "Jaina", "Li-Ming"],
+    "Mal'Ganis": ["Anduin", "Rehgar", "Jaina", "Gul’dan"],
+    "Chen": ["Anduin", "Rehgar", "Brightwing", "Illidan"],
+    "Aile-de-mort": ["Anduin", "Rehgar", "Alexstrasza", "Gul’dan"],
+    "D.Va": ["Anduin", "Rehgar", "Lúcio", "Johanna"],
+    "Gazleu": ["Johanna", "Anduin", "Rehgar", "Zarya"],
+    "Lardeur": ["Anduin", "Rehgar", "Brightwing", "Valla"],
+    "Malthaël": ["Anduin", "Rehgar", "Johanna", "Diablo"],
+    "Ragnaros": ["Johanna", "Diablo", "Anduin", "Rehgar"],
+    "Rexxar": ["Anduin", "Rehgar", "Johanna", "Falstad"],
+    "Fénix": ["Johanna", "Anduin", "Rehgar", "Tyrande"],
+    "Chacal": ["Johanna", "Garrosh", "Anduin", "Rehgar"],
+    "Nova": ["Johanna", "Diablo", "Muradin", "Tyrande"],
+    "EDN-OS": ["Johanna", "Anduin", "Rehgar", "Zarya"],
+    "Sgt. Marteau": ["Johanna", "E.T.C.", "Anduin", "Stukov"],
+    "Zagara": ["Johanna", "Anduin", "Rehgar", "Sylvanas"],
+    "Bourbie": ["Brightwing", "Rehgar", "Anduin", "Johanna"],
+    "Auriel": ["Valla", "Cassia", "Greymane", "Johanna"],
+    "Blanchetête": ["Diablo", "Garrosh", "Johanna", "Anduin"],
+    "Abathur": ["Illidan", "Zeratul", "Tracer", "Greymane", "Valla"],
+    "Medivh": ["Diablo", "Garrosh", "Johanna", "Illidan", "Maiev"],
+    "Les Vikings Perdus": ["Abathur", "Rehgar", "Lili", "Auriel"],
+    "Zarya": ["Illidan", "Tracer", "Greymane", "Johanna", "Anduin"]
+};
+
+
+const COUNTERS = {
+    "Johanna": ["Genji", "Tracer", "Zeratul", "Illidan"],
+    "Diablo": ["Jaina", "Valla", "Kael’thas", "Anduin"],
+    "Muradin": ["Zul’jin", "Valla", "Raynor"],
+    "Anub'arak": ["Li-Ming", "Kael’thas", "Chromie"],
+    "Blaze": ["Kael’thas", "Jaina"],
+    "Garrosh": ["Valla", "Raynor", "Tychus", "Jaina"],
+    "Tyraël": ["Tychus", "Zul’jin", "Cassia"],
+    "Balafré": ["Tychus", "Valla", "Raynor", "Greymane"],
+    "Dehaka": ["Zeratul", "Falstad"],
+    "Yrel": ["Tychus", "Zul’jin", "Greymane"],
+    "Sonya": ["Johanna", "Brightwing", "Garrosh"],
+    "Artanis": ["Tychus", "Valla", "Raynor"],
+    "Impérius": ["Cleanse forts (Anduin/Brightwing)", "Tychus"],
+    "Thrall": ["Chromie", "Falstad", "Li-Ming"],
+    "Léoric": ["Greymane", "Valla"],
+    "Varian": ["Johanna", "Brightwing", "Anduin"],
+
+    "Stukov": ["Illidan", "Tracer", "Genji", "Greymane"],
+    "Anduin": ["Diablo", "Garrosh"],
+    "Rehgar": ["Burst longue portée (Chromie, Li-Ming)"],
+    "Uther": ["Valla", "Zul’jin"],
+    "Tyrande": ["Dive hyper-mobiles (Genji/Tracer)"],
+    "Deckard": ["Illidan", "Tracer"],
+    "Malfurion": ["Burst instant (Li-Ming/Jaina)"],
+    "Brightwing": ["Cassia", "Zul’jin"],
+    "Lt Morales": ["Divers & burst (Zeratul, Tracer)"],
+    "Alexstrasza": ["Poke constant (Chromie)"],
+    "Kharazim": ["Contrôle dur (Johanna, Uther)"],
+    "Lúcio": ["Burst mono-cible (Kerrigan)"],
+
+    "Valla": ["Illidan", "Zeratul", "Tracer", "Valeera"],
+    "Raynor": ["Tracer", "Genji", "Zeratul"],
+    "Hanzo": ["Zeratul", "Tracer"],
+    "Falstad": ["Zeratul", "Tracer"],
+    "Greymane": ["Johanna", "Garrosh", "Zeratul"],
+    "Tychus": ["Chromie", "Li-Ming"],
+    "Cassia": ["Li-Ming", "Chromie"],
+    "Zul’jin": ["Tracer", "Genji", "Zeratul"],
+    "Sylvanas": ["Zeratul", "Tracer", "Garrosh"],
+    "Lunara": ["Chromie", "Li-Ming"],
+
+    "Kael’thas": ["Diablo", "Garrosh", "Zeratul", "Tracer"],
+    "Jaina": ["Diablo", "Garrosh", "Zeratul", "Tracer"],
+    "Li-Ming": ["Anub'arak", "Zeratul", "Tracer"],
+    "Chromie": ["Anub'arak", "Genji", "Tracer"],
+    "Tassadar": ["Anub'arak", "Tracer"],
+    "Orphéa": ["Zeratul", "Tracer"],
+    "Gul’dan": ["Zeratul", "Tracer", "Anub'arak"],
+    "Méphisto": ["Tracer", "Genji", "Anub'arak"],
+
+    "Genji": ["Johanna", "Brightwing", "Uther"],
+    "Tracer": ["Johanna", "Brightwing", "Uther", "Raynor"],
+    "Zeratul": ["Johanna", "Uther", "Brightwing"],
+    "Illidan": ["Johanna", "Brightwing", "Stukov", "Valla"],
+    "Maiev": ["Anduin", "Uther", "Malfurion"],
+    "Kerrigan": ["Johanna", "Uther", "Brightwing"],
+    "Samuro": ["Johanna", "Brightwing", "Stukov"],
+    "Valeera": ["Johanna", "Brightwing", "Uther"],
+    "Alarak": ["Johanna", "Anduin"],
+    "Qhira": ["Johanna", "Uther"],
+
+    "Ana": ["Genji", "Tracer", "Illidan", "Zeratul"],
+    "Nasibo": ["Tracer", "Genji", "Illidan", "Zeratul"],
+    "Asmodan": ["Tracer", "Genji", "Illidan", "Zeratul"],
+    "Lili": ["Burst soutenu (Kael’thas, Gul’dan)", "Silence (Stukov)"],
+    "ETC": ["Johanna", "Garrosh", "Anduin", "Brightwing"],
+    "Chogall": ["Tychus", "Greymane", "Zul’jin", "Le boucher"],
+    "Mephisto": ["Tracer", "Genji", "Anub'arak"],
+    "Le boucher": ["Johanna", "Brightwing", "Anduin", "Garrosh"],
+    "Kel'thuzad": ["Anub'arak", "Genji", "Tracer", "Zeratul"],
+    "Xul": ["Zul’jin", "Tychus", "Greymane"],
+
+    "Arthas": ["Tychus", "Greymane", "Zul’jin"],
+    "Mal'Ganis": ["Tychus", "Greymane", "Zul’jin"],
+    "Mei": ["Tychus", "Zul’jin", "Greymane"],
+    "Chen": ["Le boucher", "Tychus", "Zul’jin"],
+    "Aile-de-mort": ["Tychus", "Greymane", "Zul’jin"],
+    "D.Va": ["Tychus", "Greymane", "Zul’jin"],
+    "Gazleu": ["Tracer", "Genji", "Illidan", "Zeratul"],
+    "Lardeur": ["Tychus", "Valla", "Greymane"],
+    "Malthaël": ["Tracer", "Genji", "Brightwing", "Anduin"],
+    "Ragnaros": ["Chromie", "Li-Ming", "Tracer"],
+    "Rexxar": ["Chromie", "Li-Ming", "Tracer"],
+    "Fénix": ["Tracer", "Genji", "Zeratul"],
+    "Chacal": ["Tracer", "Genji", "Illidan"],
+    "Nova": ["Genji", "Tracer", "Brightwing", "Johanna"],
+    "EDN-OS": ["Tracer", "Genji", "Illidan"],
+    "Sgt. Marteau": ["Tracer", "Genji", "Zeratul", "Illidan"],
+    "Zagara": ["Tracer", "Genji", "Illidan", "Zeratul"],
+    "Bourbie": ["Chromie", "Li-Ming", "Tracer"],
+    "Auriel": ["Burst mono-cible (Kerrigan, Li-Ming)"],
+    "Blanchetête": ["Burst longue portée (Li-Ming, Chromie)"],
+    "Abathur": ["Tracer", "Genji", "Illidan", "Zeratul"],
+    "Medivh": ["Silence/rupture (Stukov, Garrosh)"],
+    "Les Vikings Perdus": ["Illidan", "Zeratul", "Tracer"],
+    "Zarya": ["Tychus", "Malthaël"]
+};
+
+const MAP_GOOD = {
+    "Tombe de la Reine araignée": [
+        "Johanna", "Diablo", "Garrosh", "Blaze", "Dehaka", "Maiev", "Méphisto", "Valla", "Rehgar",
+        "Muradin", "Tyraël", "Sonya", "Jaina", "Kael’thas", "Li-Ming", "Chromie", "Sylvanas", "Zul’jin",
+        "Anduin", "Tyrande",
+        "Anub'arak", "Léoric", "Stukov", "Brightwing", "Stukov", "Tychus", "Cassia", "Lunara",
+        "Nasibo", "Asmodan", "Xul", "Zagara", "Auriel", "Abathur", "Kel'thuzad", "Gazleu"
+    ],
+    "Sanctuaires infernaux": [
+        "Diablo", "Johanna", "Tyraël", "Blaze", "Dehaka", "Maiev", "Méphisto", "Valla", "Rehgar",
+        "Anub'arak", "Garrosh", "Léoric", "Sonya", "Yrel", "Alarak", "Kerrigan", "Thrall", "Zeratul",
+        "Chromie", "Hanzo", "Jaina", "Kael’thas", "Greymane",
+        "Muradin", "Tychus", "Cassia", "Zul’jin", "Raynor", "Sylvanas", "Li-Ming",
+        "Anduin", "Stukov", "Brightwing", "Uther", "Kharazim", "Lúcio",
+        "Arthas", "Mal'Ganis", "Mei", "Chen", "Ragnaros", "Malthaël"
+    ],
+    "Champs de l'Éternité": [
+        "Diablo", "Garrosh", "Blaze", "Dehaka", "Thrall", "Li-Ming", "Valla", "Zul’jin",
+        "Johanna", "Muradin", "Tyraël", "Artanis", "Sonya", "Alarak", "Chromie", "Méphisto",
+        "Raynor", "Sylvanas", "Tracer",
+        "Anduin", "Brightwing", "Rehgar", "Stukov", "Malfurion", "Tyrande",
+        "Greymane", "Tychus", "Cassia", "Hanzo",
+        "Kerrigan", "Genji", "Illidan",
+        "Arthas", "Mal'Ganis", "Malthaël", "Ragnaros", "Fénix", "Aile-de-mort"
+    ],
+    "Temple céleste": [
+        "Johanna", "Tyraël", "Blaze", "Dehaka", "Zeratul", "Valla", "Brightwing", "Rehgar",
+        "Diablo", "Garrosh", "Muradin", "Illidan", "Samuro", "Sonya", "Yrel", "Maiev", "Thrall",
+        "Chromie", "Falstad", "Méphisto", "Sylvanas", "Tracer", "Zagara", "Zul’jin", "Anduin",
+        "Greymane", "Tychus", "Hanzo", "Li-Ming", "Jaina",
+        "Stukov", "Malfurion", "Deckard", "Stukov", "Alexstrasza",
+        "Arthas", "Mal'Ganis", "Mei", "Ragnaros", "Fénix", "Aile-de-mort", "D.Va"
+    ],
+    "Tours du destin": [
+        "Diablo", "Johanna", "Blaze", "Dehaka", "Thrall", "Méphisto", "Valla", "Brightwing", "Rehgar",
+        "Garrosh", "Muradin", "Anub'arak", "Léoric", "Stukov", "Anduin", "Tychus", "Zul’jin",
+        "Chromie", "Li-Ming", "Raynor", "Sylvanas", "Zagara", "Cassia",
+        "Xul", "Nasibo", "Asmodan", "Auriel", "Abathur", "Medivh"
+    ],
+    "Laboratoire de Braxis": [
+        "Blaze", "Dehaka", "Stukov", "Valla", "Tychus", "Greymane", "Johanna", "Garrosh",
+        "Diablo", "Ragnaros", "Sonya", "Yrel", "Thrall", "Léoric", "Artanis", "Xul",
+        "Hanzo", "Raynor", "Zul’jin", "Cassia",
+        "Anduin", "Rehgar", "Lúcio", "Brightwing",
+        "Zarya", "D.Va", "Chen", "Malthaël"
+    ],
+    "Val maudit": [
+        "Johanna", "Diablo", "Stukov", "Brightwing", "Falstad", "Dehaka", "Sylvanas", "Valla", "Rehgar",
+        "Garrosh", "Blaze", "Muradin", "Tyraël", "Anduin", "Tyrande", "Malfurion",
+        "Greymane", "Hanzo", "Tychus", "Zul’jin", "Li-Ming", "Jaina", "Chromie",
+        "Maiev", "Zeratul", "Genji", "Tracer",
+        "Abathur", "Medivh", "Auriel"
+    ],
+    "Comté du dragon": [
+        "Blaze", "Muradin", "Anduin", "Johanna", "Dehaka", "Sonya", "Jaina", "Valla",
+        "Diablo", "Garrosh", "Tyraël", "Yrel", "Thrall", "Greymane", "Tychus",
+        "Falstad", "Hanzo", "Li-Ming", "Kael’thas",
+        "Rehgar", "Stukov", "Brightwing", "Malfurion", "Deckard",
+        "Chen", "Mei", "Arthas", "Mal'Ganis", "Rexxar"
+    ],
+    "Baie de Cœur-Noir": [
+        "Johanna", "Dehaka", "Falstad", "Sylvanas", "Valla", "Rehgar", "Brightwing", "Diablo", "Garrosh",
+        "Blaze", "Muradin", "Tyraël", "Maiev", "Greymane", "Tychus", "Raynor", "Zul’jin",
+        "Li-Ming", "Jaina", "Chromie", "Méphisto", "Hanzo",
+        "Stukov", "Anduin", "Tyrande", "Abathur", "Nazeebo", "Asmodan", "Xul"
+    ],
+    "Menace nucléaire": [
+        "Dehaka", "Falstad", "Sylvanas", "Valla", "Johanna", "Diablo", "Brightwing", "Rehgar",
+        "Blaze", "Garrosh", "Muradin", "Tyraël", "Greymane", "Tychus", "Raynor", "Zul’jin",
+        "Genji", "Tracer", "Zeratul", "Maiev",
+        "Li-Ming", "Jaina", "Chromie", "Hanzo", "Méphisto",
+        "Abathur", "Medivh", "Stukov", "Anduin"
+    ],
+    "Temple d'Hanamura": [
+        "Blaze", "Thrall", "Méphisto", "Valla", "Zul’jin", "Rehgar",
+        "Johanna", "Muradin", "Sonya", "Chromie", "Falstad", "Genji", "Li-Ming", "Sylvanas", "Anduin", "Brightwing",
+        "Diablo", "Garrosh", "Tyraël", "Greymane", "Tychus", "Hanzo", "Tracer", "Zeratul",
+        "Stukov", "Auriel", "Abathur", "Medivh"
+    ],
+    "Passe d'Alterac": [
+        "Johanna", "Diablo", "Blaze", "Dehaka", "Valla", "Méphisto", "Rehgar", "Brightwing", "Garrosh", "Muradin",
+        "Tyraël", "Yrel", "Léoric", "Thrall", "Greymane", "Tychus", "Zul’jin", "Hanzo",
+        "Anduin", "Stukov", "Malfurion", "Deckard", "Alexstrasza",
+        "Arthas", "Mal'Ganis", "Mei", "Ragnaros", "Malthaël", "Fénix", "Aile-de-mort", "D.Va", "Zarya"
+    ],
+    "Mine hantée": [
+        "Johanna", "Blaze", "Diablo", "Valla", "Sylvanas", "Greymane", "Tychus", "Jaina", "Kael’thas", "Li-Ming",
+        "Garrosh", "Muradin", "Anub'arak", "Léoric", "Sonya", "Thrall", "Xul", "Nasibo", "Asmodan",
+        "Raynor", "Zul’jin", "Cassia",
+        "Anduin", "Rehgar", "Stukov", "Malfurion", "Deckard",
+        "Ragnaros", "Malthaël", "Arthas", "Mal'Ganis"
+    ],
+};
+
+
+const MAP_BAD = {
+    "Tombe de la Reine araignée": [
+        "Varian", "Lunara",
+        "Illidan", "Samuro", "Tracer", "Genji", "Zeratul", "Kerrigan", "Nova", "Valeera"
+    ],
+    "Sanctuaires infernaux": [
+        "Varian",
+        "Illidan", "Nova", "Valeera", "Zeratul", "Samuro", "Kerrigan"
+    ],
+    "Champs de l'Éternité": [
+        "Varian",
+        "Lunara", "Chromie", "Nova", "Valeera", "Samuro", "Sylvanas"
+    ],
+    "Temple céleste": [
+        "Varian", "Lunara",
+        "Illidan", "Samuro", "Nova", "Valeera", "Genji", "Tracer", "Kerrigan"
+    ],
+    "Tours du destin": [
+        "Lunara", "Valeera",
+        "Illidan", "Kerrigan", "Samuro", "Genji", "Tracer", "Zeratul"
+    ],
+    "Laboratoire de Braxis": [
+        "Chromie", "Kael’thas",
+        "Nova", "Kerrigan", "Samuro", "Genji", "Tracer", "Illidan", "Valeera", "Zeratul"
+    ],
+    "Val maudit": [
+        "Illidan", "Samuro",
+        "Nova", "Zeratul", "Valeera", "Tracer", "Kerrigan", "Genji"
+    ],
+    "Comté du dragon": [
+        "Illidan", "Tracer",
+        "Nova", "Samuro", "Valeera", "Genji", "Zeratul", "Kerrigan"
+    ],
+    "Baie de Cœur-Noir": [
+        "Illidan", "Varian",
+        "Nova", "Zeratul", "Valeera", "Tracer", "Samuro", "Kerrigan", "Genji"
+    ],
+    "Menace nucléaire": [
+        "Illidan", "Valeera",
+        "Nova", "Zeratul", "Samuro", "Genji", "Tracer", "Kerrigan"
+    ],
+    "Temple d'Hanamura": [
+        "Illidan", "Kerrigan", "Valeera",
+        "Nova", "Zeratul", "Samuro", "Genji", "Tracer"
+    ],
+    "Passe d'Alterac": [
+        "Genji", "Tracer",
+        "Illidan", "Nova", "Zeratul", "Samuro", "Valeera", "Kerrigan"
+    ],
+    "Mine hantée": [
+        "Illidan", "Zeratul",
+        "Nova", "Samuro", "Valeera", "Tracer", "Genji", "Kerrigan"
+    ],
+};
+
+function buildHeroDB() {
+    const db = {};
+    HERO_LIST.forEach((h) => {
+        db[h] = {
+            name: h,
+            tier: TIER[h] || "B",
+            role: BASE_ROLE[h] || "dps range auto attack",
+            favMaps: Object.entries(MAP_GOOD)
+                .filter(([_, arr]) => Array.isArray(arr) && arr.includes(h))
+                .map(([m]) => m),
+            badMaps: Object.entries(MAP_BAD)
+                .filter(([_, arr]) => Array.isArray(arr) && arr.includes(h))
+                .map(([m]) => m),
+            synergies: SYNERGY[h] || [],
+            counters: COUNTERS[h] || [],
+        };
+    });
+    return db;
+}
+
+const ROLE_KEYS = [
+    "guerrier defensif",
+    "guerrier offensif",
+    "healer",
+    "dps melee",
+    "dps range mage",
+    "dps range auto attack",
+];
+
+function teamRoleCounts(names, DB) {
+    const c = Object.fromEntries(ROLE_KEYS.map((k) => [k, 0]));
+    names.forEach((n) => {
+        const r = DB[n]?.role;
+        if (r) c[r]++;
+    });
+    return c;
+}
+
+function meleeCount(names, DB) {
+    return names.filter((n) => DB[n]?.role === "dps melee").length;
+}
+
+const MAX_BY_ROLE = {
+    "guerrier defensif": 1,
+    "guerrier offensif": 1,
+    healer: 1,
+    "dps melee": 1,
+    "dps range mage": 1,
+    "dps range auto attack": 1,
+};
+
+function computeScoreFor(hero, DB, state, opts = {}) {
+    const { ignoreLocks = false, selfNeutralizeRole = false, sideForRole = "allies" } = opts;
+    const H = DB[hero];
+    if (!H) return -999;
+    const picked = [...state.allies, ...state.enemies];
+    const banned = [...state.bansAllies, ...state.bansEnemies];
+    if (!ignoreLocks) {
+        if (picked.includes(hero) || banned.includes(hero)) return -999;
+    }
+    let score = 10;
+    score += TIER_BONUS[H.tier] ?? 0;
+
+    const teamList = sideForRole === "enemies" ? state.enemies : state.allies;
+    const oppList = sideForRole === "enemies" ? state.allies : state.enemies;
+    const listForCount = selfNeutralizeRole
+        ? teamList.filter((n) => n !== hero)
+        : teamList;
+
+    const counts = teamRoleCounts(listForCount, DB);
+    const currentCount = counts[H.role] || 0;
+    if (currentCount >= 1) score -= currentCount === 1 ? 1 : 2;
+    if (H.role === "dps melee" && meleeCount(listForCount, DB) >= 1) score -= 2;
+    if (currentCount >= (MAX_BY_ROLE[H.role] || 1)) score -= 3;
+
+    if (state.map && H.favMaps.includes(state.map)) score += 1;
+    if (state.map && H.badMaps.includes(state.map)) score -= 1;
+
+    H.synergies.forEach((a) => {
+        if (teamList.includes(a)) score += 1;
+    });
+    H.counters.forEach((e) => {
+        if (oppList.includes(e)) score += 1.5;
+    });
+    oppList.forEach((e) => {
+        const list = DB[e]?.counters || [];
+        if (list.includes(hero)) score -= 1.5;
+    });
+    teamList.forEach((e) => {
+        const syn = DB[e]?.synergies || [];
+        if (syn.includes(hero)) score += 0.5;
+    });
+
+    return score;
+}
+
+function computeScore(hero, DB, state) {
+    return computeScoreFor(hero, DB, state, { ignoreLocks: false });
+}
+
+function explainScore(hero, DB, state, opts = {}) {
+    const { selfNeutralizeRole = false, sideForRole = "allies" } = opts;
+    const H = DB[hero];
+    if (!H) return [];
+    const rows = [];
+    rows.push({ label: "Base", delta: 10 });
+    const tier = TIER_BONUS[H.tier] ?? 0;
+    if (tier) rows.push({ label: `Tier ${H.tier}`, delta: tier });
+
+    const teamList = sideForRole === "enemies" ? state.enemies : state.allies;
+    const oppList = sideForRole === "enemies" ? state.allies : state.enemies;
+    const listForCount = selfNeutralizeRole
+        ? teamList.filter((n) => n !== hero)
+        : teamList;
+
+    const counts = teamRoleCounts(listForCount, DB);
+    const currentCount = counts[H.role] || 0;
+    if (currentCount >= 1)
+        rows.push({
+            label: `Rôle déjà présent (${H.role})`,
+            delta: currentCount === 1 ? -1 : -2,
+        });
+    if (H.role === "dps melee" && meleeCount(listForCount, DB) >= 1)
+        rows.push({ label: "Deuxième melee (éviter 2× melee)", delta: -2 });
+    if (currentCount >= (MAX_BY_ROLE[H.role] || 1))
+        rows.push({ label: "Slot de rôle déjà complet", delta: -3 });
+
+    if (state.map && H.favMaps.includes(state.map))
+        rows.push({ label: `Carte favorable (${state.map})`, delta: +1 });
+    if (state.map && H.badMaps.includes(state.map))
+        rows.push({ label: `Carte défavorable (${state.map})`, delta: -1 });
+
+    H.synergies.forEach((a) => {
+        if (teamList.includes(a))
+            rows.push({ label: `Synergie avec ${a}`, delta: +1 });
+    });
+    H.counters.forEach((e) => {
+        if (oppList.includes(e))
+            rows.push({ label: `Contre ${e}`, delta: +1.5 });
+    });
+    oppList.forEach((e) => {
+        const list = DB[e]?.counters || [];
+        if (list.includes(hero))
+            rows.push({ label: `Se fait contrer par ${e}`, delta: -1.5 });
+    });
+    teamList.forEach((e) => {
+        const syn = DB[e]?.synergies || [];
+        if (syn.includes(hero))
+            rows.push({ label: `Bloque synergie adverse avec ${e}`, delta: +0.5 });
+    });
+
+    return rows;
+}
+
+const ROLE_META = {
+    healer: {
+        badge: "✚",
+        cls: "bg-emerald-900/40 text-emerald-200 border-emerald-500/50",
+    },
+    "guerrier defensif": {
+        badge: "🛡",
+        cls: "bg-cyan-900/40 text-cyan-200 border-cyan-500/50",
+    },
+    "guerrier offensif": {
+        badge: "⛨",
+        cls: "bg-amber-900/40 text-amber-200 border-amber-500/50",
+    },
+    "dps melee": {
+        badge: "⚔",
+        cls: "bg-rose-900/40 text-rose-200 border-rose-500/50",
+    },
+    "dps range mage": {
+        badge: "✦",
+        cls: "bg-fuchsia-900/40 text-fuchsia-200 border-fuchsia-500/50",
+    },
+    "dps range auto attack": {
+        badge: "➤",
+        cls: "bg-indigo-900/40 text-indigo-200 border-indigo-500/50",
+    },
+};
+
+function RoleChip({ role }) {
+    const m = ROLE_META[role] || { badge: "•", cls: "bg-slate-800/40" };
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded-full border ${m.cls}`}>
+            <span>{m.badge}</span>
+            {role}
+        </span>
+    );
+}
+
+function HeroInfoHover({ name, DB, children }) {
+    const info = DB?.[name];
+    if (!info) return <>{children}</>;
+    return (
+        <span className="relative group inline-block">
+            {children}
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition absolute top-full left-0 mt-2 z-[999] rounded-2xl border border-indigo-700/40 bg-[#05070f]/95 w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
+                <div className="font-semibold text-sm mb-1">{name}</div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px]">
+                    <div><span className="opacity-70">Tier:</span> {info.tier}</div>
+                    <div><span className="opacity-70">Rôle:</span> {info.role}</div>
+                    <div className="col-span-2">
+                        <span className="opacity-70">Maps +:</span>{" "}
+                        <span className="opacity-80">{info.favMaps.join(", ") || "—"}</span>
+                    </div>
+                    <div className="col-span-2">
+                        <span className="opacity-70">Maps -:</span>{" "}
+                        <span className="opacity-80">{info.badMaps.join(", ") || "—"}</span>
+                    </div>
+                    <div className="col-span-2">
+                        <span className="opacity-70">Synergies:</span>{" "}
+                        <span className="opacity-80">{info.synergies.join(", ") || "—"}</span>
+                    </div>
+                    <div className="col-span-2">
+                        <span className="opacity-70">Contre:</span>{" "}
+                        <span className="opacity-80">{info.counters.join(", ") || "—"}</span>
+                    </div>
+                </div>
+            </div>
+        </span>
+    );
+}
+
+function ScoreBadge({ value, breakdown }) {
+    return (
+        <span className="relative group inline-flex items-center">
+            <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-950/70 border border-indigo-600/40">
+                {value.toFixed(1)}
+            </span>
+            {breakdown && (
+                <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-40 rounded-2xl border border-indigo-700/40 bg-[#05070f]/95 w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
+                    <div className="font-semibold text-sm mb-2">Détail du score</div>
+                    <ul className="space-y-1 max-h-64 overflow-auto pr-1">
+                        {breakdown.map((row, idx) => (
+                            <li key={idx} className="flex justify-between gap-3">
+                                <span className="opacity-80">{row.label}</span>
+                                <span className="font-mono">
+                                    {row.delta > 0 ? "+" : ""}
+                                    {row.delta.toFixed(2)}
+                                </span>
+                            </li>
+                        ))}
+                        <li className="flex justify-between gap-3 pt-1 mt-1 border-t border-slate-700">
+                            <span className="font-semibold">Total</span>
+                            <span className="font-mono font-bold">{value.toFixed(2)}</span>
+                        </li>
+                    </ul>
+                </div>
+            )}
+        </span>
+    );
+}
+
+function HeroCard({ name, role, score, breakdown, DB }) {
+    return (
+        <div className="group relative rounded-2xl bg-[#0a0e1a]/90 border border-slate-800 p-2 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] hover:border-indigo-500/70 hover:bg-[#0c1222]">
+            <div className="flex items-center justify-between">
+                <HeroInfoHover name={name} DB={DB}>
+                    <div className="font-semibold text-sm truncate mr-2">{name}</div>
+                </HeroInfoHover>
+                <ScoreBadge value={score} breakdown={breakdown} />
+            </div>
+            <div className="mt-1">
+                <RoleChip role={role} />
+            </div>
+        </div>
+    );
+}
+
+function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }) {
+    return (
+        <div className={`rounded-2xl border border-slate-800 bg-[#0a0e1a]/90 p-3 ${compact ? "py-2" : ""}`}>
+            <div className="text-sm font-semibold mb-2">{title}</div>
+            <div className={`flex flex-col ${compact ? "gap-1 min-h-[120px]" : "gap-2 min-h-[180px]"}`}>
+                {items.map((h, i) => {
+                    const role = DB[h]?.role;
+                    const score = computeScoreFor(h, DB, state, {
+                        ignoreLocks: true,
+                        selfNeutralizeRole: true,
+                        sideForRole: side,
+                    });
+                    const breakdown = explainScore(h, DB, state, {
+                        selfNeutralizeRole: true,
+                        sideForRole: side,
+                    });
+                    return (
+                        <div key={h + String(i)} className={`flex items-center ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
+                            <HeroInfoHover name={h} DB={DB}>
+                                <span className={`rounded-lg bg-slate-900/80 border border-slate-700 ${compact ? "px-2 py-0.5" : "px-2 py-1"}`}>
+                                    {h}
+                                </span>
+                            </HeroInfoHover>
+                            {role && (
+                                <span className="ml-1">
+                                    <RoleChip role={role} />
+                                </span>
+                            )}
+                            <ScoreBadge value={score} breakdown={breakdown} />
+                            <button
+                                onClick={() => onRemove(i)}
+                                className={`ml-auto ${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
+                            >
+                                Retirer
+                            </button>
+                        </div>
+                    );
+                })}
+                {items.length === 0 && (
+                    <div className="text-xs opacity-60">(vide)</div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function AddHeroInput({ placeholder, onAdd, disabled }) {
+    const [value, setValue] = useState("");
+    const submit = () => {
+        if (!value) return;
+        onAdd(value);
+        setValue("");
+    };
+    return (
+        <div className="flex gap-2 items-center">
+            <input
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") submit();
+                }}
+                list="all-heroes"
+                placeholder={placeholder}
+                disabled={disabled}
+                className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm"
+            />
+            <button
+                onClick={submit}
+                disabled={disabled}
+                className="px-3 py-1 text-sm rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-40"
+            >
+                OK
+            </button>
+            <datalist id="all-heroes">
+                {HERO_LIST.map((h) => (
+                    <option key={h} value={h} />
+                ))}
+            </datalist>
+        </div>
+    );
+}
+
+function StatusChip({ label, state }) {
+    const cls =
+        state === "ok"
+            ? "bg-emerald-900/40 text-emerald-200 border-emerald-600/40"
+            : state === "warn"
+                ? "bg-rose-900/40 text-rose-200 border-rose-600/40"
+                : "bg-amber-900/40 text-amber-200 border-amber-600/40";
+    const icon = state === "ok" ? "✔" : state === "warn" ? "⚠" : "…";
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] ${cls}`}>
+            <span>{icon}</span>
+            {label}
+        </span>
+    );
+}
+
+function getCompositionStatus(allies, DB) {
+    const c = teamRoleCounts(allies, DB);
+    const defCount = c["guerrier defensif"];
+    const offCount = c["guerrier offensif"];
+    const healCount = c["healer"];
+
+    const defOk = defCount >= 1;
+    const offOk = offCount >= 1;
+    const healOk = healCount >= 1;
+
+    const defTooMany = defCount > 1;
+    const offTooMany = offCount > 1;
+    const healTooMany = healCount > 1;
+
+    const dpsSlot1Ok = c["dps range mage"] + c["dps melee"] >= 1;
+    const dpsSlot2Ok = c["dps range auto attack"] + c["dps melee"] >= 1;
+    const noDoubleMelee = c["dps melee"] <= 1;
+
+    return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMelee };
+}
+
+function GlobalScores({ DB, state }) {
+    const alliesScore = state.allies.reduce(
+        (acc, h) =>
+            acc +
+            computeScoreFor(h, DB, state, {
+                ignoreLocks: true,
+                selfNeutralizeRole: true,
+                sideForRole: "allies",
+            }),
+        0
+    );
+    const enemiesScore = state.enemies.reduce(
+        (acc, h) =>
+            acc +
+            computeScoreFor(h, DB, state, {
+                ignoreLocks: true,
+                selfNeutralizeRole: true,
+                sideForRole: "enemies",
+            }),
+        0
+    );
+    return (
+        <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-3 flex items-center justify-center gap-6">
+            <div className="text-sm opacity-70">(perspective alliée)</div>
+            <div className="text-lg font-semibold">
+                Alliés: <span className="text-emerald-300">{alliesScore.toFixed(1)}</span>
+            </div>
+            <div className="opacity-40">|</div>
+            <div className="text-lg font-semibold">
+                Adversaires: <span className="text-rose-300">{enemiesScore.toFixed(1)}</span>
+            </div>
+        </div>
+    );
+}
+
+export default function DraftAssistant() {
+    const DB = useMemo(() => buildHeroDB(), []);
+    const [map, setMap] = useState(ALL_MAPS[0]);
+    const [allies, setAllies] = useState([]);
+    const [enemies, setEnemies] = useState([]);
+    const [bansAllies, setBansAllies] = useState([]);
+    const [bansEnemies, setBansEnemies] = useState([]);
+    const [showHelp, setShowHelp] = useState(false);
+
+    const state = { map, allies, enemies, bansAllies, bansEnemies };
+
+    function addTo(setter, list, name, limit) {
+        if (!HERO_LIST.includes(name)) return;
+        if (list.includes(name)) return;
+        if ([...allies, ...enemies, ...bansAllies, ...bansEnemies].includes(name)) return;
+        if (limit && list.length >= limit) return;
+        setter([...list, name]);
+    }
+
+    function removeFrom(setter, list, idx) {
+        const copy = [...list];
+        copy.splice(idx, 1);
+        setter(copy);
+    }
+
+    function resetAll() {
+        setAllies([]);
+        setEnemies([]);
+        setBansAllies([]);
+        setBansEnemies([]);
+        setMap(ALL_MAPS[0]);
+    }
+
+    const allyReco = useMemo(() => {
+        return HERO_LIST.filter(
+            (h) =>
+                !allies.includes(h) &&
+                !enemies.includes(h) &&
+                !bansAllies.includes(h) &&
+                !bansEnemies.includes(h)
+        )
+            .map((h) => ({
+                name: h,
+                role: DB[h].role,
+                score: computeScore(h, DB, state),
+            }))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 9);
+    }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
+
+    const enemyPotential = useMemo(() => {
+        const mirrorState = {
+            map,
+            allies: enemies,
+            enemies: allies,
+            bansAllies: bansEnemies,
+            bansEnemies: bansAllies,
+        };
+        return HERO_LIST.filter(
+            (h) =>
+                !allies.includes(h) &&
+                !enemies.includes(h) &&
+                !bansAllies.includes(h) &&
+                !bansEnemies.includes(h)
+        )
+            .map((h) => ({
+                name: h,
+                role: DB[h].role,
+                score: computeScoreFor(h, DB, mirrorState, { sideForRole: "allies" }),
+            }))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 6);
+    }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
+
+    const comp = getCompositionStatus(allies, DB);
+
+    return (
+        <div className="min-h-screen w-full bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(26,32,54,0.7),transparent)] bg-[#05070d] text-slate-100">
+            <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90 border-b border-slate-800">
+                <div className="max-w-7xl mx-auto flex items-center justify-between p-3">
+                    <div className="text-xl font-semibold">Draft Assistant</div>
+                    <div className="flex-1 text-sm text-center">
+                        Map:
+                        <select
+                            className="ml-2 bg-slate-900 border border-slate-700 rounded px-2 py-1"
+                            value={map}
+                            onChange={(e) => setMap(e.target.value)}
+                        >
+                            {ALL_MAPS.map((m) => (
+                                <option key={m}>{m}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setShowHelp(true)}
+                            className="text-sm rounded-lg bg-indigo-900/40 border border-indigo-700/40 px-3 py-1 hover:bg-indigo-800/50"
+                        >
+                            Scores
+                        </button>
+                        <button
+                            onClick={resetAll}
+                            className="text-sm rounded-lg bg-slate-800 border border-slate-700 px-3 py-1 hover:bg-slate-700"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                <div className="max-w-7xl mx-auto px-3 pb-3">
+                    <GlobalScores DB={DB} state={state} />
+                </div>
+            </div>
+
+            {showHelp && (
+                <div className="fixed inset-0 z-40 flex items-center justify-center">
+                    <div
+                        className="absolute inset-0 bg-black/60"
+                        onClick={() => setShowHelp(false)}
+                    />
+                    <div className="relative z-50 w-[680px] max-w-[92vw] rounded-2xl bg-[#0a0e1a] border border-slate-800 p-5 shadow-xl">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="text-lg font-semibold">Calcul des scores</div>
+                            <button
+                                onClick={() => setShowHelp(false)}
+                                className="text-sm rounded-md px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700"
+                            >
+                                Fermer
+                            </button>
+                        </div>
+                        <div className="text-sm leading-relaxed space-y-2">
+                            <p>Chaque héros démarre à 10, puis :</p>
+                            <ul className="list-disc ml-5 space-y-1 text-left">
+                                <li>Tier : S = +2, A = +1, B = 0, C = −1, D = −2</li>
+                                <li>Rôle déjà présent : −1 (−2 si déjà 2×). Si slot complet : −3.</li>
+                                <li>Carte : favorable +1, défavorable −1</li>
+                                <li>Contre un ennemi : +1.5 par cible</li>
+                                <li>Se fait contrer : −1.5 par héros qui le contre</li>
+                                <li>Synergies alliées : +1 par allié synergique</li>
+                                <li>Bloque une synergie ennemie : +0.5</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 p-4">
+                {/* Colonne gauche */}
+                <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
+                    <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/90 p-3">
+                        <div className="text-sm font-semibold mb-2">Ban allié (3 max)</div>
+                        <AddHeroInput
+                            placeholder="Ajouter un ban…"
+                            onAdd={(v) => addTo(setBansAllies, bansAllies, v, 3)}
+                            disabled={bansAllies.length >= 3}
+                        />
+                        <ListBox
+                            title="Bans"
+                            items={bansAllies}
+                            onRemove={(i) => removeFrom(setBansAllies, bansAllies, i)}
+                            compact
+                            DB={DB}
+                            state={state}
+                            side="allies"
+                        />
+                    </div>
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
+                        <div className="text-sm font-semibold mb-2">Picks alliés</div>
+                        <AddHeroInput
+                            placeholder="Ajouter un pick…"
+                            onAdd={(v) => addTo(setAllies, allies, v)}
+                        />
+                        <ListBox
+                            title="Alliés"
+                            items={allies}
+                            onRemove={(i) => removeFrom(setAllies, allies, i)}
+                            DB={DB}
+                            state={state}
+                            side="allies"
+                        />
+                    </div>
+                </aside>
+
+                {/* Centre */}
+                <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
+                    <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-2 text-xs">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <span className="opacity-70 mr-1">Composition idéale :</span>
+                            <span className="opacity-80">
+                                Guerrier défensif · Guerrier offensif · Healer · Mage OU Melee assassin · AA OU
+                                Melee assassin
+                            </span>
+                            <StatusChip
+                                label="Guerrier défensif"
+                                state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
+                            />
+                            <StatusChip
+                                label="Guerrier offensif"
+                                state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
+                            />
+                            <StatusChip
+                                label="Healer"
+                                state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
+                            />
+                            <StatusChip
+                                label="Mage OU Melee"
+                                state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMelee ? "warn" : "ok"}
+                            />
+                            <StatusChip
+                                label="AA OU Melee"
+                                state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMelee ? "warn" : "ok"}
+                            />
+                            <StatusChip
+                                label="≤ 1 Melee"
+                                state={comp.noDoubleMelee ? "ok" : "warn"}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/80 p-3">
+                        <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
+                        <div className="grid grid-cols-3 gap-3">
+                            {allyReco.map((r) => (
+                                <HeroCard
+                                    key={r.name}
+                                    name={r.name}
+                                    role={r.role}
+                                    score={r.score}
+                                    breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
+                                    DB={DB}
+                                />
+                            ))}
+                            {allyReco.length === 0 && (
+                                <div className="col-span-3 text-xs opacity-60">Aucun héros disponible</div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-3">
+                        <div className="text-sm font-semibold mb-3">
+                            Reco à ban (meilleurs picks potentiels pour l'adversaire)
+                        </div>
+                        <div className="grid grid-cols-3 gap-3">
+                            {enemyPotential.map((r) => (
+                                <HeroCard
+                                    key={r.name}
+                                    name={r.name}
+                                    role={r.role}
+                                    score={r.score}
+                                    breakdown={explainScore(
+                                        r.name,
+                                        DB,
+                                        {
+                                            map,
+                                            allies: enemies,
+                                            enemies: allies,
+                                            bansAllies: bansEnemies,
+                                            bansEnemies: bansAllies,
+                                        },
+                                        { sideForRole: "allies" }
+                                    )}
+                                    DB={DB}
+                                />
+                            ))}
+                            {enemyPotential.length === 0 && (
+                                <div className="col-span-3 text-xs opacity-60">
+                                    Aucun héros à ban suggéré
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </main>
+
+                {/* Colonne droite */}
+                <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
+                        <div className="text-sm font-semibold mb-2">Ban adversaire (3 max)</div>
+                        <AddHeroInput
+                            placeholder="Ajouter un ban adverse…"
+                            onAdd={(v) => addTo(setBansEnemies, bansEnemies, v, 3)}
+                            disabled={bansEnemies.length >= 3}
+                        />
+                        <ListBox
+                            title="Bans adverses"
+                            items={bansEnemies}
+                            onRemove={(i) => removeFrom(setBansEnemies, bansEnemies, i)}
+                            compact
+                            DB={DB}
+                            state={state}
+                            side="enemies"
+                        />
+                    </div>
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
+                        <div className="text-sm font-semibold mb-2">Picks adverses</div>
+                        <AddHeroInput
+                            placeholder="Ajouter un pick adverse…"
+                            onAdd={(v) => addTo(setEnemies, enemies, v)}
+                        />
+                        <ListBox
+                            title="Ennemis"
+                            items={enemies}
+                            onRemove={(i) => removeFrom(setEnemies, enemies, i)}
+                            DB={DB}
+                            state={state}
+                            side="enemies"
+                        />
+                    </div>
+                </aside>
+            </div>
+        </div>
+    );
+}
