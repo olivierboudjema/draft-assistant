@@ -1,0 +1,1637 @@
+[
+  {
+    "name": "Abathur",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "synergy_with": [
+      "Illidan",
+      "Zeratul",
+      "Tracer",
+      "Greymane",
+      "maltael",
+      "Sonya",
+      "Yrel ",
+      "Genji"
+    ],
+    "counter_by": [
+      "Dehaka",
+      "Falstad",
+      "Nova",
+      "Zeratul",
+      "Ragnaros",
+      "Zarya",
+      "Srgt Marteau",
+      "Sylvanas"
+    ]
+  },
+  {
+    "name": "Alexstrasza",
+    "tier": "C",
+    "role": "healer",
+    "map_strong": ["SANCTUAIRES_INFERNAUX"],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "synergy_with": ["Johanna", "Kramer", "Kaelthas", "azmodan"],
+    "counter_by": ["Anub'arak", "Yrel", "Kaelthas", "Sylvanas", "Ana"]
+  },
+  {
+    "name": "Ana",
+    "tier": "C",
+    "role": "healer",
+    "map_strong": [
+      "TEMPLE_D_HAANMURA",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOURS_DU_DESTIN"
+    ],
+    "map_weak": [
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_CELESTE",
+      "MENACE_NUCLEAIRE",
+      "JARDINS_DE_TERREUR"
+    ],
+    "synergy_with": ["Li-ming", "E.T.C"],
+    "counter_by": ["Anub'arak", "Zeratul", "Hanzo", "Lucio"]
+  },
+  {
+    "name": "Anduin",
+    "tier": "A",
+    "role": "healer",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "VAL_MAUDIT",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS"],
+    "synergy_with": [
+      "Johanna",
+      "Kramer",
+      "Boucher",
+      "Alarak",
+      "Genji",
+      "Sylvanas"
+    ],
+    "counter_by": ["Varian", "Sonya", "Lunara", "Kaelthas", "Stukov"]
+  },
+  {
+    "name": "Aile de mort",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "SANCTUAIRES_INFERNAUX",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": [],
+    "synergy_with": ["E.T.C", "Arthas", "Johanna", "Muradin"],
+    "counter_by": ["Tychus", "Greymane", "Valla", "Zeratul", "Tracer"]
+  },
+  {
+    "name": "Alarak",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE", "TOURS_DU_DESTIN"],
+    "map_weak": ["SANCTUAIRES_INFERNAUX", "TEMPLE_CELESTE"],
+    "synergy_with": ["Raynor", "Jaina", "E.T.C", "Garrosh"],
+    "counter_by": ["E.T.C", "Johanna", "Aile de mort", "Medivh"]
+  },
+  {
+    "name": "Anub'arak",
+    "tier": "A",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "PASSE_D_ALTERAC",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "synergy_with": [
+      "Greymane",
+      "Jaina",
+      "Kaelthas",
+      "Kerrigan",
+      "Rehgar",
+      "Le Boucher"
+    ],
+    "counter_by": ["Leoric", "Malthael", "Tracer", "Valla", "Varian", "Zuljin"]
+  },
+  {
+    "name": "Artanis",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE", "TEMPLE_D_HAANMURA"],
+    "map_weak": [
+      "PASSE_D_ALTERAC",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN"
+    ],
+    "synergy_with": [
+      "Garrosh",
+      "Arthas",
+      "Kaelthas",
+      "Lunara",
+      "Medivh",
+      "Malfurion"
+    ],
+    "counter_by": ["E.T.C", "Arthas", "Varian", "Jaina", "Lunara", "Li-li"]
+  },
+  {
+    "name": "Arthas",
+    "tier": "B",
+    "role": "guerrier defensif",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE"],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "JARDINS_DE_TERREUR"
+    ],
+    "synergy_with": [
+      "Diablo",
+      "Tyrael",
+      "Maeiv",
+      "Greymane",
+      "Raynor",
+      "Chromie",
+      "Zarya",
+      "Stukov",
+      "Rehgar"
+    ],
+    "counter_by": ["Garrosh", "Sonya", "Tracer", "Raynor", "Jaina", "Ana"]
+  },
+  {
+    "name": "Auriel",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": ["Diablo", "Xul", "Raynor", "Tassadar"],
+    "counter_by": ["Anub'arak", "Chacal", "Chen", "Chromie", "Deckard"]
+  },
+  {
+    "name": "Azmodan",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": ["Jaina", "Johanna", "Maeiv", "Malfurion"],
+    "counter_by": [
+      "Artanis",
+      "Anub'arak",
+      "Diablo",
+      "Leoric",
+      "Malthael",
+      "Muradin",
+      "Sonya",
+      "Boucher"
+    ]
+  },
+  {
+    "name": "Balafre",
+    "tier": "B",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "TEMPLE_D_HAANMURA",
+      "VAL_MAUDIT",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOURS_DU_DESTIN"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE", "TEMPLE_CELESTE", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Kramer", "Falstad", "Kaelthas", "Malfurion"],
+    "counter_by": ["Johanna", "Malthael", "Greymane", "Tychus", "Anduin"]
+  },
+  {
+    "name": "Le Boucher",
+    "tier": "C",
+    "role": "dps melee",
+    "map_strong": [
+      "COMTE_DU_DRAGON",
+      "TEMPLE_CELESTE",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOUR_DU_DESTIN",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS", "CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": ["Abathur", "Tyrande", "Uther", "Tyrael"],
+    "counter_by": ["Johanna", "E.T.C", "Luisaile", "Uther"]
+  },
+  {
+    "name": "Cassia",
+    "tier": "B",
+    "role": "dps range auto attack",
+    "map_strong": [],
+    "map_weak": [],
+    "synergy_with": ["Li-li", "Johanna", "Artanis", "Thrall", "Jaina"],
+    "counter_by": [
+      "Kaelthas",
+      "Xul",
+      "E.T.C",
+      "Malganis",
+      "Imperius",
+      "Johanna"
+    ]
+  },
+  {
+    "name": "Chacal",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "TOURS_DU_DESTIN",
+      "VAL_MAUDIT",
+      "TEMPLE_CELESTE",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "MENACE_NUCLEAIRE",
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [],
+    "synergy_with": ["E.T.C", "Garrosh", "Uther", "Malfurion", "Zeratul"],
+    "counter_by": ["Illidan", "Tracer", "Zeratul", "Tyrael", "Genji"]
+  },
+  {
+    "name": "Chen",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": [
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "JARDINS_DE_TERREUR",
+      "MENACE_NUCLEAIRE"
+    ],
+    "synergy_with": ["Tyrael", "Greymane", "Li-ming", "Abathur", "Rehgar"],
+    "counter_by": ["E.T.C", "Yrel ", "Raynor", "Li-ming", "Les vikings perdus"]
+  },
+  {
+    "name": "Chogall",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE", "MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "Alexstrasza",
+      "Ana",
+      "Auriel",
+      "Luisaile",
+      "Yrel ",
+      "Kramer"
+    ],
+    "counter_by": [
+      "Anub'arak",
+      "Garrosh",
+      "Greymane",
+      "Imperius",
+      "kharazim",
+      "Leoric",
+      "Malthael",
+      "Raynor"
+    ]
+  },
+  {
+    "name": "Chromie",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": ["LABORATOIRE_DE_BRAXIS"],
+    "map_weak": [],
+    "synergy_with": ["Johanna", "Ana", "Malfurion"],
+    "counter_by": ["Illidan", "Diablo", "Zeratul", "Tracer"]
+  },
+  {
+    "name": "Dehaka",
+    "tier": "S",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "COMTE_DU_DRAGON",
+      "LABORATOIRE_DE_BRAXIS",
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE", "TEMPLE_D_HAANMURA"],
+    "synergy_with": ["Anub'arak", "Jaina", "Hanzo", "Maeiv"],
+    "counter_by": ["Raynor", "Valla", "E.T.C", "Srgt Marteau", "Lucio"]
+  },
+  {
+    "name": "Deckard",
+    "tier": "A",
+    "role": "healer",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "VAL_MAUDIT"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA", "TEMPLE_D_HAANMURA", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Johanna", "Kramer", "Hanzo", "Jaina"],
+    "counter_by": ["Johanna", "Aile de mort", "Tracer", "Li-ming", "Malfurion"]
+  },
+  {
+    "name": "Diablo",
+    "tier": "A",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE",
+      "MENACE_NUCLEAIRE"
+    ],
+    "synergy_with": ["Thrall", "Tassadar", "Medivh", "Tyrande"],
+    "counter_by": ["Garrosh", "Leoric", "Malthael", "Raynor", "Tychus"]
+  },
+  {
+    "name": "D.VA",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "TOURS_DU_DESTIN",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA",
+      "CHAMPS_DE_L_ETERNITE",
+      "VAL_MAUDIT"
+    ],
+    "synergy_with": ["Garrosh", "Maeiv", "Falstad", "Deckard"],
+    "counter_by": ["E.T.C", "Kaelthas", "Malthael", "Raynor", "Stukov"]
+  },
+  {
+    "name": "E.T.C.",
+    "tier": "B",
+    "role": "guerrier defensif",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE"],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "synergy_with": ["Kramer", "Alarak", "Greymane", "Kaelthas", "Uther"],
+    "counter_by": ["Johanna", "Aile de mort", "Raynor", "Kaelthas", "Luisaile"]
+  },
+  {
+    "name": "Falstad",
+    "tier": "A",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "VAL_MAUDIT",
+      "TEMPLE_D_HAANMURA",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Arthas", "E.T.C", "Tassadar", "Uther"],
+    "counter_by": ["Genji", "Greymane", "Illidan", "Nova", "Valeera", "Zeratul"]
+  },
+  {
+    "name": "Fenix",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Johanna", "Maeiv", "Thrall", "Diablo"],
+    "counter_by": ["E.T.C", "Genji", "Varian", "Lucio", "Zeratul"]
+  },
+  {
+    "name": "Garrosh",
+    "tier": "S",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOURS_DU_DESTIN",
+      "CHAMPS_DE_L_ETERNITE",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["VALEE_D_ALTERAC, TEMPLE_D_HAANMURA"],
+    "synergy_with": ["Hanzo", "Jaina", "Zarya", "Malfurion"],
+    "counter_by": ["Johanna", "Hanzo", "Malthael", "Jaina", "Anduin"]
+  },
+  {
+    "name": "gazlowe",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "LABORATOIRE_DE_BRAXIS",
+      "MENACE_NUCLEAIRE",
+      "SANCTUAIRES_INFERNAUX",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA", "TOURS_DU_DESTIN"],
+    "synergy_with": [
+      "Diablo",
+      "Jaina",
+      "E.T.C",
+      "Malfurion",
+      "Kaelthas",
+      "Johanna"
+    ],
+    "counter_by": ["Raynor", "Hanzo", "Lunara", "Li-ming", "Chromie", "Guldan"]
+  },
+  {
+    "name": "Genji",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "VAL_MAUDIT",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_D_HAANMURA",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE"],
+    "synergy_with": ["Jaina", "Uther", "E.T.C"],
+    "counter_by": ["Varian", "Malfurion", "Lunara", "Uther"]
+  },
+  {
+    "name": "Greymane",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "COMTE_DU_DRAGON",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": [],
+    "synergy_with": [
+      "Abathur",
+      "E.T.C",
+      "Garrosh",
+      "Tyrael",
+      "Uther",
+      "Rehgar",
+      "maltael"
+    ],
+    "counter_by": [
+      "Arthas",
+      "Luisaile",
+      "Johanna",
+      "Muradin",
+      "Boucher",
+      "Uther",
+      "Xul"
+    ]
+  },
+  {
+    "name": "Guldan",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_CELESTE",
+      "PASSE_D_ALTERAC"
+    ],
+    "map_weak": [],
+    "synergy_with": ["E.T.C", "Malfurion", "Auriel"],
+    "counter_by": ["Illidan", "Greymane", "Kerrigan", "Tracer"]
+  },
+  {
+    "name": "Srgt Marteau",
+    "tier": "B",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": [
+      "JARDINS_DE_TERREUR",
+      "PASSE_D_ALTERAC",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "MENACE_NUCLEAIRE"
+    ],
+    "synergy_with": ["E.T.C", "Johanna", "Lt morales", "Ana"],
+    "counter_by": ["Artanis", "Chromie", "Kelthuzad", "Li-ming", "Balafre"]
+  },
+  {
+    "name": "Hanzo",
+    "tier": "C",
+    "role": "dps range mage",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "CHAMPS_DE_L_ETERNITE",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOUR_DU_DESTIN"
+    ],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "Zeratul",
+      "E.T.C",
+      "Diablo",
+      "Kramer",
+      "Johanna",
+      "Malganis"
+    ],
+    "counter_by": ["Illidan", "Genji", "Zeratul"]
+  },
+  {
+    "name": "Illidan",
+    "tier": "C",
+    "role": "dps melee",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "MENACE_NUCLEAIRE",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOURS_DU_DESTIN",
+      "CHAMPS_DE_L_ETERNITE"
+    ],
+    "synergy_with": ["Abathur", "Medivh", "reghar", "Tyrael", "Uther", "Zarya"],
+    "counter_by": [
+      "Muradin",
+      "Arthas",
+      "Luisaile",
+      "E.T.C",
+      "Li-li",
+      "Johanna",
+      "Sonya",
+      "Uther",
+      "Varian"
+    ]
+  },
+  {
+    "name": "Imperius",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "TOURS_DU_DESTIN",
+      "PASSE_D_ALTERAC",
+      "SANCTUAIRES_INFERNAUX",
+      "CHAMPS_DE_L_ETERNITE"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA", "MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "Jaina",
+      "Fenix",
+      "Rehgar",
+      "Malganis",
+      "E.T.C",
+      "Yrel ",
+      "Kramer"
+    ],
+    "counter_by": [
+      "Jaina",
+      "Raynor",
+      "Srgt Marteau",
+      "Zuljin",
+      "E.T.C",
+      "Lucio"
+    ]
+  },
+  {
+    "name": "Jaina",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "SANCTUAIRES_INFERNAUX",
+      "COMTE_DU_DRAGON",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [],
+    "synergy_with": [
+      "E.T.C",
+      "Johanna",
+      "Maeiv",
+      "Malfurion",
+      "Muradin",
+      "Varian",
+      "Xul"
+    ],
+    "counter_by": [
+      "Alarak",
+      "Anub'arak",
+      "Chen",
+      "Genji",
+      "Nova",
+      "Tracer",
+      "Valeera",
+      "Zeratul"
+    ]
+  },
+  {
+    "name": "Johanna",
+    "tier": "S",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "TOURS_DU_DESTIN",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": [
+      "MENACE_NUCLEAIRE",
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "synergy_with": ["Kramer", "Medivh", "Hanzo", "Jaina", "Deckard"],
+    "counter_by": ["Varian", "Leoric", "Hanzo", "Zeratul"]
+  },
+  {
+    "name": "Kaelthas",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "COMTE_DU_DRAGON",
+      "LABORATOIRE_DE_BRAXIS",
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": ["E.T.C", "Arthas", "Malfurion", "Uther"],
+    "counter_by": ["Illidan", "Zeratul", "Kerrigan", "Tracer"]
+  },
+  {
+    "name": "kharazim",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE", "LABORATOIRE_DE_BRAXIS"],
+    "synergy_with": ["E.T.C", "Garrosh", "Anub'arak", "Genji"],
+    "counter_by": ["Johanna", "Auriel", "Medivh", "Uther"]
+  },
+  {
+    "name": "Kerrigan",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": ["Tyrael", "Uther", "Medivh", "Tyrande"],
+    "counter_by": ["Tyrael", "E.T.C", "Garrosh", "Uther", "Medivh", "Auriel"]
+  },
+  {
+    "name": "Kelthuzad",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "TOUR_DU_DESTIN"
+    ],
+    "map_weak": ["PASSE_D_ALTERAC", "MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "Anduin",
+      "Arthas",
+      "Malfurion",
+      "Valeera",
+      "Varian",
+      "Xul",
+      "Johanna",
+      "Boucher"
+    ],
+    "counter_by": [
+      "Anub'arak",
+      "Chen",
+      "Genji",
+      "Nova",
+      "Tracer",
+      "Valeera",
+      "Zeratul"
+    ]
+  },
+  {
+    "name": "Kramer",
+    "tier": "S",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["COMTE_DU_DRAGON"],
+    "synergy_with": ["Arthas", "Kerrigan", "Maeiv", "Malfurion"],
+    "counter_by": ["Leoric", "Lunara", "Malthael", "Nova", "Tracer", "Valla"]
+  },
+  {
+    "name": "Leoric",
+    "tier": "A",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS", "TEMPLE_CELESTE", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Diablo", "Stukov", "Orphea"],
+    "counter_by": ["Tracer", "Samuro", "Falstad", "Ana", "Dehaka"]
+  },
+  {
+    "name": "Li-li",
+    "tier": "C",
+    "role": "healer",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "map_weak": ["TEMPLE_CELESTE"],
+    "synergy_with": ["Johanna", "Kramer", "Hanzo", "Kaelthas", "Uther"],
+    "counter_by": ["E.T.C", "Yrel", "Sylvanas", "Jaina", "Stukov"]
+  },
+  {
+    "name": "Li-ming",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "PASSE_D_ALTERAC",
+      "SANCTUAIRES_INFERNAUX",
+      "VAL_MAUDIT"
+    ],
+    "map_weak": [],
+    "synergy_with": [
+      "Arthas",
+      "E.T.C",
+      "Johanna",
+      "Malfurion",
+      "Valeera",
+      "Varian",
+      "Xul"
+    ],
+    "counter_by": [
+      "Anub'arak",
+      "Chen",
+      "Genji",
+      "Samuro",
+      "Tracer",
+      "Valeera",
+      "Zeratul"
+    ]
+  },
+  {
+    "name": "Lardeur",
+    "tier": "S",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOURS_DU_DESTIN"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA"],
+    "synergy_with": ["Diablo", "Sonya", "Hanzo", "Li-ming", "Stukov"],
+    "counter_by": ["Diablo", "Malthael", "Tychus", "Lunara", "Uther"]
+  },
+  {
+    "name": "Lucio",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Arthas", "Diablo", "Greymane", "Valla"],
+    "counter_by": ["Varian", "Anub'arak", "Srgt Marteau", "Raynor"]
+  },
+  {
+    "name": "Luisaile",
+    "tier": "A",
+    "role": "healer",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": ["Diablo", "Chogall", "Balafre", "Tracer", "Genji"],
+    "counter_by": ["Anub'arak", "Johanna", "E.T.C"]
+  },
+  {
+    "name": "Lunara",
+    "tier": "A",
+    "role": "dps range auto attack",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE"],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": ["Arthas", "Muradin", "Jaina"],
+    "counter_by": ["Illidan", "Genji", "Malfurion", "Stukov"]
+  },
+  {
+    "name": "Malganis",
+    "tier": "C",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "LABORATOIRE_DE_BRAXIS",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_D_HAANMURA",
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE",
+      "TEMPLE_CELESTE",
+      "TOUR_DU_DESTIN"
+    ],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Zeratul", "Malfurion", "Jaina"],
+    "counter_by": ["Garrosh", "Hanzo", "Zeratul", "Malfurion"]
+  },
+  {
+    "name": "Malthael",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "COMTE_DU_DRAGON",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_CELESTE",
+      "MENACE_NUCLEAIRE",
+      "TOURS_DU_DESTIN",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE", "TEMPLE_D_HAANMURA"],
+    "synergy_with": [
+      "E.T.C",
+      "Garrosh",
+      "Greymane",
+      "Tychus",
+      "Medivh",
+      "Ana",
+      "Malfurion"
+    ],
+    "counter_by": ["Kramer", "Falstad", "Fenix", "Lunara", "Tracer", "Valla"]
+  },
+  {
+    "name": "Malfurion",
+    "tier": "A",
+    "role": "healer",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "LABORATOIRE_DE_BRAXIS",
+      "JARDINS_DE_TERREUR",
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE"
+    ],
+    "map_weak": [],
+    "synergy_with": [
+      "Kramer",
+      "Chromie",
+      "Guldan",
+      "Jaina",
+      "Kaelthas",
+      "Kelthuzad",
+      "Nazeebo",
+      "Ragnaros"
+    ],
+    "counter_by": [
+      "Alarak",
+      "Anub'arak",
+      "Artanis",
+      "Jaina",
+      "Kerrigan",
+      "Li-ming",
+      "Tracer"
+    ]
+  },
+  {
+    "name": "Maiev",
+    "tier": "A",
+    "role": "dps melee",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "JARDINS_DE_TERREUR",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "TEMPLE_D_HAANMURA",
+      "MENACE_NUCLEAIRE"
+    ],
+    "synergy_with": [
+      "E.T.C",
+      "Maeiv",
+      "Jaina",
+      "Tassadar",
+      "Deckard",
+      "Malfurion"
+    ],
+    "counter_by": [
+      "Arthas",
+      "Tyrael",
+      "E.T.C",
+      "Johanna",
+      "Lunara",
+      "Tracer",
+      "Lucio",
+      "Luisaile"
+    ]
+  },
+  {
+    "name": "Medivh",
+    "tier": "C",
+    "role": "dps range mage",
+    "map_strong": ["VAL_MAUDIT", "TEMPLE_CELESTE"],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS", "CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": [
+      "Illidan",
+      "Greymane",
+      "Genji",
+      "Tracer",
+      "Diablo",
+      "Balafre"
+    ],
+    "counter_by": ["Guldan", "Lunara", "Garrosh", "Malfurion"]
+  },
+  {
+    "name": "Mei",
+    "tier": "B",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE",
+      "JARDINS_DE_TERREUR",
+      "SANCTUAIRES_INFERNAUX",
+      "VAL_MAUDIT",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA", "TEMPLE_CELESTE", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Xul", "Lunara", "Jaina", "Deckard"],
+    "counter_by": ["E.T.C", "Yrel ", "Hanzo", "Chacal", "Zeratul", "Ana"]
+  },
+  {
+    "name": "Mephisto",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "VAL_MAUDIT",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": ["E.T.C", "Diablo", "Zarya", "Deckard"],
+    "counter_by": ["Kaelthas", "Yrel ", "Kelthuzad", "Balafre", "Anub'arak"]
+  },
+  {
+    "name": "Lt morales",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "TEMPLE_D_HAANMURA",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": [
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "JARDINS_DE_TERREUR",
+      "PASSE_D_ALTERAC"
+    ],
+    "synergy_with": ["Johanna", "Raynor"],
+    "counter_by": ["Garrosh", "Chen", "Chromie", "Lunara", "Auriel"]
+  },
+  {
+    "name": "Muradin",
+    "tier": "A",
+    "role": "guerrier defensif",
+    "map_strong": ["TEMPLE_D_HAANMURA", "CHAMPS_DE_L_ETERNITE"],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "synergy_with": ["Kramer", "Kerrigan", "Kaelthas", "Hanzo", "Malfurion"],
+    "counter_by": ["E.T.C", "", "Thrall", "Raynor", "Jaina", "Malfurion"]
+  },
+  {
+    "name": "Bourbie",
+    "tier": "C",
+    "role": "dps range mage",
+    "map_strong": ["JARDINS_DE_TERREUR"],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE", "LABORATOIRE_DE_BRAXIS"],
+    "synergy_with": ["Johanna", "Zarya", "Luisaile"],
+    "counter_by": ["Sonya", "Falstad", "Le Boucher", "Alarak"]
+  },
+  {
+    "name": "Nazeebo",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": ["CHAMPS_DE_L_ETERNITE"],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": ["Arthas", "Muradin", "Raynor"],
+    "counter_by": ["Illidan", "Genji", "Malfurion", "Stukov"]
+  },
+  {
+    "name": "Nova",
+    "tier": "C",
+    "role": "dps range auto attack",
+    "map_strong": ["COMTE_DU_DRAGON", "TEMPLE_D_HAANMURA", "MENACE_NUCLEAIRE"],
+    "map_weak": [
+      "COMTE_DU_DRAGON",
+      "LABORATOIRE_DE_BRAXIS",
+      "JARDINS_DE_TERREUR",
+      "TOUR_DU_DESTIN",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": ["Johanna", "Stukov", "Kramer", "Sylvanas"],
+    "counter_by": ["Anub'arak", "Chen", "Genji", "Zarya", "Luisaile"]
+  },
+  {
+    "name": "Orphea",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "VAL_MAUDIT",
+      "TEMPLE_D_HAANMURA",
+      "MENACE_NUCLEAIRE",
+      "TOURS_DU_DESTIN",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": [
+      "Arthas",
+      "Diablo",
+      "Johanna",
+      "Malganis",
+      "Varian",
+      "Xul"
+    ],
+    "counter_by": [
+      "Anub'arak",
+      "Chen",
+      "Genji",
+      "Lunara",
+      "Muradin",
+      "Nova",
+      "Tracer"
+    ]
+  },
+  {
+    "name": "Probius",
+    "tier": "C",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "PASSE_D_ALTERAC",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOUR_DU_DESTIN",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": ["E.T.C", "Diablo", "Anub'arak", "Arthas", "Malfurion"],
+    "counter_by": ["Kerrigan", "Alarak", "Zeratul", "Tracer"]
+  },
+  {
+    "name": "Ragnaros",
+    "tier": "S",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "MENACE_NUCLEAIRE",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["TOURS_DU_DESTIN", "CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": ["E.T.C", "Hanzo", "Kaelthas", "Ana"],
+    "counter_by": ["Garrosh", "Chen", "Lunara", "Jaina", "Stukov"]
+  },
+  {
+    "name": "Raynor",
+    "tier": "A",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TOURS_DU_DESTIN"
+    ],
+    "map_weak": [],
+    "synergy_with": ["E.T.C", "Garrosh", "Thrall", "Lt morales"],
+    "counter_by": ["Johanna", "Artanis", "Cassia"]
+  },
+  {
+    "name": "Rehgar",
+    "tier": "S",
+    "role": "healer",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_D_HAANMURA",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "synergy_with": ["Sonya", "Illidan", "Greymane", "Diablo"],
+    "counter_by": ["Muradin", "Varian", "Ana", "Tracer"]
+  },
+  {
+    "name": "Rexxar",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "COMTE_DU_DRAGON",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "LABORATOIRE_DE_BRAXIS"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Johanna", "Malfurion", "Jaina"],
+    "counter_by": ["Zeratul", "qhira"]
+  },
+  {
+    "name": "Samuro",
+    "tier": "A",
+    "role": "dps melee",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TOURS_DU_DESTIN",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": [
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_D_HAANMURA",
+      "VAL_MAUDIT"
+    ],
+    "synergy_with": ["Abathur", "Deckard", "Malfurion", "Sylvanas"],
+    "counter_by": [
+      "E.T.C",
+      "Lucio",
+      "Yrel ",
+      "Cassia",
+      "Orphea",
+      "Medivh",
+      "Diablo",
+      "Stukov"
+    ]
+  },
+  {
+    "name": "Sonya",
+    "tier": "A",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Medivh", "Rehgar", "Zarya", "Jaina"],
+    "counter_by": [
+      "Luisaile",
+      "E.T.C",
+      "Diablo",
+      "Garrosh",
+      "Tychus",
+      "Sylvanas"
+    ]
+  },
+  {
+    "name": "Stukov",
+    "tier": "A",
+    "role": "healer",
+    "map_strong": ["LABORATOIRE_DE_BRAXIS", "VAL_MAUDIT"],
+    "map_weak": ["CHAMPS_DE_L_ETERNITE"],
+    "synergy_with": ["Thrall", "Malfurion", "Tyrande"],
+    "counter_by": ["Muradin", "Leoric", "Malthael", "Raynor", "Tychus"]
+  },
+  {
+    "name": "Sylvanas",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "PASSE_D_ALTERAC",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "Diablo",
+      "E.T.C",
+      "Tyrande",
+      "Jaina",
+      "Tassadar",
+      "Valla"
+    ],
+    "counter_by": [
+      "Diablo",
+      "Chen",
+      "Genji",
+      "Nova",
+      "Boucher",
+      "Valeera",
+      "Zeratul"
+    ]
+  },
+  {
+    "name": "Tassadar",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": ["VAL_MAUDIT", "CHAMPS_DE_L_ETERNITE", "TEMPLE_D_HAANMURA"],
+    "synergy_with": ["Maeiv", "Johanna", "E.T.C", "Genji", "Zeratul"],
+    "counter_by": ["Tracer", "Greymane", "Zeratul", "Anub'arak", "Kerrigan"]
+  },
+  {
+    "name": "Thrall",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE"],
+    "synergy_with": ["Valla", "Li-ming", "Raynor"],
+    "counter_by": ["Muradin", "Diablo", "Chen"]
+  },
+  {
+    "name": "Tracer",
+    "tier": "B",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "TOURS_DU_DESTIN",
+      "TEMPLE_CELESTE",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["SANCTUAIRES_INFERNAUX", "TOMBE_DE_LA_REINE_ARAIGNEE"],
+    "synergy_with": [
+      "Tassadar",
+      "Jaina",
+      "Guldan",
+      "Kaelthas",
+      "Malfurion",
+      "Anduin",
+      "Abathur"
+    ],
+    "counter_by": ["Varian", "Diablo", "Medivh", "Raynor", "Srgt Marteau"]
+  },
+  {
+    "name": "Tychus",
+    "tier": "B",
+    "role": "dps range mage",
+    "map_strong": ["VAL_MAUDIT", "SANCTUAIRES_INFERNAUX", "TOURS_DU_DESTIN"],
+    "map_weak": ["TEMPLE_CELESTE", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Garrosh", "E.T.C", "Dehaka", "Uther"],
+    "counter_by": ["Anub'arak", "Johanna", "Lucio"]
+  },
+  {
+    "name": "Tyrael",
+    "tier": "S",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "TEMPLE_CELESTE",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA"],
+    "synergy_with": [
+      "Kramer",
+      "Illidan",
+      "Alarak",
+      "Srgt Marteau",
+      "Lt morales"
+    ],
+    "counter_by": ["Garrosh", "etc", "Zeratul", "Greymane"]
+  },
+  {
+    "name": "Tyrande",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Diablo", "E.T.C", "Varian", "Anub'arak", "Li-ming"],
+    "counter_by": [
+      "Muradin",
+      "Anub'arak",
+      "Zeratul",
+      "Maeiv",
+      "Fenix",
+      "Lunara"
+    ]
+  },
+  {
+    "name": "Uther",
+    "tier": "B",
+    "role": "healer",
+    "map_strong": ["SANCTUAIRES_INFERNAUX"],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS", "MENACE_NUCLEAIRE"],
+    "synergy_with": [
+      "E.T.C",
+      "Kerrigan",
+      "Illidan",
+      "Boucher",
+      "Zeratul",
+      "Malfurion"
+    ],
+    "counter_by": [
+      "Guldan",
+      "Lucio",
+      "Malthael",
+      "Nazeebo",
+      "Sylvanas",
+      "Zagara"
+    ]
+  },
+  {
+    "name": "Valeera",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "COMTE_DU_DRAGON",
+      "MENACE_NUCLEAIRE",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["TOMBE_DE_LA_REINE_ARAIGNEE"],
+    "synergy_with": ["Garrosh", "E.T.C", "Thrall"],
+    "counter_by": ["E.T.C", "Arthas", "Medivh", "Lucio"]
+  },
+  {
+    "name": "Valla",
+    "tier": "S",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Arthas", "Garrosh", "Auriel", "Uther"],
+    "counter_by": [
+      "Greymane",
+      "Illidan",
+      "Nova",
+      "Boucher",
+      "Valeera",
+      "Zeratul"
+    ]
+  },
+  {
+    "name": "Varian",
+    "tier": "B",
+    "role": "guerrier defensif",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE",
+      "TEMPLE_D_HAANMURA",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": ["E.T.C", "Kramer", "Li-ming", "Tyrande"],
+    "counter_by": ["E.T.C", "Arthas", "Lunara", "Medivh", "Rehgar"]
+  },
+  {
+    "name": "Les vikings perdus",
+    "tier": "C",
+    "role": "dps range auto attack",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "VAL_MAUDIT",
+      "TEMPLE_CELESTE",
+      "TOUR_DU_DESTIN",
+      "MENACE_NUCLEAIRE",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA",
+      "CHAMPS_DE_L_ETERNITE",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "synergy_with": ["Zarya", "Garrosh", "Sylvanas", "Raynor", "Srgt Marteau"],
+    "counter_by": [
+      "Zagara",
+      "Sonya",
+      "Zeratul",
+      "Nova",
+      "Falstad",
+      "Dehaka",
+      "Li-ming"
+    ]
+  },
+  {
+    "name": "Xul",
+    "tier": "A",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "TEMPLE_CELESTE",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA",
+      "CHAMPS_DE_L_ETERNITE"
+    ],
+    "synergy_with": ["Tyrande", "Li-ming", "Medivh", "Falstad"],
+    "counter_by": ["E.T.C", "Johanna", "Jaina", "Srgt Marteau", "Auriel"]
+  },
+  {
+    "name": "Yrel",
+    "tier": "B",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_CELESTE",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX"
+    ],
+    "map_weak": [],
+    "synergy_with": ["Garrosh", "Johanna", "Medivh", "Abathur"],
+    "counter_by": ["E.T.C", "Johanna", "Lucio", "Raynor"]
+  },
+  {
+    "name": "Zagara",
+    "tier": "A",
+    "role": "dps range mage",
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "LABORATOIRE_DE_BRAXIS",
+      "JARDINS_DE_TERREUR",
+      "TEMPLE_CELESTE",
+      "VAL_MAUDIT",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE"
+    ],
+    "map_weak": ["TEMPLE_D_HAANMURA"],
+    "synergy_with": ["E.T.C", "Jaina", "Deckard"],
+    "counter_by": ["Illidan", "Falstad", "Chen", "Zeratul"]
+  },
+  {
+    "name": "Zarya",
+    "tier": "C",
+    "role": "guerrier offensif",
+    "map_strong": [
+      "CHAMPS_DE_L_ETERNITE",
+      "LABORATOIRE_DE_BRAXIS",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "map_weak": ["VAL_MAUDIT", "JARDINS_DE_TERREUR", "MENACE_NUCLEAIRE"],
+    "synergy_with": ["Garrosh", "Sonya", "Valla", "Malfurion"],
+    "counter_by": ["Malganis", "Yrel", "Lunara", "Tassadar", "Auriel"]
+  },
+  {
+    "name": "Zeratul",
+    "tier": "B",
+    "role": "dps melee",
+    "map_strong": [
+      "VAL_MAUDIT",
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": ["LABORATOIRE_DE_BRAXIS", "TOMBE_DE_LA_REINE_ARAIGNEE"],
+    "synergy_with": [
+      "Abathur",
+      "Li-ming",
+      "Diablo",
+      "Garrosh",
+      "Malfurion",
+      "kharazim",
+      "Jaina",
+      "Chacal",
+      "Hanzo"
+    ],
+    "counter_by": ["Luisaile", "Diablo", "Uther", "Varian", "E.T.C", "Medivh"]
+  },
+  {
+    "name": "Zuljin",
+    "tier": "A",
+    "role": "dps range auto attack",
+    "map_strong": [],
+    "map_weak": [],
+    "synergy_with": [
+      "Tyrael",
+      "E.T.C",
+      "Tassadar",
+      "Uther",
+      "Medivh",
+      "Arthas"
+    ],
+    "counter_by": ["E.T.C", "Diablo", "Dehaka", "Garrosh", "Uther"]
+  }
+]

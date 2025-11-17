@@ -40,8 +40,8 @@
     "name": "Temple céleste"
   },
   {
-    "id": "TEMPLE_D_HANAMURA",
-    "name": "Temple d'Hanamura"
+    "id": "TEMPLE_D_HAANMURA",
+    "name": "Temple d'HAnamura"
   },
   {
     "id": "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -50,6 +50,10 @@
   {
     "id": "TOURS_DU_DESTIN",
     "name": "Tours du destin"
+  },
+  {
+    "id": "VALLEE_D_ALTERAC",
+    "name": "Valée d'Alterac"
   },
   {
     "id": "VAL_MAUDIT",
