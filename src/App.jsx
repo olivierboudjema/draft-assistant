@@ -17,8 +17,8 @@ const TIER_BONUS = {
 function cleanArray(arr) {
   return Array.isArray(arr)
     ? arr
-        .map((x) => (typeof x === 'string' ? x.trim() : x))
-        .filter(Boolean)
+      .map((x) => (typeof x === 'string' ? x.trim() : x))
+      .filter(Boolean)
     : [];
 }
 
@@ -179,7 +179,7 @@ function explainScore(hero, DB, state, opts = {}) {
     if (list.includes(hero))
       rows.push({ label: `Se fait contrer par ${e}`, delta: -1.5 });
   });
-  teamList.forEach((e) => {
+  oppList.forEach((e) => {
     const syn = DB[e]?.synergies || [];
     if (syn.includes(hero))
       rows.push({ label: `Bloque synergie adverse avec ${e}`, delta: +0.5 });
