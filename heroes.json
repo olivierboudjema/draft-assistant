@@ -1,7 +1,7 @@
 [
   {
     "name": "Abathur",
-    "tier": "B",
+    "tier": "D",
     "role": "dps range mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -21,7 +21,7 @@
       "Zeratul",
       "Tracer",
       "Greymane",
-      "maltael",
+      "Malthael",
       "Sonya",
       "Yrel ",
       "Genji"
@@ -91,7 +91,7 @@
   },
   {
     "name": "Aile de mort",
-    "tier": "B",
+    "tier": "C",
     "role": "guerrier offensif",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -182,7 +182,7 @@
   },
   {
     "name": "Auriel",
-    "tier": "B",
+    "tier": "A",
     "role": "healer",
     "map_strong": [
       "VAL_MAUDIT",
@@ -344,7 +344,7 @@
   },
   {
     "name": "Chromie",
-    "tier": "B",
+    "tier": "A",
     "role": "dps range mage",
     "map_strong": ["LABORATOIRE_DE_BRAXIS"],
     "map_weak": [],
@@ -421,7 +421,7 @@
   },
   {
     "name": "E.T.C.",
-    "tier": "B",
+    "tier": "A",
     "role": "guerrier defensif",
     "map_strong": ["CHAMPS_DE_L_ETERNITE"],
     "map_weak": [
@@ -531,7 +531,7 @@
       "Tyrael",
       "Uther",
       "Rehgar",
-      "maltael"
+      "Malthael"
     ],
     "counter_by": [
       "Arthas",
@@ -545,7 +545,7 @@
   },
   {
     "name": "Guldan",
-    "tier": "A",
+    "tier": "B",
     "role": "dps range mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -726,7 +726,7 @@
   },
   {
     "name": "kharazim",
-    "tier": "B",
+    "tier": "C",
     "role": "healer",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -755,7 +755,7 @@
   },
   {
     "name": "Kelthuzad",
-    "tier": "A",
+    "tier": "C",
     "role": "dps range mage",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -812,7 +812,7 @@
   },
   {
     "name": "Li-li",
-    "tier": "C",
+    "tier": "D",
     "role": "healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -903,7 +903,7 @@
   },
   {
     "name": "Lunara",
-    "tier": "A",
+    "tier": "C",
     "role": "dps range auto attack",
     "map_strong": ["CHAMPS_DE_L_ETERNITE"],
     "map_weak": ["MENACE_NUCLEAIRE"],
@@ -930,7 +930,7 @@
   },
   {
     "name": "Malthael",
-    "tier": "B",
+    "tier": "C",
     "role": "dps melee",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
@@ -1023,7 +1023,7 @@
   },
   {
     "name": "Medivh",
-    "tier": "C",
+    "tier": "D",
     "role": "dps range mage",
     "map_strong": ["VAL_MAUDIT", "TEMPLE_CELESTE"],
     "map_weak": ["LABORATOIRE_DE_BRAXIS", "CHAMPS_DE_L_ETERNITE"],
@@ -1070,7 +1070,7 @@
   },
   {
     "name": "Lt morales",
-    "tier": "B",
+    "tier": "C",
     "role": "healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -1118,7 +1118,7 @@
   },
   {
     "name": "Nova",
-    "tier": "C",
+    "tier": "D",
     "role": "dps range auto attack",
     "map_strong": ["COMTE_DU_DRAGON", "TEMPLE_D_HAANMURA", "MENACE_NUCLEAIRE"],
     "map_weak": [
@@ -1164,7 +1164,7 @@
   },
   {
     "name": "Probius",
-    "tier": "C",
+    "tier": "D",
     "role": "dps range mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1339,7 +1339,7 @@
   },
   {
     "name": "Thrall",
-    "tier": "B",
+    "tier": "A",
     "role": "guerrier offensif",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -1354,7 +1354,7 @@
   },
   {
     "name": "Tracer",
-    "tier": "B",
+    "tier": "A",
     "role": "dps range auto attack",
     "map_strong": [
       "VAL_MAUDIT",
@@ -1427,7 +1427,7 @@
   },
   {
     "name": "Uther",
-    "tier": "B",
+    "tier": "C",
     "role": "healer",
     "map_strong": ["SANCTUAIRES_INFERNAUX"],
     "map_weak": ["LABORATOIRE_DE_BRAXIS", "MENACE_NUCLEAIRE"],
@@ -1450,7 +1450,7 @@
   },
   {
     "name": "Valeera",
-    "tier": "B",
+    "tier": "C",
     "role": "dps melee",
     "map_strong": [
       "VAL_MAUDIT",
