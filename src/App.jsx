@@ -1,26 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useMemo } from 'react'
 import './App.css'
-import React, { useMemo } from "react";
+import maps from './maps.json';
 
+const ALL_MAPS = maps.map((m) => m.name);
 
-const ALL_MAPS = [
-  "Champs de l'Éternité",
-  "Comté du dragon",
-  "Fonderie de Volskaya",
-  "Jardins de Terreur",
-  "Laboratoire de Braxis",
-  "Menace nucléaire",
-  "Mine hantée",
-  "Passe d'Alterac",
-  "Sanctuaires infernaux",
-  "Temple céleste",
-  "Temple d'Hanamura",
-  "Tombe de la Reine araignée",
-  "Tours du destin",
-  "Val maudit",
-];
 
 const HERO_LIST = [
   "Abathur",

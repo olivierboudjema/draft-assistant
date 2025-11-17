@@ -1258,8 +1258,8 @@ export default function DraftAssistant() {
                         <div className="flex items-center gap-2 flex-wrap">
                             <span className="opacity-70 mr-1">Composition idéale :</span>
                             <span className="opacity-80">
-                                Guerrier défensif · Guerrier offensif · Healer · Mage OU Melee assassin · AA OU
-                                Melee assassin
+                                Guerrier défensif · Guerrier offensif · Healer · Mage OU Melee dps range mage · AA OU
+                                Melee dps range mage
                             </span>
                             <StatusChip
                                 label="Guerrier défensif"

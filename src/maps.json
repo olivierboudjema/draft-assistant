@@ -1,38 +1,58 @@
 [
   {
-    "name": "champ_eternite"
+    "id": "CHAMPS_DE_L_ETERNITE",
+    "name": "Champs de l'Éternité"
   },
   {
-    "name": "compte_dragon"
+    "id": "COMTE_DU_DRAGON",
+    "name": "Comté du dragon"
   },
   {
-    "name": "jardin_terreur"
+    "id": "FONDERIE_VOLSKAYA",
+    "name": "Fonderie Volskaya"
   },
   {
-    "name": "laboratoir_braxis"
+    "id": "JARDINS_DE_TERREUR",
+    "name": "Jardins de Terreur"
   },
   {
-    "name": "menace_nucleaire"
+    "id": "LABORATOIRE_DE_BRAXIS",
+    "name": "Laboratoire de Braxis"
   },
   {
-    "name": "passe_alterac"
+    "id": "MENACE_NUCLEAIRE",
+    "name": "Menace nucléaire"
   },
   {
-    "name": "sanctuaire_infernaux"
+    "id": "MINE_HANTEE",
+    "name": "Mine hantée"
   },
   {
-    "name": "temple_celeste"
+    "id": "PASSE_D_ALTERAC",
+    "name": "Passe d'Alterac"
   },
   {
-    "name": "temple_hanamura"
+    "id": "SANCTUAIRES_INFERNAUX",
+    "name": "Sanctuaires infernaux"
   },
   {
-    "name": "tombe_reine_araingne"
+    "id": "TEMPLE_CELESTE",
+    "name": "Temple céleste"
   },
   {
-    "name": "tour_du_destin"
+    "id": "TEMPLE_D_HANAMURA",
+    "name": "Temple d'Hanamura"
   },
   {
-    "name": "val_maudit"
+    "id": "TOMBE_DE_LA_REINE_ARAIGNEE",
+    "name": "Tombe de la Reine araignée"
+  },
+  {
+    "id": "TOURS_DU_DESTIN",
+    "name": "Tours du destin"
+  },
+  {
+    "id": "VAL_MAUDIT",
+    "name": "Val maudit"
   }
 ]

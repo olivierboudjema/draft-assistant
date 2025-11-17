@@ -1,23 +1,20 @@
 [
     {
         "name": "abathur",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "val_maudit",
-            "tour_du_destin",
-            "jardin_terreur",
-            "temple_celeste"
+            "PASSE_D_ALTERAC",
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "champ_eternite",
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "tombe_reine_araingne"
+            "CHAMPS_DE_L_ETERNITE",
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "illidan",
@@ -42,18 +39,15 @@
     },
     {
         "name": "alexstrasza",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "sanctuaire_infernaux"
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "champ_eternite",
-            "laboratoir_braxis",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "LABORATOIRE_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "johanna",
@@ -71,21 +65,18 @@
     },
     {
         "name": "ana",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "temple_hanamura",
-            "tombe_reine_araingne",
-            "tour_du_destin"
+            "TEMPLE_D_HANAMURA",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "jardin_terreur",
-            "temple_celeste",
-            "menace_nucleaire",
-            "jardin_terreur"
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE",
+            "JARDINS_DE_TERREUR"
         ],
         "synergy_with": [
             "li-ming",
@@ -100,19 +91,16 @@
     },
     {
         "name": "anduin",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "champ_eternite",
-            "val_maudit",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "CHAMPS_DE_L_ETERNITE",
+            "VAL_MAUDIT",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "laboratoir_braxis"
+            "LABO_DE_BRAXIS"
         ],
         "synergy_with": [
             "johanna",
@@ -132,15 +120,12 @@
     },
     {
         "name": "aile_de_mort",
-        "value": 10,
-        "base_value": 10,
         "tier": "S",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "passe_alterac",
-            "sanctuaire_infernaux",
-            "laboratoire_braxis"
+            "PASSE_D_ALTERAC",
+            "SANCTUAIRES_INFERNAUX",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -159,18 +144,15 @@
     },
     {
         "name": "alarak",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "tour_du_destin"
+            "CHAMPS_DE_L_ETERNITE",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "sanctuaire_infernaux",
-            "temple_celeste"
+            "SANCTUAIRES_INFERNAUX",
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "raynor",
@@ -187,21 +169,18 @@
     },
     {
         "name": "anub'arak",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "passe_alterac",
-            "jardin_terreur"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "PASSE_D_ALTERAC",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "laboratoir_braxis",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "greymane",
@@ -222,20 +201,17 @@
     },
     {
         "name": "artanis",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "champ_eternite",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA"
         ],
         "map_weak": [
-            "passe_alterac",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tour_du_destin"
+            "PASSE_D_ALTERAC",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN"
         ],
         "synergy_with": [
             "garrosh",
@@ -256,18 +232,15 @@
     },
     {
         "name": "arthas",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "compte_dragon",
-            "jardin_terreur"
+            "LABO_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR"
         ],
         "synergy_with": [
             "diablo",
@@ -291,22 +264,19 @@
     },
     {
         "name": "auriel",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "jardin_terreur"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne",
-            "temple_hanamura",
-            "temple_celeste"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "diablo",
@@ -324,22 +294,19 @@
     },
     {
         "name": "azmodan",
-        "value": 11,
-        "base_value": 11.5,
         "tier": "S",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "jardin_terreur"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne",
-            "temple_hanamura",
-            "temple_celeste"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "jaina",
@@ -360,22 +327,19 @@
     },
     {
         "name": "balafré",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "val_maudit",
-            "temple_hanamura",
-            "val_maudit",
-            "tombe_reine_araingne",
-            "tour_du_destin"
+            "VAL_MAUDIT",
+            "TEMPLE_D_HANAMURA",
+            "VAL_MAUDIT",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "champ_eternite",
-            "temple_celeste",
-            "menace_nucleaire"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "kramer",
@@ -393,22 +357,19 @@
     },
     {
         "name": "boucher",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "compte_dragon",
-            "temple_celeste",
-            "jardin_terreur",
-            "tombe_reine_araingne",
+            "COMTE_DU_DRAGON",
+            "TEMPLE_CELESTE",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
             "tour_destin",
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "champ_eternite"
+            "LABO_DE_BRAXIS",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "abathur",
@@ -425,11 +386,8 @@
     },
     {
         "name": "cassia",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [],
         "map_weak": [],
         "synergy_with": [
@@ -450,22 +408,19 @@
     },
     {
         "name": "chacal",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "tour_du_destin",
-            "val_maudit",
-            "temple_celeste",
-            "tombe_reine_araingne",
-            "menace_nucleaire",
-            "laboratoire_braxis",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "jardin_terreur"
+            "PASSE_D_ALTERAC",
+            "TOURS_DU_DESTIN",
+            "VAL_MAUDIT",
+            "TEMPLE_CELESTE",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "MENACE_NUCLEAIRE",
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -485,22 +440,19 @@
     },
     {
         "name": "chen",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "compte_dragon",
-            "temple_hanamura",
-            "laboratoire_braxis"
+            "SANCTUAIRES_INFERNAUX",
+            "COMTE_DU_DRAGON",
+            "TEMPLE_D_HANAMURA",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [
-            "val_maudit",
-            "tour_du_destin",
-            "jardin_terreur",
-            "menace_nucleaire"
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "JARDINS_DE_TERREUR",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "tyrael",
@@ -519,19 +471,16 @@
     },
     {
         "name": "chogall",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "jardin_terreur",
-            "tombe_reine_araingne"
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "champ_eternite",
-            "menace_nucleaire"
+            "CHAMPS_DE_L_ETERNITE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "alexstrasza",
@@ -554,13 +503,10 @@
     },
     {
         "name": "chromie",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis"
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -577,23 +523,20 @@
     },
     {
         "name": "dehaka",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "passe_alterac",
-            "compte_dragon",
-            "laboratoire_braxis",
-            "val_maudit",
-            "tour_du_destin",
-            "menace_nucleaire",
-            "temple_celeste"
+            "PASSE_D_ALTERAC",
+            "COMTE_DU_DRAGON",
+            "LABORATOIRE_DE_BRAXIS",
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "MENACE_NUCLEAIRE",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "champ_eternite",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "dehaka",
@@ -611,21 +554,18 @@
     },
     {
         "name": "deckard",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "passe_alterac",
-            "champ_eternite",
-            "sanctuaire_infernaux",
-            "val_maudit"
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE",
+            "SANCTUAIRES_INFERNAUX",
+            "VAL_MAUDIT"
         ],
         "map_weak": [
-            "temple_hanamura",
-            "temple_hanamura",
-            "menace_nucleaire"
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "johanna",
@@ -643,22 +583,19 @@
     },
     {
         "name": "diablo",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "temple_celeste",
-            "menace_nucleaire"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "thrall",
@@ -676,21 +613,18 @@
     },
     {
         "name": "d.va",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "tour_du_destin",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "TOURS_DU_DESTIN",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "champ_eternite",
-            "val_maudit"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "CHAMPS_DE_L_ETERNITE",
+            "VAL_MAUDIT"
         ],
         "synergy_with": [
             "garrosh",
@@ -708,18 +642,15 @@
     },
     {
         "name": "e.t.c.",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "compte_dragon",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "kramer",
@@ -738,18 +669,15 @@
     },
     {
         "name": "falstad",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "compte_dragon",
-            "val_maudit",
-            "temple_hanamura",
-            "tour_du_destin",
-            "menace_nucleaire"
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "VAL_MAUDIT",
+            "TEMPLE_D_HANAMURA",
+            "TOURS_DU_DESTIN",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -769,15 +697,12 @@
     },
     {
         "name": "fenix",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "tombe_reine_araingne",
-            "sanctuaire_infernaux"
+            "LABORATOIRE_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -796,16 +721,13 @@
     },
     {
         "name": "garrosh",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "laboratoire_braxis",
-            "compte_dragon",
-            "tour_du_destin",
-            "tombe_reine_araingne"
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "TOURS_DU_DESTIN",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -824,21 +746,18 @@
     },
     {
         "name": "gazlowe",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "laboratoire_braxis",
-            "menace_nucleaire",
-            "sanctuaire_infernaux",
-            "temple_celeste"
+            "PASSE_D_ALTERAC",
+            "LABORATOIRE_DE_BRAXIS",
+            "MENACE_NUCLEAIRE",
+            "SANCTUAIRES_INFERNAUX",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "temple_hanamura",
-            "tour_du_destin"
+            "TEMPLE_D_HANAMURA",
+            "TOURS_DU_DESTIN"
         ],
         "synergy_with": [
             "diablo",
@@ -859,20 +778,17 @@
     },
     {
         "name": "genji",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "val_maudit",
-            "jardin_terreur",
-            "temple_hanamura",
-            "sanctuaire_infernaux"
+            "LABORATOIRE_DE_BRAXIS",
+            "VAL_MAUDIT",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_D_HANAMURA",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "tombe_reine_araingne"
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "jaina",
@@ -888,17 +804,14 @@
     },
     {
         "name": "greymane",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "compte_dragon",
-            "jardin_terreur",
-            "tombe_reine_araingne",
-            "temple_celeste"
+            "CHAMPS_DE_L_ETERNITE",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -922,18 +835,15 @@
     },
     {
         "name": "guldan",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne",
-            "temple_celeste",
-            "passe_alterac"
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_CELESTE",
+            "PASSE_D_ALTERAC"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -950,21 +860,18 @@
     },
     {
         "name": "hammer",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "laboratoire_braxis",
-            "sanctuaire_infernaux"
+            "CHAMPS_DE_L_ETERNITE",
+            "LABORATOIRE_DE_BRAXIS",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "jardin_terreur",
-            "passe_alterac",
-            "tombe_reine_araingne",
-            "menace_nucleaire"
+            "JARDINS_DE_TERREUR",
+            "PASSE_D_ALTERAC",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -982,20 +889,17 @@
     },
     {
         "name": "hanzo",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "champ_eternite",
-            "compte_dragon",
-            "sanctuaire_infernaux",
+            "VAL_MAUDIT",
+            "CHAMPS_DE_L_ETERNITE",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
             "tour_destin"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "zeratul",
@@ -1013,21 +917,18 @@
     },
     {
         "name": "illidan",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "menace_nucleaire",
-            "jardin_terreur",
-            "temple_celeste"
+            "VAL_MAUDIT",
+            "MENACE_NUCLEAIRE",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
+            "LABO_DE_BRAXIS",
             "tour_destin",
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "abathur",
@@ -1051,20 +952,17 @@
     },
     {
         "name": "imperius",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "tour_du_destin",
-            "passe_alterac",
-            "sanctuaire_infernaux",
-            "champ_eternite"
+            "TOURS_DU_DESTIN",
+            "PASSE_D_ALTERAC",
+            "SANCTUAIRES_INFERNAUX",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "temple_hanamura",
-            "menace_nucleaire"
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "jaina",
@@ -1086,17 +984,14 @@
     },
     {
         "name": "jaina",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "sanctuaire_infernaux",
-            "compte_dragon",
-            "jardin_terreur",
-            "tombe_reine_araingne"
+            "LABORATOIRE_DE_BRAXIS",
+            "SANCTUAIRES_INFERNAUX",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -1121,22 +1016,19 @@
     },
     {
         "name": "johanna",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "passe_alterac",
-            "tour_du_destin",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne",
-            "menace_nucleaire"
+            "PASSE_D_ALTERAC",
+            "TOURS_DU_DESTIN",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "compte_dragon",
-            "champ_eternite",
-            "temple_hanamura"
+            "COMTE_DU_DRAGON",
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "kramer",
@@ -1154,21 +1046,18 @@
     },
     {
         "name": "kaelthas",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "compte_dragon",
-            "laboratoire_braxis",
-            "sanctuaire_infernaux",
-            "tour_du_destin",
-            "tombe_reine_araingne"
+            "PASSE_D_ALTERAC",
+            "COMTE_DU_DRAGON",
+            "LABORATOIRE_DE_BRAXIS",
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1185,20 +1074,17 @@
     },
     {
         "name": "kharazim",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "cac",
         "map_strong": [
-            "passe_alterac",
-            "compte_dragon",
-            "temple_hanamura",
-            "temple_hanamura"
+            "PASSE_D_ALTERAC",
+            "COMTE_DU_DRAGON",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_D_HANAMURA"
         ],
         "map_weak": [
-            "tombe_reine_araingne",
-            "laboratoir_braxis"
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "LABO_DE_BRAXIS"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1215,20 +1101,17 @@
     },
     {
         "name": "kerrigan",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "laboratoire_braxis",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "PASSE_D_ALTERAC",
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "tyrael",
@@ -1247,19 +1130,16 @@
     },
     {
         "name": "kelthuzad",
-        "value": 10,
-        "base_value": 10.5,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "laboratoir_braxis",
+            "CHAMPS_DE_L_ETERNITE",
+            "LABO_DE_BRAXIS",
             "tour_destin"
         ],
         "map_weak": [
-            "passe_alterac",
-            "menace_nucleaire"
+            "PASSE_D_ALTERAC",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "anduin",
@@ -1283,15 +1163,12 @@
     },
     {
         "name": "kramer",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "tour_du_destin",
-            "temple_celeste"
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -1311,21 +1188,18 @@
     },
     {
         "name": "leoric",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "val_maudit",
-            "tour_du_destin",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_celeste",
-            "menace_nucleaire"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "diablo",
@@ -1342,18 +1216,15 @@
     },
     {
         "name": "li-li",
-        "value": 10,
-        "base_value": 10.5,
         "tier": "C",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "champ_eternite",
-            "compte_dragon",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "COMTE_DU_DRAGON",
+            "TEMPLE_D_HANAMURA"
         ],
         "map_weak": [
-            "temple_celeste"
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "johanna",
@@ -1372,16 +1243,13 @@
     },
     {
         "name": "li-ming",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "passe_alterac",
-            "sanctuaire_infernaux",
-            "val_maudit"
+            "CHAMPS_DE_L_ETERNITE",
+            "PASSE_D_ALTERAC",
+            "SANCTUAIRES_INFERNAUX",
+            "VAL_MAUDIT"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -1405,20 +1273,17 @@
     },
     {
         "name": "lardeur",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne",
-            "tour_du_destin"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "temple_hanamura"
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "diablo",
@@ -1437,16 +1302,13 @@
     },
     {
         "name": "lucio",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "val_maudit",
-            "tour_du_destin",
-            "passe_alterac",
-            "champ_eternite"
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -1464,22 +1326,19 @@
     },
     {
         "name": "luisaile",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "jardin_terreur"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne",
-            "temple_hanamura",
-            "temple_celeste"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "diablo",
@@ -1496,16 +1355,13 @@
     },
     {
         "name": "lunara",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "arthas",
@@ -1521,24 +1377,21 @@
     },
     {
         "name": "malganis",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "laboratoire_braxis",
-            "jardin_terreur",
-            "temple_hanamura",
-            "passe_alterac",
-            "champ_eternite",
-            "temple_celeste",
+            "SANCTUAIRES_INFERNAUX",
+            "LABORATOIRE_DE_BRAXIS",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_D_HANAMURA",
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_CELESTE",
             "tour_destin"
         ],
         "map_weak": [
-            "tombe_reine_araingne",
-            "menace_nucleaire"
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "zeratul",
@@ -1554,23 +1407,20 @@
     },
     {
         "name": "malthael",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "compte_dragon",
-            "jardin_terreur",
-            "temple_celeste",
-            "menace_nucleaire",
-            "tour_du_destin",
-            "tombe_reine_araingne"
+            "SANCTUAIRES_INFERNAUX",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE",
+            "TOURS_DU_DESTIN",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "champ_eternite",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1592,17 +1442,14 @@
     },
     {
         "name": "malfurion",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "laboratoire_braxis",
-            "jardin_terreur",
-            "passe_alterac",
-            "champ_eternite"
+            "SANCTUAIRES_INFERNAUX",
+            "LABORATOIRE_DE_BRAXIS",
+            "JARDINS_DE_TERREUR",
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -1627,23 +1474,20 @@
     },
     {
         "name": "maiev",
-        "value": 10,
-        "base_value": 10,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoir_braxis",
-            "val_maudit",
-            "compte_dragon",
-            "jardin_terreur",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "champ_eternite",
-            "temple_hanamura",
-            "menace_nucleaire"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1666,18 +1510,15 @@
     },
     {
         "name": "medivh",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "temple_celeste"
+            "VAL_MAUDIT",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "champ_eternite"
+            "LABO_DE_BRAXIS",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "illidan",
@@ -1696,23 +1537,20 @@
     },
     {
         "name": "mei",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "passe_alterac",
-            "champ_eternite",
-            "jardin_terreur",
-            "sanctuaire_infernaux",
-            "val_maudit",
-            "laboratoire_braxis"
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE",
+            "JARDINS_DE_TERREUR",
+            "SANCTUAIRES_INFERNAUX",
+            "VAL_MAUDIT",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [
-            "temple_hanamura",
-            "temple_celeste",
-            "menace_nucleaire"
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "xul",
@@ -1731,20 +1569,17 @@
     },
     {
         "name": "mephisto",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "champ_eternite",
-            "sanctuaire_infernaux",
-            "val_maudit",
-            "laboratoire_braxis"
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE",
+            "SANCTUAIRES_INFERNAUX",
+            "VAL_MAUDIT",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1762,20 +1597,17 @@
     },
     {
         "name": "morales",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "champ_eternite",
-            "temple_hanamura",
-            "laboratoire_braxis"
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [
-            "tombe_reine_araingne",
-            "jardin_terreur",
-            "passe_alterac"
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "JARDINS_DE_TERREUR",
+            "PASSE_D_ALTERAC"
         ],
         "synergy_with": [
             "johanna",
@@ -1791,19 +1623,16 @@
     },
     {
         "name": "muradin",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "temple_hanamura",
-            "champ_eternite"
+            "TEMPLE_D_HANAMURA",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne",
-            "sanctuaire_infernaux"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "synergy_with": [
             "kramer",
@@ -1823,17 +1652,14 @@
     },
     {
         "name": "murky",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "jardin_terreur"
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "tombe_reine_araingne",
-            "laboratoir_braxis"
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "LABO_DE_BRAXIS"
         ],
         "synergy_with": [
             "johanna",
@@ -1847,16 +1673,13 @@
     },
     {
         "name": "nazeebo",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "arthas",
@@ -1872,22 +1695,19 @@
     },
     {
         "name": "nova",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "compte_dragon",
-            "temple_hanamura",
-            "menace_nucleaire"
+            "COMTE_DU_DRAGON",
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "compte_dragon",
-            "laboratoir_braxis",
-            "jardin_terreur",
+            "COMTE_DU_DRAGON",
+            "LABO_DE_BRAXIS",
+            "JARDINS_DE_TERREUR",
             "tour_destin",
-            "temple_celeste"
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "johanna",
@@ -1905,21 +1725,18 @@
     },
     {
         "name": "orphea",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "val_maudit",
-            "temple_hanamura",
-            "menace_nucleaire",
-            "tour_du_destin",
-            "jardin_terreur"
+            "PASSE_D_ALTERAC",
+            "VAL_MAUDIT",
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE",
+            "TOURS_DU_DESTIN",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "arthas",
@@ -1941,20 +1758,17 @@
     },
     {
         "name": "probius",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoir_braxis",
-            "passe_alterac",
-            "tombe_reine_araingne",
+            "LABO_DE_BRAXIS",
+            "PASSE_D_ALTERAC",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
             "tour_destin",
-            "sanctuaire_infernaux"
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -1972,19 +1786,16 @@
     },
     {
         "name": "ragnaros",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "menace_nucleaire",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "MENACE_NUCLEAIRE",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "tour_du_destin",
-            "champ_eternite"
+            "TOURS_DU_DESTIN",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -2002,17 +1813,14 @@
     },
     {
         "name": "raynor",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne",
-            "tour_du_destin"
+            "CHAMPS_DE_L_ETERNITE",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2029,21 +1837,18 @@
     },
     {
         "name": "rehgar",
-        "value": 11.5,
-        "base_value": 11.5,
         "tier": "S",
         "role": "heal",
-        "cac_ranged": "cac",
         "map_strong": [
-            "val_maudit",
-            "jardin_terreur",
-            "temple_hanamura",
-            "menace_nucleaire"
+            "VAL_MAUDIT",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_D_HANAMURA",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne",
-            "temple_hanamura"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "sonya",
@@ -2060,15 +1865,12 @@
     },
     {
         "name": "rexxar",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "bruiser",
-        "cac_ranged": "ranged",
+        "role": "guerrier offensif",
         "map_strong": [
-            "compte_dragon",
-            "tombe_reine_araingne",
-            "laboratoire_braxis"
+            "COMTE_DU_DRAGON",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "LABORATOIRE_DE_BRAXIS"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2083,23 +1885,20 @@
     },
     {
         "name": "samuro",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "champ_eternite",
-            "laboratoire_braxis",
-            "compte_dragon",
-            "tour_du_destin",
-            "temple_celeste"
+            "PASSE_D_ALTERAC",
+            "CHAMPS_DE_L_ETERNITE",
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "TOURS_DU_DESTIN",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "tombe_reine_araingne",
-            "temple_hanamura",
-            "val_maudit"
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "TEMPLE_D_HANAMURA",
+            "VAL_MAUDIT"
         ],
         "synergy_with": [
             "abathur",
@@ -2120,16 +1919,13 @@
     },
     {
         "name": "sonya",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "bruiser",
-        "cac_ranged": "ranged",
+        "role": "guerrier offensif",
         "map_strong": [
-            "laboratoire_braxis",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2149,17 +1945,14 @@
     },
     {
         "name": "stukov",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "laboratoire_braxis",
-            "val_maudit"
+            "LABORATOIRE_DE_BRAXIS",
+            "VAL_MAUDIT"
         ],
         "map_weak": [
-            "champ_eternite"
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "thrall",
@@ -2176,18 +1969,15 @@
     },
     {
         "name": "sylvanas",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "passe_alterac",
-            "tombe_reine_araingne"
+            "LABORATOIRE_DE_BRAXIS",
+            "PASSE_D_ALTERAC",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "menace_nucleaire"
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "diablo",
@@ -2209,21 +1999,18 @@
     },
     {
         "name": "tassadar",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "laboratoire_braxis",
-            "sanctuaire_infernaux",
-            "jardin_terreur",
-            "tombe_reine_araingne"
+            "LABORATOIRE_DE_BRAXIS",
+            "SANCTUAIRES_INFERNAUX",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [
-            "val_maudit",
-            "champ_eternite",
-            "temple_hanamura"
+            "VAL_MAUDIT",
+            "CHAMPS_DE_L_ETERNITE",
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "maeiv",
@@ -2242,20 +2029,17 @@
     },
     {
         "name": "thrall",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "champ_eternite",
-            "laboratoire_braxis",
-            "compte_dragon",
-            "temple_hanamura",
-            "temple_celeste"
+            "CHAMPS_DE_L_ETERNITE",
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "tombe_reine_araingne"
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "valla",
@@ -2270,21 +2054,18 @@
     },
     {
         "name": "tracer",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "tour_du_destin",
-            "temple_celeste",
-            "temple_celeste"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "TOURS_DU_DESTIN",
+            "TEMPLE_CELESTE",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "tassadar",
@@ -2305,19 +2086,16 @@
     },
     {
         "name": "tychus",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "sanctuaire_infernaux",
-            "tour_du_destin"
+            "VAL_MAUDIT",
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "temple_celeste",
-            "menace_nucleaire"
+            "TEMPLE_CELESTE",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "garrosh",
@@ -2333,24 +2111,21 @@
     },
     {
         "name": "tyrael",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "val_maudit",
-            "temple_celeste",
-            "tour_du_destin",
-            "menace_nucleaire"
+            "VAL_MAUDIT",
+            "TEMPLE_CELESTE",
+            "TOURS_DU_DESTIN",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "compte_dragon",
-            "jardin_terreur",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "COMTE_DU_DRAGON",
+            "JARDINS_DE_TERREUR",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "kramer",
@@ -2366,16 +2141,13 @@
     },
     {
         "name": "tyrande",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "champ_eternite",
-            "compte_dragon",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "CHAMPS_DE_L_ETERNITE",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2396,17 +2168,14 @@
     },
     {
         "name": "uther",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "cac",
         "map_strong": [
-            "sanctuaire_infernaux"
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "menace_nucleaire"
+            "LABO_DE_BRAXIS",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -2427,19 +2196,16 @@
     },
     {
         "name": "valeera",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "compte_dragon",
-            "menace_nucleaire",
-            "temple_celeste"
+            "VAL_MAUDIT",
+            "COMTE_DU_DRAGON",
+            "MENACE_NUCLEAIRE",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "tombe_reine_araingne"
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "garrosh",
@@ -2455,15 +2221,12 @@
     },
     {
         "name": "valla",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "champ_eternite",
-            "sanctuaire_infernaux",
-            "tombe_reine_araingne"
+            "CHAMPS_DE_L_ETERNITE",
+            "SANCTUAIRES_INFERNAUX",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2483,23 +2246,20 @@
     },
     {
         "name": "varian",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "tank",
-        "cac_ranged": "cac",
         "map_strong": [
-            "laboratoire_braxis",
-            "compte_dragon",
-            "tour_du_destin",
-            "menace_nucleaire",
-            "temple_hanamura",
-            "jardin_terreur"
+            "LABORATOIRE_DE_BRAXIS",
+            "COMTE_DU_DRAGON",
+            "TOURS_DU_DESTIN",
+            "MENACE_NUCLEAIRE",
+            "TEMPLE_D_HANAMURA",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "champ_eternite",
-            "sanctuaire_infernaux",
-            "temple_celeste"
+            "CHAMPS_DE_L_ETERNITE",
+            "SANCTUAIRES_INFERNAUX",
+            "TEMPLE_CELESTE"
         ],
         "synergy_with": [
             "e.t.c",
@@ -2517,24 +2277,21 @@
     },
     {
         "name": "vikings",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "val_maudit",
-            "temple_celeste",
+            "PASSE_D_ALTERAC",
+            "VAL_MAUDIT",
+            "TEMPLE_CELESTE",
             "tour_destin",
-            "menace_nucleaire",
-            "jardin_terreur"
+            "MENACE_NUCLEAIRE",
+            "JARDINS_DE_TERREUR"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "champ_eternite",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "CHAMPS_DE_L_ETERNITE",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "zarya",
@@ -2555,22 +2312,19 @@
     },
     {
         "name": "whitemane",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
         "role": "heal",
-        "cac_ranged": "ranged",
         "map_strong": [
-            "sanctuaire_infernaux",
-            "tour_du_destin"
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "temple_celeste",
-            "compte_dragon",
-            "champ_eternite",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "TEMPLE_CELESTE",
+            "COMTE_DU_DRAGON",
+            "CHAMPS_DE_L_ETERNITE",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "valla",
@@ -2585,22 +2339,19 @@
     },
     {
         "name": "xul",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "bruiser",
-        "cac_ranged": "ranged",
+        "role": "guerrier offensif",
         "map_strong": [
-            "val_maudit",
-            "temple_celeste",
-            "jardin_terreur",
-            "tombe_reine_araingne",
-            "sanctuaire_infernaux"
+            "VAL_MAUDIT",
+            "TEMPLE_CELESTE",
+            "JARDINS_DE_TERREUR",
+            "TOMBE_DE_LA_REINE_ARAIGNEE",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "temple_hanamura",
-            "champ_eternite"
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA",
+            "CHAMPS_DE_L_ETERNITE"
         ],
         "synergy_with": [
             "tyrande",
@@ -2618,16 +2369,13 @@
     },
     {
         "name": "yrel",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "bruiser",
-        "cac_ranged": "cac",
+        "role": "guerrier offensif",
         "map_strong": [
-            "laboratoire_braxis",
-            "temple_celeste",
-            "compte_dragon",
-            "sanctuaire_infernaux"
+            "LABORATOIRE_DE_BRAXIS",
+            "TEMPLE_CELESTE",
+            "COMTE_DU_DRAGON",
+            "SANCTUAIRES_INFERNAUX"
         ],
         "map_weak": [],
         "synergy_with": [
@@ -2645,22 +2393,19 @@
     },
     {
         "name": "zagara",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [
-            "passe_alterac",
-            "laboratoire_braxis",
-            "jardin_terreur",
-            "temple_celeste",
-            "val_maudit",
-            "tour_du_destin",
-            "menace_nucleaire"
+            "PASSE_D_ALTERAC",
+            "LABORATOIRE_DE_BRAXIS",
+            "JARDINS_DE_TERREUR",
+            "TEMPLE_CELESTE",
+            "VAL_MAUDIT",
+            "TOURS_DU_DESTIN",
+            "MENACE_NUCLEAIRE"
         ],
         "map_weak": [
-            "temple_hanamura"
+            "TEMPLE_D_HANAMURA"
         ],
         "synergy_with": [
             "e.t.c",
@@ -2676,20 +2421,17 @@
     },
     {
         "name": "zarya",
-        "value": 10,
-        "base_value": 10,
         "tier": "C",
-        "role": "bruiser",
-        "cac_ranged": "ranged",
+        "role": "guerrier offensif",
         "map_strong": [
-            "champ_eternite",
-            "laboratoir_braxis",
-            "temple_hanamura"
+            "CHAMPS_DE_L_ETERNITE",
+            "LABO_DE_BRAXIS",
+            "TEMPLE_D_HANAMURA"
         ],
         "map_weak": [
-            "val_maudit",
-            "jardin_terreur",
-            "menace_nucleaire"
+            "VAL_MAUDIT",
+            "JARDINS_DE_TERREUR",
+            "MENACE_NUCLEAIRE"
         ],
         "synergy_with": [
             "garrosh",
@@ -2707,20 +2449,17 @@
     },
     {
         "name": "zeratul",
-        "value": 10.5,
-        "base_value": 10.5,
         "tier": "B",
-        "role": "assassin",
-        "cac_ranged": "cac",
+        "role": "dps range mage",
         "map_strong": [
-            "val_maudit",
-            "sanctuaire_infernaux",
-            "tour_du_destin",
-            "temple_celeste"
+            "VAL_MAUDIT",
+            "SANCTUAIRES_INFERNAUX",
+            "TOURS_DU_DESTIN",
+            "TEMPLE_CELESTE"
         ],
         "map_weak": [
-            "laboratoir_braxis",
-            "tombe_reine_araingne"
+            "LABO_DE_BRAXIS",
+            "TOMBE_DE_LA_REINE_ARAIGNEE"
         ],
         "synergy_with": [
             "abathur",
@@ -2744,11 +2483,8 @@
     },
     {
         "name": "zuljin",
-        "value": 11,
-        "base_value": 11,
         "tier": "A",
-        "role": "assassin",
-        "cac_ranged": "ranged",
+        "role": "dps range mage",
         "map_strong": [],
         "map_weak": [],
         "synergy_with": [
