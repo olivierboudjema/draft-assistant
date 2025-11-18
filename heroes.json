@@ -40,7 +40,7 @@
   {
     "name": "Alexstrasza",
     "tier": "C",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX"
     ],
@@ -66,7 +66,7 @@
   {
     "name": "Ana",
     "tier": "C",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "TEMPLE_D_HAANMURA",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -92,7 +92,7 @@
   {
     "name": "Anduin",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "VAL_MAUDIT",
@@ -265,7 +265,7 @@
   {
     "name": "Auriel",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -556,7 +556,7 @@
   {
     "name": "Deckard",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "CHAMPS_DE_L_ETERNITE",
@@ -1081,7 +1081,7 @@
   {
     "name": "kharazim",
     "tier": "C",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "COMTE_DU_DRAGON",
@@ -1225,7 +1225,7 @@
   {
     "name": "Li-li",
     "tier": "D",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "COMTE_DU_DRAGON",
@@ -1311,7 +1311,7 @@
   {
     "name": "Lucio",
     "tier": "B",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "VAL_MAUDIT",
       "TOURS_DU_DESTIN",
@@ -1335,7 +1335,7 @@
   {
     "name": "Luisaile",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -1451,7 +1451,7 @@
   {
     "name": "Malfurion",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "LABORATOIRE_DE_BRAXIS",
@@ -1606,7 +1606,7 @@
   {
     "name": "Lt morales",
     "tier": "C",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "TEMPLE_D_HAANMURA",
@@ -1874,7 +1874,7 @@
   {
     "name": "Rehgar",
     "tier": "S",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "VAL_MAUDIT",
       "JARDINS_DE_TERREUR",
@@ -1982,7 +1982,7 @@
   {
     "name": "Stukov",
     "tier": "A",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "VAL_MAUDIT"
@@ -2175,7 +2175,7 @@
   {
     "name": "Tyrande",
     "tier": "B",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "COMTE_DU_DRAGON",
@@ -2202,7 +2202,7 @@
   {
     "name": "Uther",
     "tier": "C",
-    "role": "Heaelr",
+    "role": "Healer",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX"
     ],

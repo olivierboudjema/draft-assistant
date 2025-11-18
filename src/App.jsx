@@ -133,7 +133,7 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
 const ROLE_KEYS = [
   "Tank",
   "Bruiser",
-  "Heaelr",
+  "Healer",
   "Dps Mêléee",
   "Mage",
   "Range auto",
@@ -155,7 +155,7 @@ function MêléeCount(names, DB) {
 const MAX_BY_ROLE = {
   "Tank": 1,
   "Bruiser": 1,
-  Heaelr: 1,
+  Healer: 1,
   "Dps Mêléee": 1,
   "Mage": 1,
   "Range auto": 1,
@@ -288,7 +288,7 @@ function explainScore(hero, DB, state, opts = {}) {
 }
 
 const ROLE_META = {
-  Heaelr: {
+  Healer: {
     badge: "✚",
     cls: "bg-emerald-900/40 text-emerald-200 border-emerald-500/50",
   },
@@ -540,7 +540,7 @@ function getCompositionStatus(allies, DB) {
   const c = teamRoleCounts(allies, DB);
   const defCount = c["Tank"];
   const offCount = c["Bruiser"];
-  const healCount = c["Heaelr"];
+  const healCount = c["Healer"];
 
   const defOk = defCount >= 1;
   const offOk = offCount >= 1;
@@ -792,7 +792,7 @@ export default function DraftAssistant() {
                 state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
               />
               <StatusChip
-                label="Heaelr"
+                label="Healer"
                 state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
               />
               <StatusChip
