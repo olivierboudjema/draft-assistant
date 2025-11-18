@@ -588,7 +588,7 @@ export default function DraftAssistant() {
               onClick={() => setShowHelp(true)}
               className="text-sm rounded-lg bg-indigo-900/40 border border-indigo-700/40 px-3 py-1 hover:bg-indigo-700/50"
             >
-              Scores
+              Algo
             </button>
             <button
               onClick={resetAll}
