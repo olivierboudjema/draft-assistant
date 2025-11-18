@@ -478,7 +478,7 @@ function GlobalScores({ DB, state }) {
     0
   );
   return (
-    <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-3 flex items-center justify-center gap-6">
+    <div className="rounded-2xl bg-slate-900/70 border border-slate-700 p-3 flex items-center justify-center gap-6">
       <div className="text-sm opacity-70"></div>
       <div className="text-lg font-semibold">
         Alliés : <span className="text-emerald-300">{alliesScore.toFixed(1)}</span>
@@ -568,7 +568,7 @@ export default function DraftAssistant() {
 
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(26,32,54,0.7),transparent)] bg-[#05070d] text-slate-100">
-      <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90  border-slate-800">
+      <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90">
         <div className="w-full flex items-center justify-between p-3">
           <div className="text-xl font-semibold">Draft Assistant</div>
           <div className="flex-1 text-sm text-center">
@@ -586,7 +586,7 @@ export default function DraftAssistant() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowHelp(true)}
-              className="text-sm rounded-lg bg-indigo-900/40 border border-indigo-700/40 px-3 py-1 hover:bg-indigo-800/50"
+              className="text-sm rounded-lg bg-indigo-900/40 border border-indigo-700/40 px-3 py-1 hover:bg-indigo-700/50"
             >
               Scores
             </button>
@@ -609,7 +609,7 @@ export default function DraftAssistant() {
             className="absolute inset-0 bg-black/60"
             onClick={() => setShowHelp(false)}
           />
-          <div className="relative z-50 w-[680px] max-w-[92vw] rounded-2xl bg-[#0a0e1a] border border-slate-800 p-5 shadow-xl">
+          <div className="relative z-50 w-[680px] max-w-[92vw] rounded-2xl bg-slate-900/70 border border-slate-700 p-5 shadow-xl">
             <div className="flex items-center justify-between mb-3">
               <div className="text-lg font-semibold">Calcul des scores</div>
               <button
@@ -639,7 +639,7 @@ export default function DraftAssistant() {
       <div className="w-full grid grid-cols-12 gap-4 p-4">
         <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Ban allié (3 max)</div>
+            <div className="text-sm font-semibold mb-2">Ban allié</div>
             <AddHeroInput
               placeholder="Ajouter un ban…"
               onAdd={(v) => addTo(setBansAllies, bansAllies, v, 3)}
@@ -672,7 +672,7 @@ export default function DraftAssistant() {
 
         {/* Centre */}
         <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
-          <div className="rounded-xl bg-[#0a0e1a]/80 border border-slate-800 p-2 text-xs">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3 text-xs">
             <div className="flex items-center gap-2 flex-wrap">
               <StatusChip
                 label="Guerrier défensif"
@@ -697,7 +697,7 @@ export default function DraftAssistant() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/80 p-3">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
             <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
             <div className="grid grid-cols-4 gap-3">
               {allyReco.map((r) => (
@@ -716,7 +716,7 @@ export default function DraftAssistant() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-3">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
             <div className="text-sm font-semibold mb-3">
               Reco à ban (meilleurs picks potentiels pour l'adversaire)
             </div>
@@ -754,7 +754,7 @@ export default function DraftAssistant() {
         {/* Colonne droite */}
         <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Ban adversaire (3 max)</div>
+            <div className="text-sm font-semibold mb-2">Ban adversaire</div>
             <AddHeroInput
               placeholder="Ajouter un ban adverse…"
               onAdd={(v) => addTo(setBansEnemies, bansEnemies, v, 3)}
