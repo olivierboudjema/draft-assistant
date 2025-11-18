@@ -2,7 +2,7 @@
   {
     "name": "Abathur",
     "tier": "D",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "VAL_MAUDIT",
@@ -33,7 +33,7 @@
       "Zeratul",
       "Ragnaros",
       "Zarya",
-      "Srgt Marteau",
+      "Hmmer",
       "Sylvanas"
     ]
   },
@@ -80,7 +80,7 @@
     ],
     "synergy_with": [
       "Li-ming",
-      "E.T.C"
+      "ETC"
     ],
     "counter_by": [
       "Anub'arak",
@@ -121,7 +121,7 @@
   {
     "name": "Aile de mort",
     "tier": "C",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "SANCTUAIRES_INFERNAUX",
@@ -129,7 +129,7 @@
     ],
     "map_weak": [],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Arthas",
       "Johanna",
       "Muradin"
@@ -157,11 +157,11 @@
     "synergy_with": [
       "Raynor",
       "Jaina",
-      "E.T.C",
+      "ETC",
       "Garrosh"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Aile de mort",
       "Medivh"
@@ -170,7 +170,7 @@
   {
     "name": "Anub'arak",
     "tier": "A",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -188,7 +188,7 @@
       "Kaelthas",
       "Kerrigan",
       "Rehgar",
-      "Le Boucher"
+      "Butcher"
     ],
     "counter_by": [
       "Leoric",
@@ -202,7 +202,7 @@
   {
     "name": "Artanis",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "TEMPLE_D_HAANMURA"
@@ -222,7 +222,7 @@
       "Malfurion"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Arthas",
       "Varian",
       "Jaina",
@@ -233,7 +233,7 @@
   {
     "name": "Arthas",
     "tier": "B",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE"
     ],
@@ -295,7 +295,7 @@
   {
     "name": "Azmodan",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -328,7 +328,7 @@
   {
     "name": "Balafre",
     "tier": "B",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "VAL_MAUDIT",
       "TEMPLE_D_HAANMURA",
@@ -356,7 +356,7 @@
     ]
   },
   {
-    "name": "Le Boucher",
+    "name": "Butcher",
     "tier": "C",
     "role": "dps melee",
     "map_strong": [
@@ -379,7 +379,7 @@
     ],
     "counter_by": [
       "Johanna",
-      "E.T.C",
+      "ETC",
       "Luisaile",
       "Uther"
     ]
@@ -387,7 +387,7 @@
   {
     "name": "Cassia",
     "tier": "B",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [],
     "map_weak": [],
     "synergy_with": [
@@ -400,7 +400,7 @@
     "counter_by": [
       "Kaelthas",
       "Xul",
-      "E.T.C",
+      "ETC",
       "Malganis",
       "Imperius",
       "Johanna"
@@ -409,7 +409,7 @@
   {
     "name": "Chacal",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "TOURS_DU_DESTIN",
@@ -424,7 +424,7 @@
     ],
     "map_weak": [],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Uther",
       "Malfurion",
@@ -441,7 +441,7 @@
   {
     "name": "Chen",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "COMTE_DU_DRAGON",
@@ -462,7 +462,7 @@
       "Rehgar"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Yrel ",
       "Raynor",
       "Li-ming",
@@ -472,7 +472,7 @@
   {
     "name": "Chogall",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "JARDINS_DE_TERREUR",
@@ -498,13 +498,14 @@
       "kharazim",
       "Leoric",
       "Malthael",
-      "Raynor"
+      "Raynor",
+      "Tychus"
     ]
   },
   {
     "name": "Chromie",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS"
     ],
@@ -524,7 +525,7 @@
   {
     "name": "Dehaka",
     "tier": "S",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "COMTE_DU_DRAGON",
@@ -547,8 +548,8 @@
     "counter_by": [
       "Raynor",
       "Valla",
-      "E.T.C",
-      "Srgt Marteau",
+      "ETC",
+      "Hmmer",
       "Lucio"
     ]
   },
@@ -584,7 +585,7 @@
   {
     "name": "Diablo",
     "tier": "A",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -615,7 +616,7 @@
   {
     "name": "D.VA",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "TOURS_DU_DESTIN",
       "SANCTUAIRES_INFERNAUX",
@@ -634,7 +635,7 @@
       "Deckard"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Kaelthas",
       "Malthael",
       "Raynor",
@@ -642,9 +643,9 @@
     ]
   },
   {
-    "name": "E.T.C.",
+    "name": "ETC",
     "tier": "A",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE"
     ],
@@ -671,7 +672,7 @@
   {
     "name": "Falstad",
     "tier": "A",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
@@ -683,7 +684,7 @@
     "map_weak": [],
     "synergy_with": [
       "Arthas",
-      "E.T.C",
+      "ETC",
       "Tassadar",
       "Uther"
     ],
@@ -699,7 +700,7 @@
   {
     "name": "Fenix",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -713,7 +714,7 @@
       "Diablo"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Genji",
       "Varian",
       "Lucio",
@@ -723,7 +724,7 @@
   {
     "name": "Garrosh",
     "tier": "S",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "TOURS_DU_DESTIN",
@@ -750,7 +751,7 @@
   {
     "name": "Gazlowe",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "LABORATOIRE_DE_BRAXIS",
@@ -765,7 +766,7 @@
     "synergy_with": [
       "Diablo",
       "Jaina",
-      "E.T.C",
+      "ETC",
       "Malfurion",
       "Kaelthas",
       "Johanna"
@@ -796,7 +797,7 @@
     "synergy_with": [
       "Jaina",
       "Uther",
-      "E.T.C"
+      "ETC"
     ],
     "counter_by": [
       "Varian",
@@ -819,7 +820,7 @@
     "map_weak": [],
     "synergy_with": [
       "Abathur",
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Tyrael",
       "Uther",
@@ -839,7 +840,7 @@
   {
     "name": "Guldan",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
@@ -850,7 +851,7 @@
     ],
     "map_weak": [],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Malfurion",
       "Auriel"
     ],
@@ -862,9 +863,9 @@
     ]
   },
   {
-    "name": "Srgt Marteau",
+    "name": "Hmmer",
     "tier": "B",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "LABORATOIRE_DE_BRAXIS",
@@ -877,7 +878,7 @@
       "MENACE_NUCLEAIRE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Lt morales",
       "Ana"
@@ -893,7 +894,7 @@
   {
     "name": "Hanzo",
     "tier": "C",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "VAL_MAUDIT",
       "CHAMPS_DE_L_ETERNITE",
@@ -906,7 +907,7 @@
     ],
     "synergy_with": [
       "Zeratul",
-      "E.T.C",
+      "ETC",
       "Diablo",
       "Kramer",
       "Johanna",
@@ -945,7 +946,7 @@
       "Muradin",
       "Arthas",
       "Luisaile",
-      "E.T.C",
+      "ETC",
       "Li-li",
       "Johanna",
       "Sonya",
@@ -956,7 +957,7 @@
   {
     "name": "Imperius",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "TOURS_DU_DESTIN",
       "PASSE_D_ALTERAC",
@@ -972,23 +973,23 @@
       "Fenix",
       "Rehgar",
       "Malganis",
-      "E.T.C",
+      "ETC",
       "Yrel ",
       "Kramer"
     ],
     "counter_by": [
       "Jaina",
       "Raynor",
-      "Srgt Marteau",
+      "Hmmer",
       "Zuljin",
-      "E.T.C",
+      "ETC",
       "Lucio"
     ]
   },
   {
     "name": "Jaina",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "SANCTUAIRES_INFERNAUX",
@@ -998,7 +999,7 @@
     ],
     "map_weak": [],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Maeiv",
       "Malfurion",
@@ -1020,7 +1021,7 @@
   {
     "name": "Johanna",
     "tier": "S",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "TOURS_DU_DESTIN",
@@ -1051,7 +1052,7 @@
   {
     "name": "Kaelthas",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "COMTE_DU_DRAGON",
@@ -1064,7 +1065,7 @@
       "MENACE_NUCLEAIRE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Arthas",
       "Malfurion",
       "Uther"
@@ -1091,7 +1092,7 @@
       "LABORATOIRE_DE_BRAXIS"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Anub'arak",
       "Genji"
@@ -1125,7 +1126,7 @@
     ],
     "counter_by": [
       "Tyrael",
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Uther",
       "Medivh",
@@ -1135,7 +1136,7 @@
   {
     "name": "Kelthuzad",
     "tier": "C",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "LABORATOIRE_DE_BRAXIS",
@@ -1168,7 +1169,7 @@
   {
     "name": "Kramer",
     "tier": "S",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "TOURS_DU_DESTIN",
@@ -1195,7 +1196,7 @@
   {
     "name": "Leoric",
     "tier": "A",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "VAL_MAUDIT",
       "TOURS_DU_DESTIN",
@@ -1240,7 +1241,7 @@
       "Uther"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Yrel",
       "Sylvanas",
       "Jaina",
@@ -1250,7 +1251,7 @@
   {
     "name": "Li-ming",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "PASSE_D_ALTERAC",
@@ -1260,7 +1261,7 @@
     "map_weak": [],
     "synergy_with": [
       "Arthas",
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Malfurion",
       "Valeera",
@@ -1280,7 +1281,7 @@
   {
     "name": "Lardeur",
     "tier": "S",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -1326,7 +1327,7 @@
     "counter_by": [
       "Varian",
       "Anub'arak",
-      "Srgt Marteau",
+      "Hmmer",
       "Raynor"
     ]
   },
@@ -1356,13 +1357,13 @@
     "counter_by": [
       "Anub'arak",
       "Johanna",
-      "E.T.C"
+      "ETC"
     ]
   },
   {
     "name": "Lunara",
     "tier": "C",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE"
     ],
@@ -1384,7 +1385,7 @@
   {
     "name": "Malganis",
     "tier": "C",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "LABORATOIRE_DE_BRAXIS",
@@ -1429,7 +1430,7 @@
       "TEMPLE_D_HAANMURA"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Greymane",
       "Tychus",
@@ -1496,7 +1497,7 @@
       "MENACE_NUCLEAIRE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Maeiv",
       "Jaina",
       "Tassadar",
@@ -1506,7 +1507,7 @@
     "counter_by": [
       "Arthas",
       "Tyrael",
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Lunara",
       "Tracer",
@@ -1517,7 +1518,7 @@
   {
     "name": "Medivh",
     "tier": "D",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "VAL_MAUDIT",
       "TEMPLE_CELESTE"
@@ -1544,7 +1545,7 @@
   {
     "name": "Mei",
     "tier": "B",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "CHAMPS_DE_L_ETERNITE",
@@ -1565,7 +1566,7 @@
       "Deckard"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Yrel ",
       "Hanzo",
       "Chacal",
@@ -1576,7 +1577,7 @@
   {
     "name": "Mephisto",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "CHAMPS_DE_L_ETERNITE",
@@ -1588,7 +1589,7 @@
       "MENACE_NUCLEAIRE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Diablo",
       "Zarya",
       "Deckard"
@@ -1630,7 +1631,7 @@
   {
     "name": "Muradin",
     "tier": "A",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "TEMPLE_D_HAANMURA",
       "CHAMPS_DE_L_ETERNITE"
@@ -1648,7 +1649,7 @@
       "Malfurion"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "",
       "Thrall",
       "Raynor",
@@ -1659,7 +1660,7 @@
   {
     "name": "Bourbie",
     "tier": "C",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "JARDINS_DE_TERREUR"
     ],
@@ -1675,14 +1676,14 @@
     "counter_by": [
       "Sonya",
       "Falstad",
-      "Le Boucher",
+      "Butcher",
       "Alarak"
     ]
   },
   {
     "name": "Nazeebo",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE"
     ],
@@ -1704,7 +1705,7 @@
   {
     "name": "Nova",
     "tier": "D",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "COMTE_DU_DRAGON",
       "TEMPLE_D_HAANMURA",
@@ -1734,7 +1735,7 @@
   {
     "name": "Orphea",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "VAL_MAUDIT",
@@ -1767,7 +1768,7 @@
   {
     "name": "Probius",
     "tier": "D",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "PASSE_D_ALTERAC",
@@ -1779,7 +1780,7 @@
       "CHAMPS_DE_L_ETERNITE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Diablo",
       "Anub'arak",
       "Arthas",
@@ -1795,7 +1796,7 @@
   {
     "name": "Ragnaros",
     "tier": "S",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "MENACE_NUCLEAIRE",
       "SANCTUAIRES_INFERNAUX",
@@ -1806,7 +1807,7 @@
       "CHAMPS_DE_L_ETERNITE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Hanzo",
       "Kaelthas",
       "Ana"
@@ -1822,7 +1823,7 @@
   {
     "name": "Raynor",
     "tier": "A",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "COMTE_DU_DRAGON",
@@ -1832,7 +1833,7 @@
     ],
     "map_weak": [],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Garrosh",
       "Thrall",
       "Lt morales"
@@ -1874,7 +1875,7 @@
   {
     "name": "Rexxar",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "COMTE_DU_DRAGON",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -1915,7 +1916,7 @@
       "Sylvanas"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Lucio",
       "Yrel ",
       "Cassia",
@@ -1928,7 +1929,7 @@
   {
     "name": "Sonya",
     "tier": "A",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
@@ -1944,7 +1945,7 @@
     ],
     "counter_by": [
       "Luisaile",
-      "E.T.C",
+      "ETC",
       "Diablo",
       "Garrosh",
       "Tychus",
@@ -1978,7 +1979,7 @@
   {
     "name": "Sylvanas",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "PASSE_D_ALTERAC",
@@ -1989,7 +1990,7 @@
     ],
     "synergy_with": [
       "Diablo",
-      "E.T.C",
+      "ETC",
       "Tyrande",
       "Jaina",
       "Tassadar",
@@ -2008,7 +2009,7 @@
   {
     "name": "Tassadar",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "SANCTUAIRES_INFERNAUX",
@@ -2023,7 +2024,7 @@
     "synergy_with": [
       "Maeiv",
       "Johanna",
-      "E.T.C",
+      "ETC",
       "Genji",
       "Zeratul"
     ],
@@ -2038,7 +2039,7 @@
   {
     "name": "Thrall",
     "tier": "A",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "LABORATOIRE_DE_BRAXIS",
@@ -2063,7 +2064,7 @@
   {
     "name": "Tracer",
     "tier": "A",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -2089,13 +2090,13 @@
       "Diablo",
       "Medivh",
       "Raynor",
-      "Srgt Marteau"
+      "Hmmer"
     ]
   },
   {
     "name": "Tychus",
     "tier": "B",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "VAL_MAUDIT",
       "SANCTUAIRES_INFERNAUX",
@@ -2107,7 +2108,7 @@
     ],
     "synergy_with": [
       "Garrosh",
-      "E.T.C",
+      "ETC",
       "Dehaka",
       "Uther"
     ],
@@ -2120,7 +2121,7 @@
   {
     "name": "Tyrael",
     "tier": "S",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "VAL_MAUDIT",
       "TEMPLE_CELESTE",
@@ -2134,7 +2135,7 @@
       "Kramer",
       "Illidan",
       "Alarak",
-      "Srgt Marteau",
+      "Hmmer",
       "Lt morales"
     ],
     "counter_by": [
@@ -2157,7 +2158,7 @@
     "map_weak": [],
     "synergy_with": [
       "Diablo",
-      "E.T.C",
+      "ETC",
       "Varian",
       "Anub'arak",
       "Li-ming"
@@ -2183,7 +2184,7 @@
       "MENACE_NUCLEAIRE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Kerrigan",
       "Illidan",
       "Boucher",
@@ -2214,11 +2215,11 @@
     ],
     "synergy_with": [
       "Garrosh",
-      "E.T.C",
+      "ETC",
       "Thrall"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Arthas",
       "Medivh",
       "Lucio"
@@ -2227,7 +2228,7 @@
   {
     "name": "Valla",
     "tier": "S",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "SANCTUAIRES_INFERNAUX",
@@ -2252,7 +2253,7 @@
   {
     "name": "Varian",
     "tier": "B",
-    "role": "guerrier defensif",
+    "role": "tank def",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
@@ -2267,13 +2268,13 @@
       "TEMPLE_CELESTE"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Kramer",
       "Li-ming",
       "Tyrande"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Arthas",
       "Lunara",
       "Medivh",
@@ -2283,7 +2284,7 @@
   {
     "name": "Les vikings perdus",
     "tier": "C",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "VAL_MAUDIT",
@@ -2303,7 +2304,7 @@
       "Garrosh",
       "Sylvanas",
       "Raynor",
-      "Srgt Marteau"
+      "Hmmer"
     ],
     "counter_by": [
       "Zagara",
@@ -2318,7 +2319,7 @@
   {
     "name": "Xul",
     "tier": "A",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "VAL_MAUDIT",
       "TEMPLE_CELESTE",
@@ -2338,17 +2339,17 @@
       "Falstad"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Jaina",
-      "Srgt Marteau",
+      "Hmmer",
       "Auriel"
     ]
   },
   {
     "name": "Yrel",
     "tier": "B",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "TEMPLE_CELESTE",
@@ -2363,7 +2364,7 @@
       "Abathur"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Johanna",
       "Lucio",
       "Raynor"
@@ -2372,7 +2373,7 @@
   {
     "name": "Zagara",
     "tier": "A",
-    "role": "dps range mage",
+    "role": "mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "LABORATOIRE_DE_BRAXIS",
@@ -2386,7 +2387,7 @@
       "TEMPLE_D_HAANMURA"
     ],
     "synergy_with": [
-      "E.T.C",
+      "ETC",
       "Jaina",
       "Deckard"
     ],
@@ -2400,7 +2401,7 @@
   {
     "name": "Zarya",
     "tier": "C",
-    "role": "guerrier offensif",
+    "role": "bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "LABORATOIRE_DE_BRAXIS",
@@ -2455,26 +2456,26 @@
       "Diablo",
       "Uther",
       "Varian",
-      "E.T.C",
+      "ETC",
       "Medivh"
     ]
   },
   {
     "name": "Zuljin",
     "tier": "A",
-    "role": "dps range auto attack",
+    "role": "ranged auto",
     "map_strong": [],
     "map_weak": [],
     "synergy_with": [
       "Tyrael",
-      "E.T.C",
+      "ETC",
       "Tassadar",
       "Uther",
       "Medivh",
       "Arthas"
     ],
     "counter_by": [
-      "E.T.C",
+      "ETC",
       "Diablo",
       "Dehaka",
       "Garrosh",

@@ -38,7 +38,7 @@ function buildHeroDB() {
     db[name] = {
       name,
       tier: raw.tier || 'B',
-      role: raw.role || 'dps range auto attack',
+      role: raw.role || 'ranged auto',
 
       favMaps: cleanArray(raw.map_strong).map(resolveMapNameFromId),
       badMaps: cleanArray(raw.map_weak).map(resolveMapNameFromId),
@@ -55,12 +55,12 @@ function buildHeroDB() {
 
 
 const ROLE_KEYS = [
-  "guerrier defensif",
-  "guerrier offensif",
+  "tank def",
+  "bruiser",
   "healer",
   "dps melee",
-  "dps range mage",
-  "dps range auto attack",
+  "mage",
+  "ranged auto",
 ];
 
 function teamRoleCounts(names, DB) {
@@ -77,12 +77,12 @@ function meleeCount(names, DB) {
 }
 
 const MAX_BY_ROLE = {
-  "guerrier defensif": 1,
-  "guerrier offensif": 1,
+  "tank def": 1,
+  "bruiser": 1,
   healer: 1,
   "dps melee": 1,
-  "dps range mage": 1,
-  "dps range auto attack": 1,
+  "mage": 1,
+  "ranged auto": 1,
 };
 
 function computeScoreFor(hero, DB, state, opts = {}) {
@@ -115,16 +115,28 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   H.synergies.forEach((a) => {
     if (teamList.includes(a)) score += 1;
   });
-  H.counters.forEach((e) => {
-    if (oppList.includes(e)) score += 1.5;
+
+  const heroCounteredBy = DB[hero]?.counters || [];
+  heroCounteredBy.forEach((e) => {
+    if (oppList.includes(e)) score -= 1.5;
   });
+
   oppList.forEach((e) => {
-    const list = DB[e]?.counters || [];
-    if (list.includes(hero)) score -= 1.5;
+    const oppCounters = DB[e]?.counters || [];
+    if (oppCounters.includes(hero)) score += 1.5;
   });
+
   teamList.forEach((e) => {
     const syn = DB[e]?.synergies || [];
     if (syn.includes(hero)) score += 0.5;
+  });
+
+  const counterByList = DB[hero]?.counters || [];
+  oppList.forEach((e) => {
+    if (counterByList.includes(e)) score -= 1;
+  });
+  teamList.forEach((e) => {
+    if (counterByList.includes(e)) score += 0.5;
   });
 
   return score;
@@ -170,15 +182,26 @@ function explainScore(hero, DB, state, opts = {}) {
     if (teamList.includes(a))
       rows.push({ label: `Synergie avec ${a}`, delta: +1 });
   });
-  H.counters.forEach((e) => {
-    if (oppList.includes(e))
+
+
+
+  oppList.forEach((e) => {
+    const oppCounters = DB[e]?.counters || [];
+    if (oppCounters.includes(hero))
       rows.push({ label: `Contre ${e}`, delta: +1.5 });
   });
+
+  // Règles additionnelles basées sur DB[hero].counters
+  const counterByList = DB[hero]?.counters || [];
   oppList.forEach((e) => {
-    const list = DB[e]?.counters || [];
-    if (list.includes(hero))
-      rows.push({ label: `Se fait contrer par ${e}`, delta: -1.5 });
+    if (counterByList.includes(e))
+      rows.push({ label: `Se fait contrer par ${e}`, delta: -1 });
   });
+  teamList.forEach((e) => {
+    if (counterByList.includes(e))
+      rows.push({ label: `Allié ${e} le contre aussi`, delta: +0.5 });
+  });
+
   oppList.forEach((e) => {
     const syn = DB[e]?.synergies || [];
     if (syn.includes(hero))
@@ -193,11 +216,11 @@ const ROLE_META = {
     badge: "✚",
     cls: "bg-emerald-900/40 text-emerald-200 border-emerald-500/50",
   },
-  "guerrier defensif": {
+  "tank def": {
     badge: "🛡",
     cls: "bg-cyan-900/40 text-cyan-200 border-cyan-500/50",
   },
-  "guerrier offensif": {
+  "bruiser": {
     badge: "⛨",
     cls: "bg-amber-900/40 text-amber-200 border-amber-500/50",
   },
@@ -205,11 +228,11 @@ const ROLE_META = {
     badge: "⚔",
     cls: "bg-rose-900/40 text-rose-200 border-rose-500/50",
   },
-  "dps range mage": {
+  "mage": {
     badge: "✦",
     cls: "bg-fuchsia-900/40 text-fuchsia-200 border-fuchsia-500/50",
   },
-  "dps range auto attack": {
+  "ranged auto": {
     badge: "➤",
     cls: "bg-indigo-900/40 text-indigo-200 border-indigo-500/50",
   },
@@ -257,7 +280,8 @@ function HeroInfoHover({ name, DB, children }) {
           </div>
 
           <div>
-            <b><span className="text-amber-400">Contre:</span></b>
+            <b><span className="text-amber-400">Se fait
+              contrer:</span></b>
             <div className="text-slate-300 ml-2">{info.counters.join(", ") || "—"}</div>
           </div>
         </div>
@@ -329,24 +353,28 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
             sideForRole: side,
           });
           return (
-            <div key={h + String(i)} className={`flex items-center ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
-              <HeroInfoHover name={h} DB={DB}>
-                <span className={`rounded-lg bg-slate-900/80 border border-slate-700 ${compact ? "px-2 py-0.5" : "px-2 py-1"}`}>
-                  {h}
-                </span>
-              </HeroInfoHover>
-              {role && (
-                <span className="ml-1">
-                  <RoleChip role={role} />
-                </span>
-              )}
-              <ScoreBadge value={score} breakdown={breakdown} />
-              <button
-                onClick={() => onRemove(i)}
-                className={`ml-auto ${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
-              >
-                Retirer
-              </button>
+            <div key={h + String(i)} className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
+              <div className="flex items-center flex-1 gap-1">
+                <HeroInfoHover name={h} DB={DB}>
+                  <span className={`rounded-lg bg-slate-900/80 border border-slate-700 ${compact ? "px-2 py-0.5" : "px-2 py-1"}`}>
+                    {h}
+                  </span>
+                </HeroInfoHover>
+                {role && (
+                  <span className="ml-1">
+                    <RoleChip role={role} />
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <ScoreBadge value={score} breakdown={breakdown} />
+                <button
+                  onClick={() => onRemove(i)}
+                  className={`${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
+                >
+                  X
+                </button>
+              </div>
             </div>
           );
         })}
@@ -409,8 +437,8 @@ function StatusChip({ label, state }) {
 
 function getCompositionStatus(allies, DB) {
   const c = teamRoleCounts(allies, DB);
-  const defCount = c["guerrier defensif"];
-  const offCount = c["guerrier offensif"];
+  const defCount = c["tank def"];
+  const offCount = c["bruiser"];
   const healCount = c["healer"];
 
   const defOk = defCount >= 1;
@@ -421,8 +449,8 @@ function getCompositionStatus(allies, DB) {
   const offTooMany = offCount > 1;
   const healTooMany = healCount > 1;
 
-  const dpsSlot1Ok = c["dps range mage"] + c["dps melee"] >= 1;
-  const dpsSlot2Ok = c["dps range auto attack"] + c["dps melee"] >= 1;
+  const dpsSlot1Ok = c["mage"] + c["dps melee"] >= 1;
+  const dpsSlot2Ok = c["ranged auto"] + c["dps melee"] >= 1;
   const noDoubleMelee = c["dps melee"] <= 1;
 
   return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMelee };
@@ -541,7 +569,7 @@ export default function DraftAssistant() {
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(26,32,54,0.7),transparent)] bg-[#05070d] text-slate-100">
       <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90  border-slate-800">
-        <div className="max-w-7xl mx-auto flex items-center justify-between p-3">
+        <div className="w-full flex items-center justify-between p-3">
           <div className="text-xl font-semibold">Draft Assistant</div>
           <div className="flex-1 text-sm text-center">
             Map:
@@ -570,7 +598,7 @@ export default function DraftAssistant() {
             </button>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-3 pb-3">
+        <div className="w-full px-3 pb-3">
           <GlobalScores DB={DB} state={state} />
         </div>
       </div>
@@ -595,10 +623,11 @@ export default function DraftAssistant() {
               <p>Chaque héros démarre à 10, puis :</p>
               <ul className="list-disc ml-5 space-y-1 text-left">
                 <li>Tier : S = +2, A = +1, B = 0, C = −1, D = −2</li>
-                <li>Rôle déjà présent : −1 (−2 si déjà 2×). Si slot complet : −3.</li>
+                <li>Rôle déjà présent : −1 (−2 si déjà 2×)</li>
                 <li>Carte : favorable +1, défavorable −1</li>
                 <li>Contre un ennemi : +1.5 par cible</li>
-                <li>Se fait contrer : −1.5 par héros qui le contre</li>
+                <li>Se fait contrer par ennemi : −1.5 par héros</li>
+                <li>Bloque un contre ennemi : +0.5</li>
                 <li>Synergies alliées : +1 par allié synergique</li>
                 <li>Bloque une synergie ennemie : +0.5</li>
               </ul>
@@ -607,8 +636,7 @@ export default function DraftAssistant() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 p-4">
-        {/* Colonne gauche */}
+      <div className="w-full grid grid-cols-12 gap-4 p-4">
         <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
           <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/90 p-3">
             <div className="text-sm font-semibold mb-2">Ban allié (3 max)</div>
@@ -651,7 +679,7 @@ export default function DraftAssistant() {
                 state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
               />
               <StatusChip
-                label="Guerrier offensif"
+                label="bruiser"
                 state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
               />
               <StatusChip
@@ -671,7 +699,7 @@ export default function DraftAssistant() {
 
           <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/80 p-3">
             <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-4 gap-3">
               {allyReco.map((r) => (
                 <HeroCard
                   key={r.name}
@@ -683,7 +711,7 @@ export default function DraftAssistant() {
                 />
               ))}
               {allyReco.length === 0 && (
-                <div className="col-span-3 text-xs opacity-60">Aucun héros disponible</div>
+                <div className="col-span-4 text-xs opacity-60">Aucun héros disponible</div>
               )}
             </div>
           </div>
