@@ -53,7 +53,7 @@
       "Johanna",
       "Kramer",
       "Kaelthas",
-      "azmodan"
+      "Asmodan"
     ],
     "counter_by": [
       "Anub'arak",
@@ -293,7 +293,7 @@
     ]
   },
   {
-    "name": "Azmodan",
+    "name": "Asmodan",
     "tier": "A",
     "role": "mage",
     "map_strong": [
@@ -614,7 +614,7 @@
     ]
   },
   {
-    "name": "D.VA",
+    "name": "DVA",
     "tier": "B",
     "role": "bruiser",
     "map_strong": [
@@ -1466,7 +1466,7 @@
       "Jaina",
       "Kaelthas",
       "Kelthuzad",
-      "Nazeebo",
+      "Nasibo",
       "Ragnaros"
     ],
     "counter_by": [
@@ -1681,7 +1681,7 @@
     ]
   },
   {
-    "name": "Nazeebo",
+    "name": "Nasibo",
     "tier": "A",
     "role": "mage",
     "map_strong": [
@@ -1790,6 +1790,32 @@
       "Kerrigan",
       "Alarak",
       "Zeratul",
+      "Tracer"
+    ]
+  },
+  {
+    "name": "Qhira",
+    "tier": "D",
+    "role": "mage",
+    "map_strong": [
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [],
+    "synergy_with": [
+      "Uther",
+      "Abathur",
+      "Anub'arak",
+      "Rehgar",
+      "Malfurion"
+    ],
+    "counter_by": [
+      "Lucio",
+      "ETC",
+      "Diablo",
+      "Garrosh",
+      "Uther",
       "Tracer"
     ]
   },
@@ -2195,7 +2221,7 @@
       "Guldan",
       "Lucio",
       "Malthael",
-      "Nazeebo",
+      "Nasibo",
       "Sylvanas",
       "Zagara"
     ]

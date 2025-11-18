@@ -477,6 +477,11 @@ function GlobalScores({ DB, state }) {
       }),
     0
   );
+
+  // Calculer le % de chance de victoire
+  const totalScore = alliesScore + enemiesScore;
+  const winChance = totalScore > 0 ? Math.round((alliesScore / totalScore) * 100) : 50;
+
   return (
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700 p-3 flex items-center justify-center gap-6">
       <div className="text-sm opacity-70"></div>
@@ -485,6 +490,9 @@ function GlobalScores({ DB, state }) {
       </div>
       <div className="text-lg font-semibold">
         Adversaires : <span className="text-rose-300">{enemiesScore.toFixed(1)}</span>
+      </div>
+      <div className="text-lg font-semibold">
+        Win : <span className={winChance >= 50 ? "text-emerald-300" : "text-rose-300"}>{winChance}%</span>
       </div>
     </div>
   );
@@ -537,7 +545,7 @@ export default function DraftAssistant() {
         score: computeScore(h, DB, state),
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 12);
+      .slice(0, 88);
   }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
 
   const enemyPotential = useMemo(() => {
@@ -699,20 +707,22 @@ export default function DraftAssistant() {
 
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
             <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
-            <div className="grid grid-cols-4 gap-3">
-              {allyReco.map((r) => (
-                <HeroCard
-                  key={r.name}
-                  name={r.name}
-                  role={r.role}
-                  score={r.score}
-                  breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
-                  DB={DB}
-                />
-              ))}
-              {allyReco.length === 0 && (
-                <div className="col-span-4 text-xs opacity-60">Aucun héros disponible</div>
-              )}
+            <div className="max-h-[440px] overflow-y-auto no-scrollbar reco-scroll">
+              <div className="grid grid-cols-4 gap-3">
+                {allyReco.map((r) => (
+                  <HeroCard
+                    key={r.name}
+                    name={r.name}
+                    role={r.role}
+                    score={r.score}
+                    breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
+                    DB={DB}
+                  />
+                ))}
+                {allyReco.length === 0 && (
+                  <div className="col-span-4 text-xs opacity-60">Aucun héros disponible</div>
+                )}
+              </div>
             </div>
           </div>
 
