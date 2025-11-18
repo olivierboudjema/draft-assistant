@@ -15,3 +15,16 @@
 .reco-scroll {
   scroll-behavior: smooth;
 }
+
+html,
+body,
+#root {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;
+}

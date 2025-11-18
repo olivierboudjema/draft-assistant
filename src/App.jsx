@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import './App.css'
 import maps from '../maps.json';
 import heroes from '../heroes.json';
@@ -38,7 +39,7 @@ function buildHeroDB() {
     db[name] = {
       name,
       tier: raw.tier || 'B',
-      role: raw.role || 'ranged auto',
+      role: raw.role || 'Range auto',
 
       favMaps: cleanArray(raw.map_strong).map(resolveMapNameFromId),
       badMaps: cleanArray(raw.map_weak).map(resolveMapNameFromId),
@@ -52,15 +53,90 @@ function buildHeroDB() {
 }
 
 
+function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
+  const ref = useRef(null);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const [pos, setPos] = useState({ left: 0, top: 0 });
+  const closeTimer = useRef(null);
+
+  // Use external isOpen prop if provided, otherwise use internal state
+  const open = isOpen !== null ? isOpen : internalOpen;
+
+  useEffect(() => {
+    if (!open) return;
+    function update() {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      setPos({ left: r.left + r.width / 2 + offset, top: r.top });
+    }
+    update();
+    window.addEventListener('scroll', update, true);
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update, true);
+      window.removeEventListener('resize', update);
+    };
+  }, [open, offset]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) {
+        clearTimeout(closeTimer.current);
+        closeTimer.current = null;
+      }
+    };
+  }, []);
+
+  function handleOpen() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    if (isOpen === null) setInternalOpen(true);
+  }
+
+  function handleClose() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (isOpen === null) {
+      closeTimer.current = setTimeout(() => {
+        setInternalOpen(false);
+        closeTimer.current = null;
+      }, 120);
+    }
+  }
+
+  return (
+    <>
+      <span ref={ref} onMouseEnter={handleOpen} onMouseLeave={handleClose} className="inline-block">
+        {children}
+      </span>
+      {open && content &&
+        ReactDOM.createPortal(
+          <div
+            style={{ left: pos.left, top: pos.top - 8 }}
+            className="fixed z-50 -translate-x-1/2 transform"
+          >
+            <div className="pointer-events-auto text-slate-200">
+              {content}
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
+  );
+}
+
+
 
 
 const ROLE_KEYS = [
-  "tank def",
-  "bruiser",
-  "healer",
-  "dps melee",
-  "mage",
-  "ranged auto",
+  "Tank",
+  "Bruiser",
+  "Heaelr",
+  "Dps Mêléee",
+  "Mage",
+  "Range auto",
 ];
 
 function teamRoleCounts(names, DB) {
@@ -72,17 +148,17 @@ function teamRoleCounts(names, DB) {
   return c;
 }
 
-function meleeCount(names, DB) {
-  return names.filter((n) => DB[n]?.role === "dps melee").length;
+function MêléeCount(names, DB) {
+  return names.filter((n) => DB[n]?.role === "Dps Mêléee").length;
 }
 
 const MAX_BY_ROLE = {
-  "tank def": 1,
-  "bruiser": 1,
-  healer: 1,
-  "dps melee": 1,
-  "mage": 1,
-  "ranged auto": 1,
+  "Tank": 1,
+  "Bruiser": 1,
+  Heaelr: 1,
+  "Dps Mêléee": 1,
+  "Mage": 1,
+  "Range auto": 1,
 };
 
 function computeScoreFor(hero, DB, state, opts = {}) {
@@ -106,7 +182,7 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   const counts = teamRoleCounts(listForCount, DB);
   const currentCount = counts[H.role] || 0;
   if (currentCount >= 1) score -= currentCount === 1 ? 1 : 2;
-  if (H.role === "dps melee" && meleeCount(listForCount, DB) >= 1) score -= 2;
+  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) score -= 2;
   if (currentCount >= (MAX_BY_ROLE[H.role] || 1)) score -= 3;
 
   if (state.map && H.favMaps.includes(state.map)) score += 1;
@@ -168,8 +244,8 @@ function explainScore(hero, DB, state, opts = {}) {
       label: `Rôle déjà présent (${H.role})`,
       delta: currentCount === 1 ? -1 : -2,
     });
-  if (H.role === "dps melee" && meleeCount(listForCount, DB) >= 1)
-    rows.push({ label: "Deuxième melee (éviter 2× melee)", delta: -2 });
+  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1)
+    rows.push({ label: "Deuxième Mêlée (éviter 2× Mêlée)", delta: -2 });
   if (currentCount >= (MAX_BY_ROLE[H.role] || 1))
     rows.push({ label: "Slot de rôle déjà complet", delta: -3 });
 
@@ -212,27 +288,27 @@ function explainScore(hero, DB, state, opts = {}) {
 }
 
 const ROLE_META = {
-  healer: {
+  Heaelr: {
     badge: "✚",
     cls: "bg-emerald-900/40 text-emerald-200 border-emerald-500/50",
   },
-  "tank def": {
+  "Tank": {
     badge: "🛡",
     cls: "bg-cyan-900/40 text-cyan-200 border-cyan-500/50",
   },
-  "bruiser": {
+  "Bruiser": {
     badge: "⛨",
     cls: "bg-amber-900/40 text-amber-200 border-amber-500/50",
   },
-  "dps melee": {
+  "Dps Mêléee": {
     badge: "⚔",
     cls: "bg-rose-900/40 text-rose-200 border-rose-500/50",
   },
-  "mage": {
+  "Mage": {
     badge: "✦",
     cls: "bg-fuchsia-900/40 text-fuchsia-200 border-fuchsia-500/50",
   },
-  "ranged auto": {
+  "Range auto": {
     badge: "➤",
     cls: "bg-indigo-900/40 text-indigo-200 border-indigo-500/50",
   },
@@ -248,86 +324,111 @@ function RoleChip({ role }) {
   );
 }
 
-function HeroInfoHover({ name, DB, children }) {
+function HeroInfoHover({ name, DB, children, showTooltip = null }) {
   const info = DB?.[name];
   if (!info) return <>{children}</>;
-  return (
-    <span className="relative group inline-block">
-      {children}
-      <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition absolute top-full left-0 mt-2 z-[999] rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
-        <div className="font-semibold text-sm mb-3 text-indigo-300">{name}</div>
-        <div className="flex flex-col text-[11px] text-left space-y-2">
-          <div>
-            <b><span className="text-indigo-400">Tier:</span></b> <span className="text-slate-200">{info.tier}</span>
-          </div>
-          <div>
-            <b><span className="text-indigo-400">Rôle:</span></b> <span className="text-slate-200">{info.role}</span>
-          </div>
 
-          <div>
-            <b><span className="text-emerald-400">Maps favorable:</span></b>
-            <div className="text-slate-300 ml-2">{info.favMaps.join(", ") || "—"}</div>
-          </div>
+  const TooltipContent = (
+    <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
+      <div className="font-semibold text-sm mb-3 text-indigo-300">{name}</div>
+      <div className="flex flex-col text-[11px] text-left space-y-2">
+        <div>
+          <b><span className="text-indigo-400">Tier:</span></b> <span className="text-slate-200">{info.tier}</span>
+        </div>
+        <div>
+          <b><span className="text-indigo-400">Rôle:</span></b> <span className="text-slate-200">{info.role}</span>
+        </div>
 
-          <div>
-            <b><span className="text-rose-400">Maps nulles:</span></b>
-            <div className="text-slate-300 ml-2">{info.badMaps.join(", ") || "—"}</div>
-          </div>
+        <div>
+          <b><span className="text-emerald-400">Maps favorable:</span></b>
+          <div className="text-slate-300 ml-2">{info.favMaps.join(", ") || "—"}</div>
+        </div>
 
-          <div>
-            <b><span className="text-cyan-400">Synergies:</span></b>
-            <div className="text-slate-300 ml-2">{info.synergies.join(", ") || "—"}</div>
-          </div>
+        <div>
+          <b><span className="text-rose-400">Maps nulles:</span></b>
+          <div className="text-slate-300 ml-2">{info.badMaps.join(", ") || "—"}</div>
+        </div>
 
-          <div>
-            <b><span className="text-amber-400">Se fait
-              contrer:</span></b>
-            <div className="text-slate-300 ml-2">{info.counters.join(", ") || "—"}</div>
-          </div>
+        <div>
+          <b><span className="text-cyan-400">Synergies:</span></b>
+          <div className="text-slate-300 ml-2">{info.synergies.join(", ") || "—"}</div>
+        </div>
+
+        <div>
+          <b><span className="text-amber-400">Se fait contrer:</span></b>
+          <div className="text-slate-300 ml-2">{info.counters.join(", ") || "—"}</div>
         </div>
       </div>
-    </span>
+    </div>
   );
+
+  return <PortalTooltip content={TooltipContent} isOpen={showTooltip} offset={-100}>{children}</PortalTooltip>;
 }
 
-function ScoreBadge({ value, breakdown }) {
+function ScoreBadge({ value, breakdown, showTooltip = null }) {
+  const Tooltip = breakdown
+    ? (
+      <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl text-slate-200">
+        <div className="font-semibold text-sm mb-2">Détail du score</div>
+        <ul className="space-y-1 max-h-64 overflow-auto pr-1">
+          {breakdown.map((row, idx) => (
+            <li key={idx} className="flex justify-between gap-3">
+              <span className="opacity-80 text-slate-100">{row.label}</span>
+              <span className="font-mono text-slate-100">
+                {row.delta > 0 ? "+" : ""}
+                {row.delta.toFixed(2)}
+              </span>
+            </li>
+          ))}
+          <li className="flex justify-between gap-3 pt-1 mt-1 border-t border-slate-700">
+            <span className="font-semibold">Total</span>
+            <span className="font-mono font-bold text-slate-100">{value.toFixed(2)}</span>
+          </li>
+        </ul>
+      </div>
+    )
+    : null;
+
   return (
-    <span className="relative group inline-flex items-center">
-      <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-950/70 border border-indigo-600/40">
+    <PortalTooltip content={breakdown ? Tooltip : null} isOpen={showTooltip} offset={100}>
+      <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-950/70 border border-indigo-600/40 inline-flex items-center">
         {value.toFixed(1)}
       </span>
-      {breakdown && (
-        <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-40 rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
-          <div className="font-semibold text-sm mb-2">Détail du score</div>
-          <ul className="space-y-1 max-h-64 overflow-auto pr-1">
-            {breakdown.map((row, idx) => (
-              <li key={idx} className="flex justify-between gap-3">
-                <span className="opacity-80">{row.label}</span>
-                <span className="font-mono">
-                  {row.delta > 0 ? "+" : ""}
-                  {row.delta.toFixed(2)}
-                </span>
-              </li>
-            ))}
-            <li className="flex justify-between gap-3 pt-1 mt-1 border-t border-slate-700">
-              <span className="font-semibold">Total</span>
-              <span className="font-mono font-bold">{value.toFixed(2)}</span>
-            </li>
-          </ul>
-        </div>
-      )}
-    </span>
+    </PortalTooltip>
   );
 }
 
 function HeroCard({ name, role, score, breakdown, DB }) {
+  const [showTooltips, setShowTooltips] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShowTooltips(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowTooltips(false);
+    }, 120);
+  };
+
   return (
-    <div className="group relative rounded-2xl bg-[#0a0e1a]/90 border border-slate-800 p-2 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] hover:border-indigo-500/70 hover:bg-[#0c1222]">
+    <div
+      className="group relative rounded-2xl bg-[#0a0e1a]/90 border border-slate-800 p-2 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] hover:border-indigo-500/70 hover:bg-[#0c1222]"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="flex items-center justify-between">
-        <HeroInfoHover name={name} DB={DB}>
-          <div className="font-semibold text-sm truncate mr-2">{name}</div>
-        </HeroInfoHover>
-        <ScoreBadge value={score} breakdown={breakdown} />
+        <div>
+          <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
+            <div className="font-semibold text-sm truncate mr-2">{name}</div>
+          </HeroInfoHover>
+        </div>
+        <div>
+          <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
+        </div>
       </div>
       <div className="mt-1 flex justify-start">
         <RoleChip role={role} />
@@ -369,7 +470,7 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
               <div className="flex items-center gap-1 flex-shrink-0">
                 <ScoreBadge value={score} breakdown={breakdown} />
                 <button
-                  onClick={() => onRemove(i)}
+                  onClick={() => onRemove && onRemove(h)}
                   className={`${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
                 >
                   X
@@ -437,9 +538,9 @@ function StatusChip({ label, state }) {
 
 function getCompositionStatus(allies, DB) {
   const c = teamRoleCounts(allies, DB);
-  const defCount = c["tank def"];
-  const offCount = c["bruiser"];
-  const healCount = c["healer"];
+  const defCount = c["Tank"];
+  const offCount = c["Bruiser"];
+  const healCount = c["Heaelr"];
 
   const defOk = defCount >= 1;
   const offOk = offCount >= 1;
@@ -449,11 +550,11 @@ function getCompositionStatus(allies, DB) {
   const offTooMany = offCount > 1;
   const healTooMany = healCount > 1;
 
-  const dpsSlot1Ok = c["mage"] + c["dps melee"] >= 1;
-  const dpsSlot2Ok = c["ranged auto"] + c["dps melee"] >= 1;
-  const noDoubleMelee = c["dps melee"] <= 1;
+  const dpsSlot1Ok = c["Mage"] + c["Dps Mêléee"] >= 1;
+  const dpsSlot2Ok = c["Range auto"] + c["Dps Mêléee"] >= 1;
+  const noDoubleMêlée = c["Dps Mêléee"] <= 1;
 
-  return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMelee };
+  return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMêlée };
 }
 
 function GlobalScores({ DB, state }) {
@@ -683,31 +784,31 @@ export default function DraftAssistant() {
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3 text-xs">
             <div className="flex items-center gap-2 flex-wrap">
               <StatusChip
-                label="Guerrier défensif"
+                label="Tank"
                 state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
               />
               <StatusChip
-                label="bruiser"
+                label="Bruiser"
                 state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
               />
               <StatusChip
-                label="Healer"
+                label="Heaelr"
                 state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
               />
               <StatusChip
-                label="Mage OU Melee"
-                state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMelee ? "warn" : "ok"}
+                label="Mage OU Dps Mêléee"
+                state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
               />
               <StatusChip
-                label="AA OU Melee"
-                state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMelee ? "warn" : "ok"}
+                label="Dps AA OU Mêlée"
+                state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
               />
             </div>
           </div>
 
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
             <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
-            <div className="max-h-[440px] overflow-y-auto no-scrollbar reco-scroll">
+            <div className="max-h-[435px] overflow-y-auto no-scrollbar reco-scroll">
               <div className="grid grid-cols-4 gap-3">
                 {allyReco.map((r) => (
                   <HeroCard
