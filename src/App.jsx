@@ -638,7 +638,7 @@ export default function DraftAssistant() {
 
       <div className="w-full grid grid-cols-12 gap-4 p-4">
         <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
-          <div className="rounded-2xl border border-slate-800 bg-[#0a0e1a]/90 p-3">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
             <div className="text-sm font-semibold mb-2">Ban allié (3 max)</div>
             <AddHeroInput
               placeholder="Ajouter un ban…"
