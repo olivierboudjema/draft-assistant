@@ -215,7 +215,6 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   const currentCount = counts[H.role] || 0;
   if (currentCount >= 1) score -= currentCount === 1 ? 1 : 2;
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) score -= 2;
-  if (currentCount >= (MAX_BY_ROLE[H.role] || 1)) score -= 3;
 
   if (state.map && H.favMaps.includes(state.map)) score += 1;
   if (state.map && H.badMaps.includes(state.map)) score -= 1;
@@ -271,17 +270,19 @@ function explainScore(hero, DB, state, opts = {}) {
 
   const counts = teamRoleCounts(listForCount, DB);
   const currentCount = counts[H.role] || 0;
+
   if (currentCount >= 1)
     rows.push({
       label: `Rôle déjà présent (${H.role})`,
-      delta: currentCount === 1 ? -1 : -2,
+      delta: currentCount === 1 ? -1 : -1,
     });
+
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1)
     rows.push({ label: "Deuxième Mêlée (éviter 2× Mêlée)", delta: -2 });
 
-
   if (state.map && H.favMaps.includes(state.map))
     rows.push({ label: `Carte favorable (${state.map})`, delta: +1 });
+
   if (state.map && H.badMaps.includes(state.map))
     rows.push({ label: `Carte défavorable (${state.map})`, delta: -1 });
 
@@ -290,15 +291,12 @@ function explainScore(hero, DB, state, opts = {}) {
       rows.push({ label: `Synergie avec ${a}`, delta: +1 });
   });
 
-
-
   oppList.forEach((e) => {
     const oppCounters = DB[e]?.counters || [];
     if (oppCounters.includes(hero))
       rows.push({ label: `Contre ${e}`, delta: +1.5 });
   });
 
-  // Règles additionnelles basées sur DB[hero].counters
   const counterByList = DB[hero]?.counters || [];
   oppList.forEach((e) => {
     if (counterByList.includes(e))
