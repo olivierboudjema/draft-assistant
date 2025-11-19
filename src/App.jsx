@@ -278,8 +278,7 @@ function explainScore(hero, DB, state, opts = {}) {
     });
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1)
     rows.push({ label: "Deuxième Mêlée (éviter 2× Mêlée)", delta: -2 });
-  if (currentCount >= (MAX_BY_ROLE[H.role] || 1))
-    rows.push({ label: "Slot de rôle déjà complet", delta: -3 });
+
 
   if (state.map && H.favMaps.includes(state.map))
     rows.push({ label: `Carte favorable (${state.map})`, delta: +1 });
