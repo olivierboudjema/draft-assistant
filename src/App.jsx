@@ -59,20 +59,42 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
   const [pos, setPos] = useState({ left: 0, top: 0 });
   const closeTimer = useRef(null);
 
-  // Use external isOpen prop if provided, otherwise use internal state
   const open = isOpen !== null ? isOpen : internalOpen;
 
   useEffect(() => {
     if (!open) return;
+
     function update() {
       const el = ref.current;
       if (!el) return;
+
       const r = el.getBoundingClientRect();
-      setPos({ left: r.left + r.width / 2 + offset, top: r.top });
+
+      // largeur max du tooltip ≈ 300px -> moitié ≈ 150
+      const HALF_TOOLTIP = 160; // petite marge de sécurité
+      const viewportWidth =
+        window.innerWidth || document.documentElement.clientWidth || 0;
+
+      let center = r.left + r.width / 2 + offset;
+
+      if (viewportWidth > 0) {
+        if (viewportWidth <= 2 * HALF_TOOLTIP) {
+          // écran très petit : centre forcé au milieu
+          center = viewportWidth / 2;
+        } else {
+          const minCenter = HALF_TOOLTIP;
+          const maxCenter = viewportWidth - HALF_TOOLTIP;
+          center = Math.max(minCenter, Math.min(center, maxCenter));
+        }
+      }
+
+      setPos({ left: center, top: r.top });
     }
+
     update();
     window.addEventListener('scroll', update, true);
     window.addEventListener('resize', update);
+
     return () => {
       window.removeEventListener('scroll', update, true);
       window.removeEventListener('resize', update);
@@ -108,14 +130,23 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
 
   return (
     <>
-      <span ref={ref} onMouseEnter={handleOpen} onMouseLeave={handleClose} className="inline-block">
+      <span
+        ref={ref}
+        onMouseEnter={handleOpen}
+        onMouseLeave={handleClose}
+        className="inline-block"
+      >
         {children}
       </span>
+
       {open && content &&
         ReactDOM.createPortal(
           <div
             style={{ left: pos.left, top: pos.top - 8 }}
             className="fixed z-50 -translate-x-1/2 transform"
+            // IMPORTANT : on garde le tooltip ouvert quand la souris est dessus
+            onMouseEnter={handleOpen}
+            onMouseLeave={handleClose}
           >
             <div className="pointer-events-auto text-slate-200">
               {content}
@@ -126,6 +157,7 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
     </>
   );
 }
+
 
 
 
