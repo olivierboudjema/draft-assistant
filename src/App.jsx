@@ -39,7 +39,7 @@ function buildHeroDB() {
     db[name] = {
       name,
       tier: raw.tier || 'B',
-      role: raw.role || 'range Auto',
+      role: raw.role || 'Range Auto',
 
       favMaps: cleanArray(raw.map_strong).map(resolveMapNameFromId),
       badMaps: cleanArray(raw.map_weak).map(resolveMapNameFromId),
@@ -168,7 +168,7 @@ const ROLE_KEYS = [
   "Healer",
   "Dps Mêléee",
   "Mage",
-  "range Auto",
+  "Range Auto",
 ];
 
 function teamRoleCounts(names, DB) {
@@ -190,7 +190,7 @@ const MAX_BY_ROLE = {
   Healer: 1,
   "Dps Mêléee": 1,
   "Mage": 1,
-  "range Auto": 1,
+  "Range Auto": 1,
 };
 
 function computeScoreFor(hero, DB, state, opts = {}) {
@@ -337,7 +337,7 @@ const ROLE_META = {
     badge: "✦",
     cls: "bg-fuchsia-900/40 text-fuchsia-200 border-fuchsia-500/50",
   },
-  "range Auto": {
+  "Range Auto": {
     badge: "➤",
     cls: "bg-indigo-900/40 text-indigo-200 border-indigo-500/50",
   },
@@ -580,7 +580,7 @@ function getCompositionStatus(allies, DB) {
   const healTooMany = healCount > 1;
 
   const dpsSlot1Ok = c["Mage"] + c["Dps Mêléee"] >= 1;
-  const dpsSlot2Ok = c["range Auto"] + c["Dps Mêléee"] >= 1;
+  const dpsSlot2Ok = c["Range Auto"] + c["Dps Mêléee"] >= 1;
   const noDoubleMêlée = c["Dps Mêléee"] <= 1;
 
   return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMêlée };
