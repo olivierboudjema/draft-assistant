@@ -39,7 +39,7 @@ function buildHeroDB() {
     db[name] = {
       name,
       tier: raw.tier || 'B',
-      role: raw.role || 'Range auto',
+      role: raw.role || 'range Auto',
 
       favMaps: cleanArray(raw.map_strong).map(resolveMapNameFromId),
       badMaps: cleanArray(raw.map_weak).map(resolveMapNameFromId),
@@ -168,7 +168,7 @@ const ROLE_KEYS = [
   "Healer",
   "Dps Mêléee",
   "Mage",
-  "Range auto",
+  "range Auto",
 ];
 
 function teamRoleCounts(names, DB) {
@@ -190,7 +190,7 @@ const MAX_BY_ROLE = {
   Healer: 1,
   "Dps Mêléee": 1,
   "Mage": 1,
-  "Range auto": 1,
+  "range Auto": 1,
 };
 
 function computeScoreFor(hero, DB, state, opts = {}) {
@@ -337,7 +337,7 @@ const ROLE_META = {
     badge: "✦",
     cls: "bg-fuchsia-900/40 text-fuchsia-200 border-fuchsia-500/50",
   },
-  "Range auto": {
+  "range Auto": {
     badge: "➤",
     cls: "bg-indigo-900/40 text-indigo-200 border-indigo-500/50",
   },
@@ -499,7 +499,7 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
               <div className="flex items-center gap-1 flex-shrink-0">
                 <ScoreBadge value={score} breakdown={breakdown} />
                 <button
-                  onClick={() => onRemove && onRemove(h)}
+                  onClick={() => onRemove && onRemove(i)}
                   className={`${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
                 >
                   X
@@ -580,7 +580,7 @@ function getCompositionStatus(allies, DB) {
   const healTooMany = healCount > 1;
 
   const dpsSlot1Ok = c["Mage"] + c["Dps Mêléee"] >= 1;
-  const dpsSlot2Ok = c["Range auto"] + c["Dps Mêléee"] >= 1;
+  const dpsSlot2Ok = c["range Auto"] + c["Dps Mêléee"] >= 1;
   const noDoubleMêlée = c["Dps Mêléee"] <= 1;
 
   return { defOk, offOk, healOk, defTooMany, offTooMany, healTooMany, dpsSlot1Ok, dpsSlot2Ok, noDoubleMêlée };
