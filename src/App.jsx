@@ -216,6 +216,9 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   if (currentCount >= 1) score -= currentCount === 1 ? 1 : 2;
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) score -= 2;
 
+  if (currentCount >= (MAX_BY_ROLE[H.role] || 1)) score -= 1; // <-- c'est ça
+
+
   if (state.map && H.favMaps.includes(state.map)) score += 1;
   if (state.map && H.badMaps.includes(state.map)) score -= 1;
 
@@ -274,7 +277,7 @@ function explainScore(hero, DB, state, opts = {}) {
   if (currentCount >= 1)
     rows.push({
       label: `Rôle déjà présent (${H.role})`,
-      delta: currentCount === 1 ? -1 : -1,
+      delta: currentCount === 1 ? -2 : -2,
     });
 
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1)
