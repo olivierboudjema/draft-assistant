@@ -197,56 +197,89 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   const { ignoreLocks = false, selfNeutralizeRole = false, sideForRole = "allies" } = opts;
   const H = DB[hero];
   if (!H) return -999;
+
   const picked = [...state.allies, ...state.enemies];
   const banned = [...state.bansAllies, ...state.bansEnemies];
+
+  // On évite les héros déjà pick ou bannis (sauf si ignoreLocks)
   if (!ignoreLocks) {
     if (picked.includes(hero) || banned.includes(hero)) return -999;
   }
+
+  // Base
   let score = 10;
   score += TIER_BONUS[H.tier] ?? 0;
 
+  // Côté de référence
   const teamList = sideForRole === "enemies" ? state.enemies : state.allies;
   const oppList = sideForRole === "enemies" ? state.allies : state.enemies;
+
   const listForCount = selfNeutralizeRole
     ? teamList.filter((n) => n !== hero)
     : teamList;
 
+  // --- RÔLES ---
   const counts = teamRoleCounts(listForCount, DB);
   const currentCount = counts[H.role] || 0;
-  if (currentCount >= 1) score -= currentCount === 1 ? 1 : 2;
-  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) score -= 2;
 
-  if (currentCount >= (MAX_BY_ROLE[H.role] || 1)) score -= 1; // <-- c'est ça
+  // Rôle déjà présent dans l’équipe → -2 (règle simple)
+  if (currentCount >= 1) {
+    score -= 2;
+  }
 
+  // Deuxième DPS mêlée → -2
+  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) {
+    score -= 2;
+  }
 
-  if (state.map && H.favMaps.includes(state.map)) score += 1;
-  if (state.map && H.badMaps.includes(state.map)) score -= 1;
+  // --- CARTES ---
+  if (state.map && H.favMaps && H.favMaps.includes(state.map)) {
+    score += 1;
+  }
 
-  H.synergies.forEach((a) => {
-    if (teamList.includes(a)) score += 1;
+  if (state.map && H.badMaps && H.badMaps.includes(state.map)) {
+    score -= 1;
+  }
+
+  // --- SYNERGIES ALLIÉES ---
+  const heroSynergies = H.synergies || [];
+  heroSynergies.forEach((ally) => {
+    if (teamList.includes(ally)) {
+      score += 1;
+    }
   });
 
-  const heroCounteredBy = DB[hero]?.counters || [];
-  heroCounteredBy.forEach((e) => {
-    if (oppList.includes(e)) score -= 1.5;
+  // --- CONTRE LES ENNEMIS (les ennemis ont un counter sur nous) ---
+  oppList.forEach((enemy) => {
+    const oppCounters = DB[enemy]?.counters || [];
+    if (oppCounters.includes(hero)) {
+      score += 1.5;
+    }
   });
 
-  oppList.forEach((e) => {
-    const oppCounters = DB[e]?.counters || [];
-    if (oppCounters.includes(hero)) score += 1.5;
-  });
-
-  teamList.forEach((e) => {
-    const syn = DB[e]?.synergies || [];
-    if (syn.includes(hero)) score += 0.5;
-  });
-
+  // --- NOUS SOMMES CONTRÉS PAR CERTAINS HÉROS ---
   const counterByList = DB[hero]?.counters || [];
-  oppList.forEach((e) => {
-    if (counterByList.includes(e)) score -= 1;
+
+  // Héros ennemis qui nous contrent
+  oppList.forEach((enemy) => {
+    if (counterByList.includes(enemy)) {
+      score -= 1;
+    }
   });
-  teamList.forEach((e) => {
-    if (counterByList.includes(e)) score += 0.5;
+
+  // Héros alliés qui contrent nos counters
+  teamList.forEach((ally) => {
+    if (counterByList.includes(ally)) {
+      score += 0.5;
+    }
+  });
+
+  // --- BLOQUER LES SYNERGIES ADVERSES ---
+  oppList.forEach((enemy) => {
+    const syn = DB[enemy]?.synergies || [];
+    if (syn.includes(hero)) {
+      score += 0.5;
+    }
   });
 
   return score;
@@ -260,64 +293,115 @@ function explainScore(hero, DB, state, opts = {}) {
   const { selfNeutralizeRole = false, sideForRole = "allies" } = opts;
   const H = DB[hero];
   if (!H) return [];
-  const rows = [];
-  rows.push({ label: "Base", delta: 10 });
-  const tier = TIER_BONUS[H.tier] ?? 0;
-  if (tier) rows.push({ label: `Tier ${H.tier}`, delta: tier });
 
+  const rows = [];
+
+  // Base
+  rows.push({ label: "Base", delta: 10 });
+
+  // Tier
+  const tier = TIER_BONUS[H.tier] ?? 0;
+  if (tier) {
+    rows.push({ label: `Tier ${H.tier}`, delta: tier });
+  }
+
+  // Côté de référence
   const teamList = sideForRole === "enemies" ? state.enemies : state.allies;
   const oppList = sideForRole === "enemies" ? state.allies : state.enemies;
+
   const listForCount = selfNeutralizeRole
     ? teamList.filter((n) => n !== hero)
     : teamList;
 
+  // --- RÔLES ---
   const counts = teamRoleCounts(listForCount, DB);
   const currentCount = counts[H.role] || 0;
 
-  if (currentCount >= 1)
+  if (currentCount >= 1) {
     rows.push({
       label: `Rôle déjà présent (${H.role})`,
-      delta: currentCount === 1 ? -2 : -2,
+      delta: -2,
     });
+  }
 
-  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1)
-    rows.push({ label: "Deuxième Mêlée (éviter 2× Mêlée)", delta: -2 });
+  if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) {
+    rows.push({
+      label: "Deuxième Mêlée (éviter 2× Mêlée)",
+      delta: -2,
+    });
+  }
 
-  if (state.map && H.favMaps.includes(state.map))
-    rows.push({ label: `Carte favorable (${state.map})`, delta: +1 });
+  // --- CARTES ---
+  if (state.map && H.favMaps && H.favMaps.includes(state.map)) {
+    rows.push({
+      label: `Carte favorable (${state.map})`,
+      delta: +1,
+    });
+  }
 
-  if (state.map && H.badMaps.includes(state.map))
-    rows.push({ label: `Carte défavorable (${state.map})`, delta: -1 });
+  if (state.map && H.badMaps && H.badMaps.includes(state.map)) {
+    rows.push({
+      label: `Carte défavorable (${state.map})`,
+      delta: -1,
+    });
+  }
 
-  H.synergies.forEach((a) => {
-    if (teamList.includes(a))
-      rows.push({ label: `Synergie avec ${a}`, delta: +1 });
+  // --- SYNERGIES ALLIÉES ---
+  (H.synergies || []).forEach((ally) => {
+    if (teamList.includes(ally)) {
+      rows.push({
+        label: `Synergie avec ${ally}`,
+        delta: +1,
+      });
+    }
   });
 
-  oppList.forEach((e) => {
-    const oppCounters = DB[e]?.counters || [];
-    if (oppCounters.includes(hero))
-      rows.push({ label: `Contre ${e}`, delta: +1.5 });
+  // --- CONTRE LES ENNEMIS (les ennemis ont un counter sur nous) ---
+  oppList.forEach((enemy) => {
+    const oppCounters = DB[enemy]?.counters || [];
+    if (oppCounters.includes(hero)) {
+      rows.push({
+        label: `Contre ${enemy}`,
+        delta: +1.5,
+      });
+    }
   });
 
+  // --- NOUS SOMMES CONTRÉS PAR CERTAINS HÉROS ---
   const counterByList = DB[hero]?.counters || [];
-  oppList.forEach((e) => {
-    if (counterByList.includes(e))
-      rows.push({ label: `Se fait contrer par ${e}`, delta: -1 });
-  });
-  teamList.forEach((e) => {
-    if (counterByList.includes(e))
-      rows.push({ label: `Allié ${e} le contre aussi`, delta: +0.5 });
+
+  oppList.forEach((enemy) => {
+    if (counterByList.includes(enemy)) {
+      rows.push({
+        label: `Se fait contrer par ${enemy}`,
+        delta: -1,
+      });
+    }
   });
 
-  oppList.forEach((e) => {
-    const syn = DB[e]?.synergies || [];
-    if (syn.includes(hero))
-      rows.push({ label: `Bloque synergie adverse avec ${e}`, delta: +0.5 });
+  teamList.forEach((ally) => {
+    if (counterByList.includes(ally)) {
+      rows.push({
+        label: `Empeche de se faire contrer par ${ally}`,
+        delta: +0.5,
+      });
+    }
+  });
+
+  // --- BLOQUE LES SYNERGIES ADVERSES ---
+  oppList.forEach((enemy) => {
+    const syn = DB[enemy]?.synergies || [];
+    if (syn.includes(hero)) {
+      rows.push({
+        label: `Bloque synergie adverse avec ${enemy}`,
+        delta: +0.5,
+      });
+    }
   });
 
   return rows;
 }
+
 
 const ROLE_META = {
   Healer: {

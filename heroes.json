@@ -33,7 +33,7 @@
       "Zeratul",
       "Ragnaros",
       "Zarya",
-      "Hmmer",
+      "Hammer",
       "Sylvanas"
     ]
   },
@@ -549,7 +549,7 @@
       "Raynor",
       "Valla",
       "ETC",
-      "Hmmer",
+      "Hammer",
       "Lucio"
     ]
   },
@@ -864,7 +864,7 @@
     ]
   },
   {
-    "name": "Hmmer",
+    "name": "Hammer",
     "tier": "B",
     "role": "Range Auto",
     "map_strong": [
@@ -981,7 +981,7 @@
     "counter_by": [
       "Jaina",
       "Raynor",
-      "Hmmer",
+      "Hammer",
       "Zuljin",
       "ETC",
       "Lucio"
@@ -1328,7 +1328,7 @@
     "counter_by": [
       "Varian",
       "Anub'arak",
-      "Hmmer",
+      "Hammer",
       "Raynor"
     ]
   },
@@ -1797,7 +1797,7 @@
   {
     "name": "Qhira",
     "tier": "D",
-    "role": "Mage",
+    "role": "Dps Mêléee",
     "map_strong": [
       "COMTE_DU_DRAGON",
       "TEMPLE_D_HAANMURA",
@@ -2117,7 +2117,7 @@
       "Diablo",
       "Medivh",
       "Raynor",
-      "Hmmer"
+      "Hammer"
     ]
   },
   {
@@ -2162,7 +2162,7 @@
       "Kramer",
       "Illidan",
       "Alarak",
-      "Hmmer",
+      "Hammer",
       "Lt morales"
     ],
     "counter_by": [
@@ -2331,7 +2331,7 @@
       "Garrosh",
       "Sylvanas",
       "Raynor",
-      "Hmmer"
+      "Hammer"
     ],
     "counter_by": [
       "Zagara",
@@ -2369,7 +2369,7 @@
       "ETC",
       "Johanna",
       "Jaina",
-      "Hmmer",
+      "Hammer",
       "Auriel"
     ]
   },
