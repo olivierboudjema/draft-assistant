@@ -895,7 +895,7 @@
   {
     "name": "Hanzo",
     "tier": "C",
-    "role": "Mage",
+    "role": "Range Auto",
     "map_strong": [
       "VAL_MAUDIT",
       "CHAMPS_DE_L_ETERNITE",
