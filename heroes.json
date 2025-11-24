@@ -364,7 +364,7 @@
       "TEMPLE_CELESTE",
       "JARDINS_DE_TERREUR",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "TOUR_DU_DESTIN",
+      "TOURS_DU_DESTIN",
       "MENACE_NUCLEAIRE"
     ],
     "map_weak": [
@@ -901,7 +901,7 @@
       "CHAMPS_DE_L_ETERNITE",
       "COMTE_DU_DRAGON",
       "SANCTUAIRES_INFERNAUX",
-      "TOUR_DU_DESTIN"
+      "TOURS_DU_DESTIN"
     ],
     "map_weak": [
       "MENACE_NUCLEAIRE"
@@ -1141,7 +1141,7 @@
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "LABORATOIRE_DE_BRAXIS",
-      "TOUR_DU_DESTIN"
+      "TOURS_DU_DESTIN"
     ],
     "map_weak": [
       "PASSE_D_ALTERAC",
@@ -1395,7 +1395,7 @@
       "PASSE_D_ALTERAC",
       "CHAMPS_DE_L_ETERNITE",
       "TEMPLE_CELESTE",
-      "TOUR_DU_DESTIN"
+      "TOURS_DU_DESTIN"
     ],
     "map_weak": [
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -1716,7 +1716,7 @@
       "COMTE_DU_DRAGON",
       "LABORATOIRE_DE_BRAXIS",
       "JARDINS_DE_TERREUR",
-      "TOUR_DU_DESTIN",
+      "TOURS_DU_DESTIN",
       "TEMPLE_CELESTE"
     ],
     "synergy_with": [
@@ -1774,7 +1774,7 @@
       "LABORATOIRE_DE_BRAXIS",
       "PASSE_D_ALTERAC",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "TOUR_DU_DESTIN",
+      "TOURS_DU_DESTIN",
       "SANCTUAIRES_INFERNAUX"
     ],
     "map_weak": [
@@ -2316,7 +2316,7 @@
       "PASSE_D_ALTERAC",
       "VAL_MAUDIT",
       "TEMPLE_CELESTE",
-      "TOUR_DU_DESTIN",
+      "TOURS_DU_DESTIN",
       "MENACE_NUCLEAIRE",
       "JARDINS_DE_TERREUR"
     ],
