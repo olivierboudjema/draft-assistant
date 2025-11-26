@@ -430,6 +430,12 @@ const ROLE_META = {
   },
 };
 
+const PANEL_CLASS =
+  "rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#0a1330]/95 via-[#101c45]/90 to-[#172757]/85 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
+
+const SECTION_TITLE_CLASS =
+  "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
+
 function RoleChip({ role }) {
   const m = ROLE_META[role] || { badge: "•", cls: "bg-slate-800/40" };
   return (
@@ -481,7 +487,37 @@ function HeroInfoHover({ name, DB, children, showTooltip = null }) {
   return <PortalTooltip content={TooltipContent} isOpen={showTooltip} offset={-100}>{children}</PortalTooltip>;
 }
 
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
+}
+
+function mixColor(from, to, t) {
+  const r = Math.round(from[0] + (to[0] - from[0]) * t);
+  const g = Math.round(from[1] + (to[1] - from[1]) * t);
+  const b = Math.round(from[2] + (to[2] - from[2]) * t);
+  const aFrom = from.length > 3 ? from[3] : 1;
+  const aTo = to.length > 3 ? to[3] : 1;
+  const a = aFrom + (aTo - aFrom) * t;
+  return `rgba(${r}, ${g}, ${b}, ${a.toFixed(3)})`;
+}
+
+function getScoreBadgeStyle(value) {
+  const ratio = clamp01((value - 6) / 9);
+  const start = mixColor([82, 108, 255, 0.75], [45, 210, 255, 0.9], ratio);
+  const mid = mixColor([176, 96, 255, 0.8], [92, 255, 198, 0.85], ratio);
+  const end = mixColor([255, 130, 210, 0.85], [255, 235, 150, 0.92], ratio);
+  const glow = mixColor([46, 74, 255, 0.35], [65, 255, 195, 0.55], ratio);
+  const border = mixColor([145, 169, 255, 0.45], [115, 255, 210, 0.65], ratio);
+
+  return {
+    background: `linear-gradient(105deg, ${start}, ${mid} 55%, ${end})`,
+    boxShadow: `0 6px 20px ${glow}`,
+    borderColor: border,
+  };
+}
+
 function ScoreBadge({ value, breakdown, showTooltip = null }) {
+  const badgeStyle = getScoreBadgeStyle(value);
   const Tooltip = breakdown
     ? (
       <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl text-slate-200">
@@ -507,7 +543,10 @@ function ScoreBadge({ value, breakdown, showTooltip = null }) {
 
   return (
     <PortalTooltip content={breakdown ? Tooltip : null} isOpen={showTooltip} offset={100}>
-      <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-950/70 border border-indigo-600/40 inline-flex items-center">
+      <span
+        className="ml-2 text-[10px] font-bold px-2.5 py-1 rounded-full border inline-flex items-center transition duration-200"
+        style={badgeStyle}
+      >
         {value.toFixed(1)}
       </span>
     </PortalTooltip>
@@ -532,32 +571,86 @@ function HeroCard({ name, role, score, breakdown, DB }) {
 
   return (
     <div
-      className="group relative rounded-2xl bg-[#0a0e1a]/90 border border-slate-800 p-2 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] hover:border-indigo-500/70 hover:bg-[#0c1222]"
+      className="group relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-slate-900/70 via-indigo-900/60 to-cyan-900/30 p-3 shadow-[0_12px_30px_rgba(3,8,28,0.8)] transition transform hover:-translate-y-1 hover:border-cyan-400/60"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition">
+        <div className="absolute -inset-8 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.65),_transparent_60%)] blur-3xl" />
+      </div>
       <div className="flex items-center justify-between">
         <div>
           <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
-            <div className="font-semibold text-sm truncate mr-2">{name}</div>
+            <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
           </HeroInfoHover>
         </div>
         <div>
           <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
         </div>
       </div>
-      <div className="mt-1 flex justify-start">
+      <div className="mt-2 flex justify-start">
         <RoleChip role={role} />
       </div>
     </div>
   );
 }
 
-function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }) {
+function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
+  const [showTooltips, setShowTooltips] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShowTooltips(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowTooltips(false);
+    }, 120);
+  };
+
   return (
-    <div className={`rounded-2xl border border-slate-800 bg-[#0a0e1a]/90 p-3 ${compact ? "py-2" : ""}`}>
-      <div className="text-sm font-semibold mb-2">{title}</div>
-      <div className={`flex flex-col ${compact ? "gap-1 min-h-[120px]" : "gap-2 min-h-[180px]"}`}>
+    <div
+      className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="flex items-center flex-1 gap-1.5">
+        <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
+          <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"}`}>
+            {name}
+          </span>
+        </HeroInfoHover>
+        {role && (
+          <span className="ml-1">
+            <RoleChip role={role} />
+          </span>
+        )}
+      </div>
+      <div className="flex items-center gap-1.5 flex-shrink-0">
+        <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
+        <button
+          onClick={onRemove}
+          className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/30 text-rose-100 bg-rose-500/10 hover:bg-rose-500/30 transition`}
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null }) {
+  return (
+    <div className={`${PANEL_CLASS} ${compact ? "p-4" : "p-5"}`}>
+      <div className="flex items-center justify-between mb-3">
+        <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[9px]" : ""}`}>{title}</div>
+        <span className="text-[10px] text-slate-400 tracking-widest">#{items.length}</span>
+      </div>
+      {children && <div className="mb-3">{children}</div>}
+      <div className={`flex flex-col ${compact ? "gap-1.5 min-h-[120px]" : "gap-2.5 min-h-[180px]"}`}>
         {items.map((h, i) => {
           const role = DB[h]?.role;
           const score = computeScoreFor(h, DB, state, {
@@ -569,11 +662,25 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
             selfNeutralizeRole: true,
             sideForRole: side,
           });
+          if (side === "allies") {
+            return (
+              <HeroListRow
+                key={h + String(i)}
+                name={h}
+                role={role}
+                score={score}
+                breakdown={breakdown}
+                DB={DB}
+                compact={compact}
+                onRemove={() => onRemove && onRemove(i)}
+              />
+            );
+          }
           return (
             <div key={h + String(i)} className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
-              <div className="flex items-center flex-1 gap-1">
+              <div className="flex items-center flex-1 gap-1.5">
                 <HeroInfoHover name={h} DB={DB}>
-                  <span className={`rounded-lg bg-slate-900/80 border border-slate-700 ${compact ? "px-2 py-0.5" : "px-2 py-1"}`}>
+                  <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"}`}>
                     {h}
                   </span>
                 </HeroInfoHover>
@@ -583,18 +690,23 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies" }
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0">
+              <div className="flex items-center gap-1.5 flex-shrink-0">
                 <ScoreBadge value={score} breakdown={breakdown} />
                 <button
                   onClick={() => onRemove && onRemove(i)}
-                  className={`${compact ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"} rounded bg-slate-700 hover:bg-slate-600`}
+                  className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/30 text-rose-100 bg-rose-500/10 hover:bg-rose-500/30 transition`}
                 >
-                  X
+                  ✕
                 </button>
               </div>
             </div>
           );
         })}
+        {items.length === 0 && (
+          <div className="text-[11px] text-slate-400/70 text-center py-4">
+            Aucun héros pour le moment
+          </div>
+        )}
       </div>
     </div>
   );
@@ -608,7 +720,7 @@ function AddHeroInput({ placeholder, onAdd, disabled }) {
     setValue("");
   };
   return (
-    <div className="flex gap-2 items-center mb-2">
+    <div className="flex gap-2 items-center">
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -618,12 +730,12 @@ function AddHeroInput({ placeholder, onAdd, disabled }) {
         list="all-heroes"
         placeholder={placeholder}
         disabled={disabled}
-        className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm"
+        className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-500/20 transition disabled:opacity-40"
       />
       <button
         onClick={submit}
         disabled={disabled}
-        className="px-3 py-1 text-sm rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-40"
+        className="px-4 py-2 text-sm font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 text-white shadow-[0_10px_25px_rgba(46,74,255,0.4)] hover:brightness-110 transition disabled:opacity-40"
       >
         OK
       </button>
@@ -639,13 +751,13 @@ function AddHeroInput({ placeholder, onAdd, disabled }) {
 function StatusChip({ label, state }) {
   const cls =
     state === "ok"
-      ? "bg-emerald-900/40 text-emerald-200 border-emerald-600/40"
+      ? "bg-emerald-500/15 text-emerald-200 border-emerald-400/40"
       : state === "warn"
-        ? "bg-rose-900/40 text-rose-200 border-rose-600/40"
-        : "bg-amber-900/40 text-amber-200 border-amber-600/40";
-  const icon = state === "ok" ? "✔" : state === "warn" ? "⚠" : "…";
+        ? "bg-rose-500/15 text-rose-200 border-rose-400/40"
+        : "bg-amber-500/15 text-amber-200 border-amber-400/40";
+  const icon = state === "ok" ? "✔" : state === "warn" ? "⚠" : "⋯";
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] ${cls}`}>
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] shadow-[0_6px_15px_rgba(8,8,20,0.45)] ${cls}`}>
       <span>{icon}</span>
       {label}
     </span>
@@ -706,18 +818,36 @@ function GlobalScores({ DB, state }) {
     const normalized = diff / magnitude;
     winChance = Math.round(50 + normalized * 50); // → [0 ; 100]
   }
+  const progress = Math.min(Math.max(winChance, 0), 100);
 
   return (
-    <div className="rounded-2xl bg-slate-900/70 border border-slate-700 p-3 flex items-center justify-center gap-6">
-      <div className="text-sm opacity-70"></div>
-      <div className="text-lg font-semibold">
-        Alliés : <span className="text-emerald-300">{alliesScore.toFixed(1)}</span>
+    <div className={`${PANEL_CLASS} px-4 py-3 text-center`}>
+      <div className="flex flex-wrap items-center justify-center gap-4 text-lg font-semibold">
+        <div>
+          Alliés :
+          <span className="text-emerald-300 ml-1">{alliesScore.toFixed(1)}</span>
+        </div>
+        <div>
+          Adversaires :
+          <span className="text-rose-300 ml-1">{enemiesScore.toFixed(1)}</span>
+        </div>
+        <div>
+          Win :
+          <span className={`ml-1 ${winChance >= 50 ? "text-emerald-300" : "text-rose-300"}`}>
+            {winChance}%
+          </span>
+        </div>
       </div>
-      <div className="text-lg font-semibold">
-        Adversaires : <span className="text-rose-300">{enemiesScore.toFixed(1)}</span>
-      </div>
-      <div className="text-lg font-semibold">
-        Win : <span className={winChance >= 50 ? "text-emerald-300" : "text-rose-300"}>{winChance}%</span>
+      <div className="mt-2">
+        <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+          <div
+            className={`h-full ${winChance >= 50
+              ? "bg-gradient-to-r from-cyan-400 via-emerald-400 to-lime-300"
+              : "bg-gradient-to-r from-rose-500 via-fuchsia-500 to-orange-400"
+              }`}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -800,230 +930,232 @@ export default function DraftAssistant() {
   const comp = getCompositionStatus(allies, DB);
 
   return (
-    <div className="min-h-screen w-full bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(26,32,54,0.7),transparent)] bg-[#05070d] text-slate-100">
-      <div className="sticky top-0 z-10 backdrop-blur bg-[#080c17]/90">
-        <div className="w-full flex items-center justify-between p-3">
-          <div className="text-xl font-semibold">Draft Assistant</div>
-          <div className="flex-1 text-sm text-center">
-            Map:
-            <select
-              className="ml-2 bg-slate-900 border border-slate-700 rounded px-2 py-1"
-              value={map}
-              onChange={(e) => setMap(e.target.value)}
-            >
-              {ALL_MAPS.map((m) => (
-                <option key={m}>{m}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowHelp(true)}
-              className="text-sm rounded-lg bg-indigo-900/40 border border-indigo-700/40 px-3 py-1 hover:bg-indigo-700/50"
-            >
-              Algo
-            </button>
-            <button
-              onClick={resetAll}
-              className="text-sm rounded-lg bg-slate-800 border border-slate-700 px-3 py-1 hover:bg-slate-700"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-        <div className="w-full px-3 pb-3">
-          <GlobalScores DB={DB} state={state} />
-        </div>
-      </div>
-
-      {showHelp && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setShowHelp(false)}
-          />
-          <div className="relative z-50 w-[680px] max-w-[92vw] rounded-2xl bg-slate-900/70 border border-slate-700 p-5 shadow-xl">
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-lg font-semibold">Calcul des scores</div>
-              <button
-                onClick={() => setShowHelp(false)}
-                className="text-sm rounded-md px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700"
+    <div className="min-h-screen w-full text-slate-100 app-gradient-bg">
+      <div className="relative z-10">
+        <div className="sticky top-0 z-30 app-gradient-bg backdrop-blur-2xl">
+          <div className="w-full flex items-center justify-between p-3">
+            <div>
+              <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
+              <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
+            </div>
+            <div className="flex-1 text-sm text-center flex flex-col sm:flex-row sm:items-center sm:justify-center gap-1">
+              <span className="text-[12px] uppercase tracking-[0.4em] text-slate-300">Map</span>
+              <select
+                className="ml-0 sm:ml-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-2 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+                value={map}
+                onChange={(e) => setMap(e.target.value)}
               >
-                Fermer
+                {ALL_MAPS.map((m) => (
+                  <option key={m}>{m}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowHelp(true)}
+                className="rounded-2xl border border-indigo-400/40 bg-indigo-500/20 px-4 py-2 text-sm font-semibold hover:bg-indigo-500/40 transition"
+              >
+                Algo
+              </button>
+              <button
+                onClick={resetAll}
+                className="rounded-2xl border border-rose-400/30 bg-rose-500/20 px-4 py-2 text-sm font-semibold hover:bg-rose-500/35 transition"
+              >
+                Reset
               </button>
             </div>
-            <div className="text-sm leading-relaxed space-y-2">
-              <p>Chaque héros démarre à 10, puis :</p>
-              <ul className="list-disc ml-5 space-y-1 text-left">
-                <li>Tier : S = +2, A = +1, B = 0, C = −1, D = −2</li>
-                <li>Rôle déjà présent : −1 (−2 si déjà 2×)</li>
-                <li>Carte : favorable +1, défavorable −1</li>
-                <li>Contre un ennemi : +1.5 par cible</li>
-                <li>Se fait contrer par ennemi : −1.5 par héros</li>
-                <li>Bloque un contre ennemi : +0.5</li>
-                <li>Synergies alliées : +1 par allié synergique</li>
-                <li>Bloque une synergie ennemie : +0.5</li>
-              </ul>
-            </div>
+          </div>
+          <div className="w-full px-3 pb-3">
+            <GlobalScores DB={DB} state={state} />
           </div>
         </div>
-      )}
 
-      <div className="w-full grid grid-cols-12 gap-4 p-4">
-        <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Ban allié</div>
-            <AddHeroInput
-              placeholder="Ajouter un ban…"
-              onAdd={(v) => addTo(setBansAllies, bansAllies, v, 3)}
-              disabled={bansAllies.length >= 3}
+        {showHelp && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center">
+            <div
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={() => setShowHelp(false)}
             />
+            <div className="relative z-50 w-[680px] max-w-[92vw] rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#050917]/95 via-[#0b1130]/90 to-[#050917]/95 p-6 shadow-[0_25px_80px_rgba(3,3,16,0.9)]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-xl font-semibold tracking-tight text-white">Calcul des scores</div>
+                <button
+                  onClick={() => setShowHelp(false)}
+                  className="text-sm rounded-2xl px-3 py-1.5 bg-white/10 border border-white/20 hover:bg-white/20 transition"
+                >
+                  Fermer
+                </button>
+              </div>
+              <div className="text-sm leading-relaxed space-y-2 text-slate-200">
+                <p className="text-slate-300">Chaque héros démarre à 10, puis :</p>
+                <ul className="list-disc ml-5 space-y-1 text-left text-slate-100">
+                  <li>Tier : S = +2, A = +1, B = 0, C = −1, D = −2</li>
+                  <li>Rôle déjà présent : −1 (−2 si déjà 2×)</li>
+                  <li>Carte : favorable +1, défavorable −1</li>
+                  <li>Contre un ennemi : +1.5 par cible</li>
+                  <li>Se fait contrer par ennemi : −1.5 par héros</li>
+                  <li>Bloque un contre ennemi : +0.5</li>
+                  <li>Synergies alliées : +1 par allié synergique</li>
+                  <li>Bloque une synergie ennemie : +0.5</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="w-full grid grid-cols-12 gap-4 p-4">
+          <aside className="col-span-12 md:col-span-3 flex flex-col gap-4">
             <ListBox
+              title="Ban allié"
               items={bansAllies}
               onRemove={(i) => removeFrom(setBansAllies, bansAllies, i)}
               compact
               DB={DB}
               state={state}
               side="allies"
-            />
-          </div>
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Picks alliés</div>
-            <AddHeroInput
-              placeholder="Ajouter un pick…"
-              onAdd={(v) => addTo(setAllies, allies, v)}
-            />
+            >
+              <AddHeroInput
+                placeholder="Ajouter un ban…"
+                onAdd={(v) => addTo(setBansAllies, bansAllies, v, 3)}
+                disabled={bansAllies.length >= 3}
+              />
+            </ListBox>
             <ListBox
+              title="Picks alliés"
               items={allies}
               onRemove={(i) => removeFrom(setAllies, allies, i)}
               DB={DB}
               state={state}
               side="allies"
-            />
-          </div>
-        </aside>
+            >
+              <AddHeroInput
+                placeholder="Ajouter un pick…"
+                onAdd={(v) => addTo(setAllies, allies, v)}
+              />
+            </ListBox>
+          </aside>
 
-        {/* Centre */}
-        <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3 text-xs">
-            <div className="flex items-center gap-2 flex-wrap">
-              <StatusChip
-                label="Tank"
-                state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
-              />
-              <StatusChip
-                label="Bruiser"
-                state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
-              />
-              <StatusChip
-                label="Healer"
-                state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
-              />
-              <StatusChip
-                label="Mage OU Dps Mêléee"
-                state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
-              />
-              <StatusChip
-                label="Dps AA OU Mêlée"
-                state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
-              />
+          {/* Centre */}
+          <main className="col-span-12 md:col-span-6 flex flex-col gap-5">
+            <div className={`${PANEL_CLASS} p-5 text-xs`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <StatusChip
+                  label="Tank"
+                  state={!comp.defOk ? "need" : comp.defTooMany ? "warn" : "ok"}
+                />
+                <StatusChip
+                  label="Bruiser"
+                  state={!comp.offOk ? "need" : comp.offTooMany ? "warn" : "ok"}
+                />
+                <StatusChip
+                  label="Healer"
+                  state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
+                />
+                <StatusChip
+                  label="Mage ou DPS mêlée"
+                  state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
+                />
+                <StatusChip
+                  label="Dps AA ou Mêlée"
+                  state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-3">Reco allié à pick</div>
-            <div className="max-h-[435px] overflow-y-auto no-scrollbar reco-scroll">
-              <div className="grid grid-cols-4 gap-3">
-                {allyReco.map((r) => (
+            <div className={`${PANEL_CLASS} p-5`}>
+              <div className="flex items-center justify-between mb-3">
+                <div className={SECTION_TITLE_CLASS}>Reco allié à pick</div>
+                <span className="text-[11px] text-slate-400">Top {allyReco.length}</span>
+              </div>
+              <div className="max-h-[435px] overflow-y-auto no-scrollbar reco-scroll pr-1">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {allyReco.map((r) => (
+                    <HeroCard
+                      key={r.name}
+                      name={r.name}
+                      role={r.role}
+                      score={r.score}
+                      breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
+                      DB={DB}
+                    />
+                  ))}
+                  {allyReco.length === 0 && (
+                    <div className="col-span-full text-xs opacity-60">Aucun héros disponible</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className={`${PANEL_CLASS} p-5`}>
+              <div className="flex items-center justify-between mb-3">
+                <div className={SECTION_TITLE_CLASS}>
+                  Reco à ban (meilleurs picks potentiels pour l'adversaire)
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {enemyPotential.map((r) => (
                   <HeroCard
                     key={r.name}
                     name={r.name}
                     role={r.role}
                     score={r.score}
-                    breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
+                    breakdown={explainScore(
+                      r.name,
+                      DB,
+                      {
+                        map,
+                        allies: enemies,
+                        enemies: allies,
+                        bansAllies: bansEnemies,
+                        bansEnemies: bansAllies,
+                      },
+                      { sideForRole: "allies" }
+                    )}
                     DB={DB}
                   />
                 ))}
-                {allyReco.length === 0 && (
-                  <div className="col-span-4 text-xs opacity-60">Aucun héros disponible</div>
+                {enemyPotential.length === 0 && (
+                  <div className="col-span-3 text-xs opacity-60">
+                    Aucun héros à ban suggéré
+                  </div>
                 )}
               </div>
             </div>
-          </div>
+          </main>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-3">
-              Reco à ban (meilleurs picks potentiels pour l'adversaire)
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {enemyPotential.map((r) => (
-                <HeroCard
-                  key={r.name}
-                  name={r.name}
-                  role={r.role}
-                  score={r.score}
-                  breakdown={explainScore(
-                    r.name,
-                    DB,
-                    {
-                      map,
-                      allies: enemies,
-                      enemies: allies,
-                      bansAllies: bansEnemies,
-                      bansEnemies: bansAllies,
-                    },
-                    { sideForRole: "allies" }
-                  )}
-                  DB={DB}
-                />
-              ))}
-              {enemyPotential.length === 0 && (
-                <div className="col-span-3 text-xs opacity-60">
-                  Aucun héros à ban suggéré
-                </div>
-              )}
-            </div>
-          </div>
-        </main>
-
-        {/* Colonne droite */}
-        <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Ban adversaire</div>
-            <AddHeroInput
-              placeholder="Ajouter un ban adverse…"
-              onAdd={(v) => addTo(setBansEnemies, bansEnemies, v, 3)}
-              disabled={bansEnemies.length >= 3}
-            />
+          {/* Colonne droite */}
+          <aside className="col-span-12 md:col-span-3 flex flex-col gap-4">
             <ListBox
+              title="Ban adversaire"
               items={bansEnemies}
               onRemove={(i) => removeFrom(setBansEnemies, bansEnemies, i)}
               compact
               DB={DB}
               state={state}
               side="enemies"
-            />
-          </div>
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="text-sm font-semibold mb-2">Picks adverses</div>
-            <AddHeroInput
-              placeholder="Ajouter un pick adverse…"
-              onAdd={(v) => addTo(setEnemies, enemies, v)}
-            />
+            >
+              <AddHeroInput
+                placeholder="Ajouter un ban adverse…"
+                onAdd={(v) => addTo(setBansEnemies, bansEnemies, v, 3)}
+                disabled={bansEnemies.length >= 3}
+              />
+            </ListBox>
             <ListBox
+              title="Picks adverses"
               items={enemies}
               onRemove={(i) => removeFrom(setEnemies, enemies, i)}
               DB={DB}
               state={state}
               side="enemies"
-            />
-          </div>
-        </aside>
+            >
+              <AddHeroInput
+                placeholder="Ajouter un pick adverse…"
+                onAdd={(v) => addTo(setEnemies, enemies, v)}
+              />
+            </ListBox>
+          </aside>
+        </div>
       </div>
     </div>
   );
 }
-
-
-
-

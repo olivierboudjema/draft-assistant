@@ -1,6 +1,11 @@
 #root {
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
+  min-height: 100vh;
+}
+
+.app-gradient-bg {
+  background: var(--app-background);
 }
 
 .no-scrollbar {
