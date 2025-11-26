@@ -431,7 +431,7 @@ const ROLE_META = {
 };
 
 const PANEL_CLASS =
-  "rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#0a1330]/95 via-[#101c45]/90 to-[#172757]/85 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
+  "rounded-3xl border border-indigo-900/50 bg-gradient-to-br from-[#0a1330]/95 via-[#101B35]/90 to-[#292757]/85 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
 
 const SECTION_TITLE_CLASS =
   "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
@@ -571,7 +571,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
 
   return (
     <div
-      className="group relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-slate-900/70 via-indigo-900/60 to-cyan-900/30 p-3 shadow-[0_12px_30px_rgba(3,8,28,0.8)] transition transform hover:-translate-y-1 hover:border-cyan-400/60"
+      className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition transform hover:-translate-y-1 hover:border-cyan-300/70"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -642,15 +642,22 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   );
 }
 
-function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null }) {
+function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null, tall = false }) {
+  const heightCls = tall
+    ? compact
+      ? "min-h-[140px]"
+      : "min-h-[200px]"
+    : compact
+      ? "min-h-[140px]"
+      : "min-h-[200px]";
   return (
-    <div className={`${PANEL_CLASS} ${compact ? "p-4" : "p-5"}`}>
+    <div className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"}`}>
       <div className="flex items-center justify-between mb-3">
         <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[9px]" : ""}`}>{title}</div>
         <span className="text-[10px] text-slate-400 tracking-widest">#{items.length}</span>
       </div>
       {children && <div className="mb-3">{children}</div>}
-      <div className={`flex flex-col ${compact ? "gap-1.5 min-h-[120px]" : "gap-2.5 min-h-[180px]"}`}>
+      <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-2"} ${heightCls}`}>
         {items.map((h, i) => {
           const role = DB[h]?.role;
           const score = computeScoreFor(h, DB, state, {
@@ -821,7 +828,7 @@ function GlobalScores({ DB, state }) {
   const progress = Math.min(Math.max(winChance, 0), 100);
 
   return (
-    <div className={`${PANEL_CLASS} px-4 py-3 text-center`}>
+    <div className={`${PANEL_CLASS} px-4 py-2.5 text-center`}>
       <div className="flex flex-wrap items-center justify-center gap-4 text-lg font-semibold">
         <div>
           Alliés :
@@ -933,7 +940,7 @@ export default function DraftAssistant() {
     <div className="min-h-screen w-full text-slate-100 app-gradient-bg">
       <div className="relative z-10">
         <div className="sticky top-0 z-30 app-gradient-bg backdrop-blur-2xl">
-          <div className="w-full flex items-center justify-between p-3">
+          <div className="w-full flex items-center justify-between px-3 py-2">
             <div>
               <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
               <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
@@ -965,7 +972,7 @@ export default function DraftAssistant() {
               </button>
             </div>
           </div>
-          <div className="w-full px-3 pb-3">
+          <div className="w-full px-3 pb-2.5">
             <GlobalScores DB={DB} state={state} />
           </div>
         </div>
@@ -1003,8 +1010,8 @@ export default function DraftAssistant() {
           </div>
         )}
 
-        <div className="w-full grid grid-cols-12 gap-4 p-4">
-          <aside className="col-span-12 md:col-span-3 flex flex-col gap-4">
+        <div className="w-full grid grid-cols-12 gap-3 p-3">
+          <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
             <ListBox
               title="Ban allié"
               items={bansAllies}
@@ -1013,6 +1020,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="allies"
+              tall
             >
               <AddHeroInput
                 placeholder="Ajouter un ban…"
@@ -1036,8 +1044,8 @@ export default function DraftAssistant() {
           </aside>
 
           {/* Centre */}
-          <main className="col-span-12 md:col-span-6 flex flex-col gap-5">
-            <div className={`${PANEL_CLASS} p-5 text-xs`}>
+          <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
+            <div className={`${PANEL_CLASS} p-4 text-xs`}>
               <div className="flex items-center gap-2 flex-wrap">
                 <StatusChip
                   label="Tank"
@@ -1062,13 +1070,13 @@ export default function DraftAssistant() {
               </div>
             </div>
 
-            <div className={`${PANEL_CLASS} p-5`}>
+            <div className={`${PANEL_CLASS} p-4`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={SECTION_TITLE_CLASS}>Reco allié à pick</div>
                 <span className="text-[11px] text-slate-400">Top {allyReco.length}</span>
               </div>
-              <div className="max-h-[435px] overflow-y-auto no-scrollbar reco-scroll pr-1">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="max-h-[380px] overflow-y-auto no-scrollbar reco-scroll pr-1">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
                   {allyReco.map((r) => (
                     <HeroCard
                       key={r.name}
@@ -1086,13 +1094,13 @@ export default function DraftAssistant() {
               </div>
             </div>
 
-            <div className={`${PANEL_CLASS} p-5`}>
+            <div className={`${PANEL_CLASS} p-4`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={SECTION_TITLE_CLASS}>
                   Reco à ban (meilleurs picks potentiels pour l'adversaire)
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2.5">
                 {enemyPotential.map((r) => (
                   <HeroCard
                     key={r.name}
@@ -1124,7 +1132,7 @@ export default function DraftAssistant() {
           </main>
 
           {/* Colonne droite */}
-          <aside className="col-span-12 md:col-span-3 flex flex-col gap-4">
+          <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
             <ListBox
               title="Ban adversaire"
               items={bansEnemies}
@@ -1133,6 +1141,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="enemies"
+              tall
             >
               <AddHeroInput
                 placeholder="Ajouter un ban adverse…"

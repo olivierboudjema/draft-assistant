@@ -5,9 +5,10 @@
 :root {
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: rgba(248, 250, 252, 0.95);
-  --app-background: radial-gradient(circle at 25% 15%, rgba(76, 145, 255, 0.18), transparent 45%),
-    radial-gradient(circle at 80% 5%, rgba(255, 89, 168, 0.12), transparent 40%),
-    linear-gradient(135deg, #050917 0%, #080f24 45%, #0b1330 100%);
+  --app-background: radial-gradient(circle at 22% 12%, rgba(52, 104, 198, 0.12), transparent 28%),
+    radial-gradient(circle at 78% 8%, rgba(255, 98, 175, 0.08), transparent 26%),
+    radial-gradient(circle at 52% 64%, rgba(7, 16, 43, 0.06), transparent 24%),
+    linear-gradient(150deg, #01030a 0%, #030712 45%, #050c1c 100%);
 }
 
 html,
