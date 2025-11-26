@@ -503,11 +503,11 @@ function mixColor(from, to, t) {
 
 function getScoreBadgeStyle(value) {
   const ratio = clamp01((value - 6) / 9);
-  const start = mixColor([82, 108, 255, 0.75], [45, 210, 255, 0.9], ratio);
-  const mid = mixColor([176, 96, 255, 0.8], [92, 255, 198, 0.85], ratio);
-  const end = mixColor([255, 130, 210, 0.85], [255, 235, 150, 0.92], ratio);
-  const glow = mixColor([46, 74, 255, 0.35], [65, 255, 195, 0.55], ratio);
-  const border = mixColor([145, 169, 255, 0.45], [115, 255, 210, 0.65], ratio);
+  const start = mixColor([64, 94, 255, 0.82], [0, 188, 255, 0.95], ratio);
+  const mid = mixColor([210, 80, 255, 0.88], [86, 255, 200, 0.95], ratio);
+  const end = mixColor([255, 140, 200, 0.9], [255, 255, 180, 0.97], ratio);
+  const glow = mixColor([30, 70, 255, 0.45], [80, 255, 210, 0.65], ratio);
+  const border = mixColor([160, 185, 255, 0.55], [120, 255, 215, 0.75], ratio);
 
   return {
     background: `linear-gradient(105deg, ${start}, ${mid} 55%, ${end})`,
@@ -633,7 +633,7 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
         <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
         <button
           onClick={onRemove}
-          className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/30 text-rose-100 bg-rose-500/10 hover:bg-rose-500/30 transition`}
+          className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/60 text-rose-100 bg-rose-600/20 hover:bg-rose-600/40 transition`}
         >
           ✕
         </button>
