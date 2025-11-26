@@ -4,6 +4,16 @@
   min-height: 100vh;
 }
 
+select,
+select option {
+  background-color: #0a1124;
+  color: #e5e9ff;
+}
+
+select:focus {
+  outline: none;
+}
+
 .app-gradient-bg {
   background: var(--app-background);
 }

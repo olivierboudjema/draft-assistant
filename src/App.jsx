@@ -742,7 +742,7 @@ function AddHeroInput({ placeholder, onAdd, disabled }) {
       <button
         onClick={submit}
         disabled={disabled}
-        className="px-4 py-2 text-sm font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 text-white shadow-[0_10px_25px_rgba(46,74,255,0.4)] hover:brightness-110 transition disabled:opacity-40"
+        className="px-4 py-2 text-sm font-semibold rounded-2xl border border-indigo-400/40 bg-indigo-500/20 text-white shadow-[0_10px_25px_rgba(46,74,255,0.35)] hover:bg-indigo-500/35 transition disabled:opacity-40"
       >
         OK
       </button>
