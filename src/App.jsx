@@ -684,6 +684,7 @@ function GlobalScores({ DB, state }) {
       }),
     0
   );
+
   const enemiesScore = state.enemies.reduce(
     (acc, h) =>
       acc +
@@ -695,9 +696,16 @@ function GlobalScores({ DB, state }) {
     0
   );
 
-  // Calculer le % de chance de victoire
-  const totalScore = alliesScore + enemiesScore;
-  const winChance = totalScore > 0 ? Math.round((alliesScore / totalScore) * 100) : 50;
+  // Nouveau calcul du % de chance de victoire
+  const diff = alliesScore - enemiesScore;
+  const magnitude = Math.abs(alliesScore) + Math.abs(enemiesScore);
+
+  let winChance = 50;
+  if (magnitude > 0.0001) {
+    // diff / magnitude ∈ [-1 ; 1]
+    const normalized = diff / magnitude;
+    winChance = Math.round(50 + normalized * 50); // → [0 ; 100]
+  }
 
   return (
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700 p-3 flex items-center justify-center gap-6">

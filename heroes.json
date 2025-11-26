@@ -356,6 +356,34 @@
     ]
   },
   {
+    "name": "Blanchetete",
+    "tier": "B",
+    "role": "Healer",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "TEMPLE_CELESTE",
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "TEMPLE_CELESTE",
+      "COMTE_DU_DRAGON",
+      "TEMPLE_D_HAANMURA"
+    ],
+    "synergy_with": [
+      "Johanna",
+      "Sonya",
+      "Chacal",
+      "Hanzo"
+    ],
+    "counter_by": [
+      "Alarak",
+      "Li-li",
+      "Raynor"
+    ]
+  },
+  {
     "name": "Butcher",
     "tier": "C",
     "role": "Dps Mêléee",
