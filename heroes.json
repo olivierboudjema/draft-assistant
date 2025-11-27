@@ -760,7 +760,7 @@
       "TOMBE_DE_LA_REINE_ARAIGNEE"
     ],
     "map_weak": [
-      "VALLEE_D_ALTERAC",
+      "PASSE_D_ALTERAC",
       "TEMPLE_D_HAANMURA"
     ],
     "synergy_with": [
@@ -1741,7 +1741,6 @@
       "MENACE_NUCLEAIRE"
     ],
     "map_weak": [
-      "COMTE_DU_DRAGON",
       "LABORATOIRE_DE_BRAXIS",
       "JARDINS_DE_TERREUR",
       "TOURS_DU_DESTIN",
