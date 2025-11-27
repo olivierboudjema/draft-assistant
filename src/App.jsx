@@ -15,6 +15,47 @@ const TIER_BONUS = {
   "D": -2
 };
 
+const HERO_IMAGE_BASE = "https://raw.githubusercontent.com/heroespatchnotes/heroes-talents/master/images/heroes";
+
+const HERO_SLUG_OVERRIDES = {
+  "aile de mort": "deathwing",
+  "asmodan": "azmodan",
+  "balafre": "stitches",
+  "blanchetete": "whitemane",
+  "bourbie": "murky",
+  "butcher": "thebutcher",
+  "chacal": "junkrat",
+  "chogall": "chogall",
+  "dva": "dva",
+  "etc": "etc",
+  "hammer": "sgthammer",
+  "kramer": "blaze",
+  "lardeur": "hogger",
+  "les vikings perdus": "lostvikings",
+  "li-li": "lili",
+  "li-ming": "liming",
+  "lt morales": "ltmorales",
+  "luisaile": "brightwing",
+  "nasibo": "nazeebo",
+};
+
+function heroSlug(name) {
+  if (!name) return null;
+  const key = String(name).trim().toLowerCase();
+  const override = HERO_SLUG_OVERRIDES[key];
+  if (override) return override;
+
+  const ascii = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const slug = ascii.replace(/[^a-z0-9]/g, "");
+  return slug || null;
+}
+
+function heroPortraitUrl(name) {
+  const slug = heroSlug(name);
+  if (!slug) return null;
+  return `${HERO_IMAGE_BASE}/${slug}.png`;
+}
+
 function cleanArray(arr) {
   return Array.isArray(arr)
     ? arr
@@ -46,6 +87,7 @@ function buildHeroDB() {
 
       synergies: cleanArray(raw.synergy_with),
       counters: cleanArray(raw.counter_by),
+      portrait: heroPortraitUrl(name),
     };
   });
 
@@ -436,6 +478,32 @@ const PANEL_CLASS =
 const SECTION_TITLE_CLASS =
   "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
 
+function HeroPortrait({ name, src, size = 48 }) {
+  const [error, setError] = useState(false);
+  const dimension = typeof size === "number" ? `${size}px` : size;
+  const initials = (name || "?").slice(0, 2).toUpperCase();
+
+  return (
+    <div
+      className="relative flex items-center justify-center overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-[10px] font-semibold text-white/70 shadow-inner"
+      style={{ width: dimension, height: dimension }}
+    >
+      {!error && src ? (
+        <img
+          src={src}
+          alt={name}
+          className="h-full w-full object-cover"
+          loading="lazy"
+          onError={() => setError(true)}
+        />
+      ) : (
+        <span className="opacity-70">{initials}</span>
+      )}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/35" />
+    </div>
+  );
+}
+
 function RoleChip({ role }) {
   const m = ROLE_META[role] || { badge: "•", cls: "bg-slate-800/40" };
   return (
@@ -452,7 +520,13 @@ function HeroInfoHover({ name, DB, children, showTooltip = null }) {
 
   const TooltipContent = (
     <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl">
-      <div className="font-semibold text-sm mb-3 text-indigo-300">{name}</div>
+      <div className="flex items-center gap-3 mb-3">
+        <HeroPortrait name={name} src={info.portrait} size={60} />
+        <div className="min-w-0">
+          <div className="font-semibold text-sm text-indigo-300 truncate">{name}</div>
+          <div className="text-xs text-slate-400">{info.role}</div>
+        </div>
+      </div>
       <div className="flex flex-col text-[11px] text-left space-y-2">
         <div>
           <b><span className="text-indigo-400">Tier:</span></b> <span className="text-slate-200">{info.tier}</span>
@@ -578,18 +652,21 @@ function HeroCard({ name, role, score, breakdown, DB }) {
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition">
         <div className="absolute -inset-8 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.65),_transparent_60%)] blur-3xl" />
       </div>
-      <div className="flex items-center justify-between">
-        <div>
-          <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
-            <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
-          </HeroInfoHover>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <HeroPortrait name={name} src={DB[name]?.portrait} size={52} />
+          <div className="min-w-0">
+            <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
+              <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
+            </HeroInfoHover>
+            <div className="mt-1 flex">
+              <RoleChip role={role} />
+            </div>
+          </div>
         </div>
-        <div>
+        <div className="flex-shrink-0">
           <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
         </div>
-      </div>
-      <div className="mt-2 flex justify-start">
-        <RoleChip role={role} />
       </div>
     </div>
   );
@@ -617,9 +694,10 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="flex items-center flex-1 gap-1.5">
+      <div className="flex items-center flex-1 gap-1.5 min-w-0">
+        <HeroPortrait name={name} src={DB[name]?.portrait} size={compact ? 28 : 34} />
         <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
-          <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"}`}>
+          <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
             {name}
           </span>
         </HeroInfoHover>
@@ -685,9 +763,10 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
           }
           return (
             <div key={h + String(i)} className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
-              <div className="flex items-center flex-1 gap-1.5">
+              <div className="flex items-center flex-1 gap-1.5 min-w-0">
+                <HeroPortrait name={h} src={DB[h]?.portrait} size={compact ? 28 : 34} />
                 <HeroInfoHover name={h} DB={DB}>
-                  <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"}`}>
+                  <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
                     {h}
                   </span>
                 </HeroInfoHover>
