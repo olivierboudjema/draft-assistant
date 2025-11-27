@@ -15,6 +15,9 @@ const TIER_BONUS = {
   "D": -2
 };
 
+// Plage visuelle utilisée pour le dégradé des scores
+const SCORE_VISUAL_RANGE = { min: 5, max: 22 };
+
 const HERO_IMAGE_BASE = "https://raw.githubusercontent.com/heroespatchnotes/heroes-talents/master/images/heroes";
 
 const HERO_SLUG_OVERRIDES = {
@@ -482,11 +485,13 @@ function HeroPortrait({ name, src, size = 48 }) {
   const [error, setError] = useState(false);
   const dimension = typeof size === "number" ? `${size}px` : size;
   const initials = (name || "?").slice(0, 2).toUpperCase();
+  const glow =
+    "0 4px 14px rgba(88,160,255,0.35), 0 0 18px rgba(190,150,255,0.32), inset 0 0 0 1px rgba(255,255,255,0.06)";
 
   return (
     <div
       className="relative flex items-center justify-center overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-[10px] font-semibold text-white/70 shadow-inner"
-      style={{ width: dimension, height: dimension }}
+      style={{ width: dimension, height: dimension, boxShadow: glow }}
     >
       {!error && src ? (
         <img
@@ -576,16 +581,36 @@ function mixColor(from, to, t) {
 }
 
 function getScoreBadgeStyle(value) {
-  const ratio = clamp01((value - 6) / 9);
-  const start = mixColor([64, 94, 255, 0.82], [0, 188, 255, 0.95], ratio);
-  const mid = mixColor([210, 80, 255, 0.88], [86, 255, 200, 0.95], ratio);
-  const end = mixColor([255, 140, 200, 0.9], [255, 255, 180, 0.97], ratio);
-  const glow = mixColor([30, 70, 255, 0.45], [80, 255, 210, 0.65], ratio);
-  const border = mixColor([160, 185, 255, 0.55], [120, 255, 215, 0.75], ratio);
+  const span = SCORE_VISUAL_RANGE.max - SCORE_VISUAL_RANGE.min;
+  const ratio = clamp01((value - SCORE_VISUAL_RANGE.min) / span);
+  const boosted = clamp01(ratio * 1.35); // réduit la plage perçue pour écarter plus vite les scores
+  const eased = Math.pow(boosted, 1.35); // plus de contraste, surtout en haut de plage
+  const brightness = 0.6 + ratio * 0.4; // contrôle linéaire de la brillance
+
+  // Palette d'origine (bleu → violet → rose) mais poussée en intensité
+  const start = mixColor([40, 70, 255, 0.9], [10, 180, 255, 0.98], eased);
+  const mid = mixColor([200, 60, 255, 0.9], [110, 255, 220, 0.98], eased);
+  const end = mixColor([255, 120, 200, 0.92], [255, 255, 190, 1], eased);
+
+  const glow = mixColor([24, 60, 200, 0.45], [120, 255, 240, 0.82], eased);
+  const halo = mixColor([10, 20, 80, 0.35], [255, 200, 255, 0.7], eased);
+  const border = mixColor([150, 180, 255, 0.65], [140, 255, 230, 0.95], eased);
+  const textColor = mixColor([185, 200, 230, 0.95], [255, 255, 245, 1], eased);
+
+  const blur = (10 + eased * 22) * brightness;
+  const heat = (8 + eased * 24) * brightness;
+  const scale = 1 + eased * 0.2 * brightness;
 
   return {
     background: `linear-gradient(105deg, ${start}, ${mid} 55%, ${end})`,
-    boxShadow: `0 6px 20px ${glow}`,
+    boxShadow: [
+      `0 2px 6px rgba(0,0,0,0.35)`,
+      `0 0 ${blur}px ${glow}`,
+      `0 0 ${heat}px ${halo}`
+    ].join(", "),
+    color: textColor,
+    transform: `scale(${scale})`,
+    filter: `drop-shadow(0 0 ${Math.round(blur * 0.6)}px ${glow})`,
     borderColor: border,
   };
 }
@@ -646,6 +671,9 @@ function HeroCard({ name, role, score, breakdown, DB }) {
   return (
     <div
       className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition transform hover:-translate-y-1 hover:border-cyan-300/70"
+      style={{
+        boxShadow: "0 10px 28px rgba(10,24,48,0.55), 0 0 26px rgba(140,200,255,0.22)",
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
