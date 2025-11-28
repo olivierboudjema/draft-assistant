@@ -98,7 +98,7 @@ function buildHeroDB() {
 }
 
 
-function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
+function PortalTooltip({ children, content, isOpen = null, offset = 0, onHoverChange = null }) {
   const ref = useRef(null);
   const [internalOpen, setInternalOpen] = useState(false);
   const [pos, setPos] = useState({ left: 0, top: 0 });
@@ -160,6 +160,7 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
       clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
+    if (onHoverChange) onHoverChange(true);
     if (isOpen === null) setInternalOpen(true);
   }
 
@@ -170,6 +171,11 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0 }) {
         setInternalOpen(false);
         closeTimer.current = null;
       }, 120);
+    } else if (onHoverChange) {
+      closeTimer.current = setTimeout(() => {
+        onHoverChange(false);
+        closeTimer.current = null;
+      }, 150);
     }
   }
 
@@ -481,12 +487,20 @@ const PANEL_CLASS =
 const SECTION_TITLE_CLASS =
   "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
 
-function HeroPortrait({ name, src, size = 48 }) {
+function HeroPortrait({ name, src, size = 48, score = null }) {
   const [error, setError] = useState(false);
   const dimension = typeof size === "number" ? `${size}px` : size;
   const initials = (name || "?").slice(0, 2).toUpperCase();
-  const glow =
-    "0 4px 14px rgba(88,160,255,0.35), 0 0 18px rgba(190,150,255,0.32), inset 0 0 0 1px rgba(255,255,255,0.06)";
+  const range = SCORE_VISUAL_RANGE;
+  const ratio = score == null ? 0.5 : clamp01((score - range.min) / (range.max - range.min));
+  const boosted = Math.pow(ratio, 1.45);
+  const brightness = 0.35 + boosted * 1.25; // pousse plus loin la brillance avec le score
+  const glow = [
+    `0 5px ${10 + boosted * 30}px rgba(88,160,255,${0.16 + brightness * 0.5})`,
+    `0 0 ${14 + boosted * 34}px rgba(190,150,255,${0.14 + brightness * 0.42})`,
+    `0 0 ${20 + boosted * 40}px rgba(255,220,200,${0.08 + brightness * 0.3})`,
+    `inset 0 0 0 1px rgba(255,255,255,0.06)`,
+  ].join(", ");
 
   return (
     <div
@@ -519,7 +533,7 @@ function RoleChip({ role }) {
   );
 }
 
-function HeroInfoHover({ name, DB, children, showTooltip = null }) {
+function HeroInfoHover({ name, DB, children, showTooltip = null, onHoverChange = null }) {
   const info = DB?.[name];
   if (!info) return <>{children}</>;
 
@@ -563,7 +577,7 @@ function HeroInfoHover({ name, DB, children, showTooltip = null }) {
     </div>
   );
 
-  return <PortalTooltip content={TooltipContent} isOpen={showTooltip} offset={-100}>{children}</PortalTooltip>;
+  return <PortalTooltip content={TooltipContent} isOpen={showTooltip} offset={-100} onHoverChange={onHoverChange}>{children}</PortalTooltip>;
 }
 
 function clamp01(value) {
@@ -615,7 +629,7 @@ function getScoreBadgeStyle(value) {
   };
 }
 
-function ScoreBadge({ value, breakdown, showTooltip = null }) {
+function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null }) {
   const badgeStyle = getScoreBadgeStyle(value);
   const Tooltip = breakdown
     ? (
@@ -641,7 +655,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null }) {
     : null;
 
   return (
-    <PortalTooltip content={breakdown ? Tooltip : null} isOpen={showTooltip} offset={100}>
+    <PortalTooltip content={breakdown ? Tooltip : null} isOpen={showTooltip} offset={100} onHoverChange={onHoverChange}>
       <span
         className="ml-2 text-[10px] font-bold px-2.5 py-1 rounded-full border inline-flex items-center transition duration-200"
         style={badgeStyle}
@@ -656,6 +670,13 @@ function HeroCard({ name, role, score, breakdown, DB }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const timeoutRef = useRef(null);
 
+  const scheduleHide = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowTooltips(false);
+    }, 200);
+  };
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setShowTooltips(true);
@@ -663,28 +684,35 @@ function HeroCard({ name, role, score, breakdown, DB }) {
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setShowTooltips(false);
-    }, 120);
+    scheduleHide();
+  };
+
+  const handleHoverChange = (open) => {
+    if (open) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setShowTooltips(true);
+    } else {
+      scheduleHide();
+    }
   };
 
   return (
     <div
-      className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition transform hover:-translate-y-1 hover:border-cyan-300/70"
+      className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70"
       style={{
         boxShadow: "0 10px 28px rgba(10,24,48,0.55), 0 0 26px rgba(140,200,255,0.22)",
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition">
         <div className="absolute -inset-8 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.65),_transparent_60%)] blur-3xl" />
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <HeroPortrait name={name} src={DB[name]?.portrait} size={52} />
+          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
+          </div>
           <div className="min-w-0">
-            <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
+            <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips} onHoverChange={handleHoverChange}>
               <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
             </HeroInfoHover>
             <div className="mt-1 flex">
@@ -693,7 +721,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
           </div>
         </div>
         <div className="flex-shrink-0">
-          <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
+          <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} onHoverChange={handleHoverChange} />
         </div>
       </div>
     </div>
@@ -704,6 +732,13 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const timeoutRef = useRef(null);
 
+  const scheduleHide = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowTooltips(false);
+    }, 200);
+  };
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setShowTooltips(true);
@@ -711,20 +746,27 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setShowTooltips(false);
-    }, 120);
+    scheduleHide();
+  };
+
+  const handleHoverChange = (open) => {
+    if (open) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setShowTooltips(true);
+    } else {
+      scheduleHide();
+    }
   };
 
   return (
     <div
       className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div className="flex items-center flex-1 gap-1.5 min-w-0">
-        <HeroPortrait name={name} src={DB[name]?.portrait} size={compact ? 28 : 34} />
-        <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <HeroPortrait name={name} src={DB[name]?.portrait} size={compact ? 28 : 34} score={score} />
+        </div>
+        <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips} onHoverChange={handleHoverChange}>
           <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
             {name}
           </span>
@@ -736,7 +778,7 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
         )}
       </div>
       <div className="flex items-center gap-1.5 flex-shrink-0">
-        <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} />
+        <ScoreBadge value={score} breakdown={breakdown} showTooltip={showTooltips} onHoverChange={handleHoverChange} />
         <button
           onClick={onRemove}
           className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/60 text-rose-100 bg-rose-600/20 hover:bg-rose-600/40 transition`}
