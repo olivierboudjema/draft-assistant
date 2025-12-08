@@ -76,7 +76,8 @@
       "JARDINS_DE_TERREUR",
       "TEMPLE_CELESTE",
       "MENACE_NUCLEAIRE",
-      "JARDINS_DE_TERREUR"
+      "JARDINS_DE_TERREUR",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Li-ming",
@@ -97,7 +98,8 @@
       "CHAMPS_DE_L_ETERNITE",
       "VAL_MAUDIT",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS"
@@ -175,7 +177,8 @@
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
       "PASSE_D_ALTERAC",
-      "JARDINS_DE_TERREUR"
+      "JARDINS_DE_TERREUR",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -270,7 +273,8 @@
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
       "SANCTUAIRES_INFERNAUX",
-      "JARDINS_DE_TERREUR"
+      "JARDINS_DE_TERREUR",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -480,7 +484,8 @@
       "VAL_MAUDIT",
       "TOURS_DU_DESTIN",
       "JARDINS_DE_TERREUR",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Tyrael",
@@ -508,7 +513,8 @@
     ],
     "map_weak": [
       "CHAMPS_DE_L_ETERNITE",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Alexstrasza",
@@ -535,7 +541,8 @@
     "tier": "A",
     "role": "Mage",
     "map_strong": [
-      "LABORATOIRE_DE_BRAXIS"
+      "LABORATOIRE_DE_BRAXIS",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [],
     "synergy_with": [
@@ -565,7 +572,8 @@
     ],
     "map_weak": [
       "CHAMPS_DE_L_ETERNITE",
-      "TEMPLE_D_HAANMURA"
+      "TEMPLE_D_HAANMURA",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Anub'arak",
@@ -618,7 +626,8 @@
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -680,7 +689,8 @@
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Kramer",
@@ -961,7 +971,8 @@
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
       "TOURS_DU_DESTIN",
-      "CHAMPS_DE_L_ETERNITE"
+      "CHAMPS_DE_L_ETERNITE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Abathur",
@@ -995,7 +1006,8 @@
     ],
     "map_weak": [
       "TEMPLE_D_HAANMURA",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Jaina",
@@ -1056,7 +1068,8 @@
       "TOURS_DU_DESTIN",
       "SANCTUAIRES_INFERNAUX",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "MENACE_NUCLEAIRE",
@@ -1205,7 +1218,8 @@
       "TEMPLE_CELESTE"
     ],
     "map_weak": [
-      "COMTE_DU_DRAGON"
+      "COMTE_DU_DRAGON",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Arthas",
@@ -1260,7 +1274,8 @@
       "TEMPLE_D_HAANMURA"
     ],
     "map_weak": [
-      "TEMPLE_CELESTE"
+      "TEMPLE_CELESTE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Johanna",
@@ -1368,7 +1383,8 @@
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
       "SANCTUAIRES_INFERNAUX",
-      "JARDINS_DE_TERREUR"
+      "JARDINS_DE_TERREUR",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1427,7 +1443,8 @@
     ],
     "map_weak": [
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Zeratul",
@@ -1518,7 +1535,8 @@
       "COMTE_DU_DRAGON",
       "JARDINS_DE_TERREUR",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "CHAMPS_DE_L_ETERNITE",
@@ -1554,7 +1572,8 @@
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
-      "CHAMPS_DE_L_ETERNITE"
+      "CHAMPS_DE_L_ETERNITE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Illidan",
@@ -1663,7 +1682,8 @@
     "role": "Tank",
     "map_strong": [
       "TEMPLE_D_HAANMURA",
-      "CHAMPS_DE_L_ETERNITE"
+      "CHAMPS_DE_L_ETERNITE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1695,7 +1715,8 @@
     ],
     "map_weak": [
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "LABORATOIRE_DE_BRAXIS"
+      "LABORATOIRE_DE_BRAXIS",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Johanna",
@@ -1744,7 +1765,8 @@
       "LABORATOIRE_DE_BRAXIS",
       "JARDINS_DE_TERREUR",
       "TOURS_DU_DESTIN",
-      "TEMPLE_CELESTE"
+      "TEMPLE_CELESTE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Johanna",
@@ -1773,7 +1795,8 @@
       "JARDINS_DE_TERREUR"
     ],
     "map_weak": [
-      "CHAMPS_DE_L_ETERNITE"
+      "CHAMPS_DE_L_ETERNITE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "Arthas",
@@ -1805,7 +1828,8 @@
       "SANCTUAIRES_INFERNAUX"
     ],
     "map_weak": [
-      "CHAMPS_DE_L_ETERNITE"
+      "CHAMPS_DE_L_ETERNITE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "synergy_with": [
       "ETC",
@@ -1854,7 +1878,8 @@
     "map_strong": [
       "MENACE_NUCLEAIRE",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "TOURS_DU_DESTIN",
@@ -1906,7 +1931,8 @@
       "VAL_MAUDIT",
       "JARDINS_DE_TERREUR",
       "TEMPLE_D_HAANMURA",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1956,7 +1982,8 @@
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
       "TOURS_DU_DESTIN",
-      "TEMPLE_CELESTE"
+      "TEMPLE_CELESTE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -1988,7 +2015,8 @@
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [],
     "synergy_with": [
@@ -2037,7 +2065,8 @@
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "PASSE_D_ALTERAC",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "MENACE_NUCLEAIRE"
@@ -2099,7 +2128,8 @@
       "LABORATOIRE_DE_BRAXIS",
       "COMTE_DU_DRAGON",
       "TEMPLE_D_HAANMURA",
-      "TEMPLE_CELESTE"
+      "TEMPLE_CELESTE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "TOMBE_DE_LA_REINE_ARAIGNEE"
@@ -2180,7 +2210,8 @@
       "VAL_MAUDIT",
       "TEMPLE_CELESTE",
       "TOURS_DU_DESTIN",
-      "MENACE_NUCLEAIRE"
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "TEMPLE_D_HAANMURA"
@@ -2286,7 +2317,8 @@
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
       "SANCTUAIRES_INFERNAUX",
-      "TOMBE_DE_LA_REINE_ARAIGNEE"
+      "TOMBE_DE_LA_REINE_ARAIGNEE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [],
     "synergy_with": [
@@ -2379,7 +2411,8 @@
       "TEMPLE_CELESTE",
       "JARDINS_DE_TERREUR",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
-      "SANCTUAIRES_INFERNAUX"
+      "SANCTUAIRES_INFERNAUX",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -2488,7 +2521,8 @@
       "VAL_MAUDIT",
       "SANCTUAIRES_INFERNAUX",
       "TOURS_DU_DESTIN",
-      "TEMPLE_CELESTE"
+      "TEMPLE_CELESTE",
+      "BAIE_DE_COEUR_NOIR"
     ],
     "map_weak": [
       "LABORATOIRE_DE_BRAXIS",
@@ -2518,7 +2552,9 @@
     "name": "Zuljin",
     "tier": "A",
     "role": "Range Auto",
-    "map_strong": [],
+    "map_strong": [
+      "BAIE_DE_COEUR_NOIR"
+    ],
     "map_weak": [],
     "synergy_with": [
       "Tyrael",
