@@ -100,9 +100,9 @@ function buildHeroDB() {
 
 function PortalTooltip({ children, content, isOpen = null, offset = 0, onHoverChange = null }) {
   const ref = useRef(null);
+  const tooltipRef = useRef(null);
   const [internalOpen, setInternalOpen] = useState(false);
   const [pos, setPos] = useState({ left: 0, top: 0 });
-  const closeTimer = useRef(null);
 
   const open = isOpen !== null ? isOpen : internalOpen;
 
@@ -146,36 +146,25 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0, onHoverCh
     };
   }, [open, offset]);
 
-  useEffect(() => {
-    return () => {
-      if (closeTimer.current) {
-        clearTimeout(closeTimer.current);
-        closeTimer.current = null;
-      }
-    };
-  }, []);
+  function isStayingInTooltipZone(event) {
+    const next = event?.relatedTarget;
+    if (!next) return false;
+    if (ref.current && ref.current.contains(next)) return true;
+    if (tooltipRef.current && tooltipRef.current.contains(next)) return true;
+    return false;
+  }
 
   function handleOpen() {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
     if (onHoverChange) onHoverChange(true);
     if (isOpen === null) setInternalOpen(true);
   }
 
-  function handleClose() {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+  function handleClose(event) {
+    if (isStayingInTooltipZone(event)) return;
     if (isOpen === null) {
-      closeTimer.current = setTimeout(() => {
-        setInternalOpen(false);
-        closeTimer.current = null;
-      }, 120);
+      setInternalOpen(false);
     } else if (onHoverChange) {
-      closeTimer.current = setTimeout(() => {
-        onHoverChange(false);
-        closeTimer.current = null;
-      }, 150);
+      onHoverChange(false);
     }
   }
 
@@ -193,8 +182,9 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0, onHoverCh
       {open && content &&
         ReactDOM.createPortal(
           <div
+            ref={tooltipRef}
             style={{ left: pos.left, top: pos.top - 8 }}
-            className="fixed z-50 -translate-x-1/2 transform"
+            className="portal-tooltip fixed z-50 -translate-x-1/2 transform"
             // IMPORTANT : on garde le tooltip ouvert quand la souris est dessus
             onMouseEnter={handleOpen}
             onMouseLeave={handleClose}
@@ -668,36 +658,30 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
 
 function HeroCard({ name, role, score, breakdown, DB }) {
   const [showTooltips, setShowTooltips] = useState(false);
-  const timeoutRef = useRef(null);
-
-  const scheduleHide = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setShowTooltips(false);
-    }, 200);
-  };
+  const cardRef = useRef(null);
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setShowTooltips(true);
   };
 
-  const handleMouseLeave = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    scheduleHide();
+  const handleMouseLeave = (event) => {
+    const next = event?.relatedTarget;
+    const isInsideCard = next && cardRef.current?.contains(next);
+    const isGoingToTooltip = next && typeof next.closest === "function" && next.closest(".portal-tooltip");
+
+    if (!isInsideCard && !isGoingToTooltip) {
+      setShowTooltips(false);
+    }
   };
 
   const handleHoverChange = (open) => {
-    if (open) {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      setShowTooltips(true);
-    } else {
-      scheduleHide();
-    }
+    setShowTooltips(open);
   };
 
   return (
     <div
+      ref={cardRef}
+      onMouseLeave={handleMouseLeave}
       className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70"
       style={{
         boxShadow: "0 10px 28px rgba(10,24,48,0.55), 0 0 26px rgba(140,200,255,0.22)",
@@ -730,36 +714,30 @@ function HeroCard({ name, role, score, breakdown, DB }) {
 
 function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   const [showTooltips, setShowTooltips] = useState(false);
-  const timeoutRef = useRef(null);
-
-  const scheduleHide = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setShowTooltips(false);
-    }, 200);
-  };
+  const rowRef = useRef(null);
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setShowTooltips(true);
   };
 
-  const handleMouseLeave = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    scheduleHide();
+  const handleMouseLeave = (event) => {
+    const next = event?.relatedTarget;
+    const isInsideRow = next && rowRef.current?.contains(next);
+    const isGoingToTooltip = next && typeof next.closest === "function" && next.closest(".portal-tooltip");
+
+    if (!isInsideRow && !isGoingToTooltip) {
+      setShowTooltips(false);
+    }
   };
 
   const handleHoverChange = (open) => {
-    if (open) {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      setShowTooltips(true);
-    } else {
-      scheduleHide();
-    }
+    setShowTooltips(open);
   };
 
   return (
     <div
+      ref={rowRef}
+      onMouseLeave={handleMouseLeave}
       className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
     >
       <div className="flex items-center flex-1 gap-1.5 min-w-0">
