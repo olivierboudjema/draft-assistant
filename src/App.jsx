@@ -8,11 +8,11 @@ const ALL_MAPS = maps.map((m) => m.name);
 const HERO_LIST = heroes.map((h) => h.name);
 
 const TIER_BONUS = {
-  "S": 2,
-  "A": 1,
+  "S": 1,
+  "A": 0.5,
   "B": 0,
-  "C": -1,
-  "D": -2
+  "C": -0.5,
+  "D": -1
 };
 
 // Plage visuelle utilisée pour le dégradé des scores
