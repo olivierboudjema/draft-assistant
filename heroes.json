@@ -418,7 +418,7 @@
   },
   {
     "name": "Cassia",
-    "tier": "B",
+    "tier": "A",
     "role": "Range Auto",
     "map_strong": [],
     "map_weak": [],
@@ -709,7 +709,7 @@
   },
   {
     "name": "Falstad",
-    "tier": "A",
+    "tier": "S",
     "role": "Range Auto",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1148,7 +1148,7 @@
   },
   {
     "name": "Kerrigan",
-    "tier": "B",
+    "tier": "S",
     "role": "Dps Mêléee",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -1211,7 +1211,7 @@
   {
     "name": "Kramer",
     "tier": "S",
-    "role": "Tank",
+    "role": "Bruiser",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
       "TOURS_DU_DESTIN",
@@ -1954,7 +1954,7 @@
   },
   {
     "name": "Rexxar",
-    "tier": "B",
+    "tier": "A",
     "role": "Bruiser",
     "map_strong": [
       "COMTE_DU_DRAGON",
@@ -2121,7 +2121,7 @@
   },
   {
     "name": "Thrall",
-    "tier": "A",
+    "tier": "S",
     "role": "Bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -2572,4 +2572,5 @@
       "Uther"
     ]
   }
+
 ]
