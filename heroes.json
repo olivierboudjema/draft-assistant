@@ -1709,7 +1709,7 @@
   {
     "name": "Bourbie",
     "tier": "C",
-    "role": "Mage",
+    "role": "Bruiser",
     "map_strong": [
       "JARDINS_DE_TERREUR"
     ],
@@ -2574,3 +2574,4 @@
   }
 
 ]
+
