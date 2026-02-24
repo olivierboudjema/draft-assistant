@@ -960,7 +960,7 @@
   },
   {
     "name": "Illidan",
-    "tier": "C",
+    "tier": "B",
     "role": "Dps Mêléee",
     "map_strong": [
       "VAL_MAUDIT",
@@ -2574,4 +2574,5 @@
   }
 
 ]
+
 
