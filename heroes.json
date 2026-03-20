@@ -122,8 +122,8 @@
   },
   {
     "name": "Aile de mort",
-    "tier": "C",
-    "role": "Bruiser",
+    "tier": "S",
+    "role": "Dps Mêléee",
     "map_strong": [
       "PASSE_D_ALTERAC",
       "SANCTUAIRES_INFERNAUX",
@@ -761,7 +761,7 @@
   },
   {
     "name": "Garrosh",
-    "tier": "S",
+    "tier": "A",
     "role": "Tank",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1148,7 +1148,7 @@
   },
   {
     "name": "Kerrigan",
-    "tier": "S",
+    "tier": "A",
     "role": "Dps Mêléee",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -1873,7 +1873,7 @@
   },
   {
     "name": "Ragnaros",
-    "tier": "S",
+    "tier": "A",
     "role": "Bruiser",
     "map_strong": [
       "MENACE_NUCLEAIRE",
@@ -2060,7 +2060,7 @@
   },
   {
     "name": "Sylvanas",
-    "tier": "A",
+    "tier": "S",
     "role": "Mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -2121,7 +2121,7 @@
   },
   {
     "name": "Thrall",
-    "tier": "S",
+      "tier": "A",
     "role": "Bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -2312,7 +2312,7 @@
   },
   {
     "name": "Valla",
-    "tier": "S",
+    "tier": "A",
     "role": "Range Auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
