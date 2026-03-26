@@ -1123,7 +1123,7 @@ export default function DraftAssistant() {
               <div className="text-sm leading-relaxed space-y-2 text-slate-200">
                 <p className="text-slate-300">Chaque héros démarre à 10, puis :</p>
                 <ul className="list-disc ml-5 space-y-1 text-left text-slate-100">
-                  <li>Tier : S = +2, A = +1, B = 0, C = −1, D = −2</li>
+                  <li>Tier : S = +1, A = +0.5, B = 0, C = −0.5, D = −1</li>
                   <li>Rôle déjà présent : −1 (−2 si déjà 2×)</li>
                   <li>Carte : favorable +1, défavorable −1</li>
                   <li>Contre un ennemi : +1.5 par cible</li>
