@@ -681,8 +681,13 @@ function HeroCard({ name, role, score, breakdown, DB }) {
   return (
     <div
       ref={cardRef}
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.setData("hero", name);
+        e.dataTransfer.effectAllowed = "copy";
+      }}
       onMouseLeave={handleMouseLeave}
-      className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70"
+      className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70 cursor-grab active:cursor-grabbing"
       style={{
         boxShadow: "0 10px 28px rgba(10,24,48,0.55), 0 0 26px rgba(140,200,255,0.22)",
       }}
@@ -768,7 +773,9 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   );
 }
 
-function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null, tall = false }) {
+function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null, tall = false, onDrop }) {
+  const [isDragOver, setIsDragOver] = useState(false);
+
   const heightCls = tall
     ? compact
       ? "min-h-[140px]"
@@ -776,8 +783,33 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
     : compact
       ? "min-h-[140px]"
       : "min-h-[200px]";
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsDragOver(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const heroName = e.dataTransfer.getData("hero");
+    if (heroName && onDrop) onDrop(heroName);
+  };
+
   return (
-    <div className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"}`}>
+    <div
+      className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"} transition-all ${isDragOver ? "ring-2 ring-cyan-400/70 bg-cyan-500/5" : ""}`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <div className="flex items-center justify-between mb-3">
         <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[9px]" : ""}`}>{title}</div>
         <span className="text-[10px] text-slate-400 tracking-widest">#{items.length}</span>
@@ -1148,6 +1180,7 @@ export default function DraftAssistant() {
               state={state}
               side="allies"
               tall
+              onDrop={(name) => addTo(setBansAllies, bansAllies, name, 3)}
             >
               <AddHeroInput
                 placeholder="Ajouter un ban…"
@@ -1162,6 +1195,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="allies"
+              onDrop={(name) => addTo(setAllies, allies, name)}
             >
               <AddHeroInput
                 placeholder="Ajouter un pick…"
@@ -1269,6 +1303,7 @@ export default function DraftAssistant() {
               state={state}
               side="enemies"
               tall
+              onDrop={(name) => addTo(setBansEnemies, bansEnemies, name, 3)}
             >
               <AddHeroInput
                 placeholder="Ajouter un ban adverse…"
@@ -1283,6 +1318,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="enemies"
+              onDrop={(name) => addTo(setEnemies, enemies, name)}
             >
               <AddHeroInput
                 placeholder="Ajouter un pick adverse…"
