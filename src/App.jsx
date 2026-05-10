@@ -7,6 +7,8 @@ import heroes from '../heroes.json';
 const ALL_MAPS = maps.map((m) => m.name);
 const HERO_LIST = heroes.map((h) => h.name);
 
+const HERO_PAIRS = { "Cho": "Gall", "Gall": "Cho" };
+
 const TIER_BONUS = {
   "S": 1,
   "A": 0.5,
@@ -28,7 +30,8 @@ const HERO_SLUG_OVERRIDES = {
   "bourbie": "murky",
   "butcher": "thebutcher",
   "chacal": "junkrat",
-  "chogall": "chogall",
+  "cho": "chogall",
+  "gall": "chogall",
   "dva": "dva",
   "etc": "etc",
   "hammer": "sgthammer",
@@ -1033,14 +1036,24 @@ export default function DraftAssistant() {
   function addTo(setter, list, name, limit) {
     if (!HERO_LIST.includes(name)) return;
     if (list.includes(name)) return;
-    if ([...allies, ...enemies, ...bansAllies, ...bansEnemies].includes(name)) return;
-    if (limit && list.length >= limit) return;
-    setter([...list, name]);
+    const allPicked = [...allies, ...enemies, ...bansAllies, ...bansEnemies];
+    if (allPicked.includes(name)) return;
+    const partner = HERO_PAIRS[name];
+    if (partner && allPicked.includes(partner)) return;
+    const toAdd = partner ? [name, partner] : [name];
+    if (limit && list.length + toAdd.length > limit) return;
+    setter([...list, ...toAdd]);
   }
 
   function removeFrom(setter, list, idx) {
-    const copy = [...list];
+    const name = list[idx];
+    const partner = HERO_PAIRS[name];
+    let copy = [...list];
     copy.splice(idx, 1);
+    if (partner) {
+      const pi = copy.indexOf(partner);
+      if (pi !== -1) copy.splice(pi, 1);
+    }
     setter(copy);
   }
 
@@ -1195,11 +1208,12 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="allies"
-              onDrop={(name) => addTo(setAllies, allies, name)}
+              onDrop={(name) => addTo(setAllies, allies, name, 5)}
             >
               <AddHeroInput
                 placeholder="Ajouter un pick…"
-                onAdd={(v) => addTo(setAllies, allies, v)}
+                onAdd={(v) => addTo(setAllies, allies, v, 5)}
+                disabled={allies.length >= 5}
               />
             </ListBox>
           </aside>
@@ -1318,11 +1332,12 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="enemies"
-              onDrop={(name) => addTo(setEnemies, enemies, name)}
+              onDrop={(name) => addTo(setEnemies, enemies, name, 5)}
             >
               <AddHeroInput
                 placeholder="Ajouter un pick adverse…"
-                onAdd={(v) => addTo(setEnemies, enemies, v)}
+                onAdd={(v) => addTo(setEnemies, enemies, v, 5)}
+                disabled={enemies.length >= 5}
               />
             </ListBox>
           </aside>

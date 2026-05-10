@@ -503,7 +503,41 @@
     ]
   },
   {
-    "name": "Chogall",
+    "name": "Cho",
+    "tier": "B",
+    "role": "Tank",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "JARDINS_DE_TERREUR",
+      "TOMBE_DE_LA_REINE_ARAIGNEE"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "MENACE_NUCLEAIRE",
+      "BAIE_DE_COEUR_NOIR"
+    ],
+    "synergy_with": [
+      "Alexstrasza",
+      "Ana",
+      "Auriel",
+      "Luisaile",
+      "Yrel ",
+      "Kramer"
+    ],
+    "counter_by": [
+      "Anub'arak",
+      "Garrosh",
+      "Greymane",
+      "Imperius",
+      "kharazim",
+      "Leoric",
+      "Malthael",
+      "Raynor",
+      "Tychus"
+    ]
+  },
+  {
+    "name": "Gall",
     "tier": "B",
     "role": "Mage",
     "map_strong": [
@@ -1394,7 +1428,7 @@
     ],
     "synergy_with": [
       "Diablo",
-      "Chogall",
+      "Cho",
       "Balafre",
       "Tracer",
       "Genji"
