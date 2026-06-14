@@ -113,7 +113,7 @@
       "Sylvanas"
     ],
     "counter_by": [
-      "Varian",
+      "Varian Tank",
       "Sonya",
       "Lunara",
       "Kaelthas",
@@ -198,7 +198,7 @@
       "Malthael",
       "Tracer",
       "Valla",
-      "Varian",
+      "Varian Tank",
       "Zuljin"
     ]
   },
@@ -227,7 +227,7 @@
     "counter_by": [
       "ETC",
       "Arthas",
-      "Varian",
+      "Varian Tank",
       "Jaina",
       "Lunara",
       "Li-li"
@@ -788,7 +788,7 @@
     "counter_by": [
       "ETC",
       "Genji",
-      "Varian",
+      "Varian Tank",
       "Lucio",
       "Zeratul"
     ]
@@ -873,7 +873,7 @@
       "ETC"
     ],
     "counter_by": [
-      "Varian",
+      "Varian Tank",
       "Malfurion",
       "Lunara",
       "Uther"
@@ -1025,7 +1025,7 @@
       "Johanna",
       "Sonya",
       "Uther",
-      "Varian"
+      "Varian Tank"
     ]
   },
   {
@@ -1079,7 +1079,7 @@
       "Maeiv",
       "Malfurion",
       "Muradin",
-      "Varian",
+      "Varian Tank",
       "Xul"
     ],
     "counter_by": [
@@ -1119,7 +1119,7 @@
       "Deckard"
     ],
     "counter_by": [
-      "Varian",
+      "Varian Tank",
       "Leoric",
       "Hanzo",
       "Zeratul"
@@ -1227,7 +1227,7 @@
       "Arthas",
       "Malfurion",
       "Valeera",
-      "Varian",
+      "Varian Tank",
       "Xul",
       "Johanna",
       "Boucher"
@@ -1371,7 +1371,7 @@
       "Johanna",
       "Malfurion",
       "Valeera",
-      "Varian",
+      "Varian Tank",
       "Xul"
     ],
     "counter_by": [
@@ -1431,7 +1431,7 @@
       "Valla"
     ],
     "counter_by": [
-      "Varian",
+      "Varian Tank",
       "Anub'arak",
       "Hammer",
       "Raynor"
@@ -1865,7 +1865,7 @@
       "Diablo",
       "Johanna",
       "Malganis",
-      "Varian",
+      "Varian Tank",
       "Xul"
     ],
     "counter_by": [
@@ -2009,7 +2009,7 @@
     ],
     "counter_by": [
       "Muradin",
-      "Varian",
+      "Varian Tank",
       "Ana",
       "Tracer"
     ]
@@ -2232,7 +2232,7 @@
       "Abathur"
     ],
     "counter_by": [
-      "Varian",
+      "Varian Tank",
       "Diablo",
       "Medivh",
       "Raynor",
@@ -2306,7 +2306,7 @@
     "synergy_with": [
       "Diablo",
       "ETC",
-      "Varian",
+      "Varian Tank",
       "Anub'arak",
       "Li-ming"
     ],
@@ -2399,7 +2399,7 @@
     ]
   },
   {
-    "name": "Varian",
+    "name": "Varian Tank",
     "tier": "B",
     "role": "Tank",
     "map_strong": [
@@ -2430,7 +2430,7 @@
     ]
   },
   {
-    "name": "Varian",
+    "name": "Varian Bruiser",
     "tier": "C",
     "role": "Bruiser",
     "map_strong": [
@@ -2461,7 +2461,7 @@
     ]
   },
   {
-    "name": "Varian",
+    "name": "Varian Dps Mêlée",
     "tier": "C",
     "role": "Dps Mêléee",
     "map_strong": [
@@ -2667,7 +2667,7 @@
       "Luisaile",
       "Diablo",
       "Uther",
-      "Varian",
+      "Varian Tank",
       "ETC",
       "Medivh"
     ]
