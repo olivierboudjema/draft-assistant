@@ -1271,6 +1271,34 @@
     ]
   },
   {
+    "name": "Kramer",
+    "tier": "C",
+    "role": "Tank",
+    "map_strong": [
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN",
+      "TEMPLE_CELESTE"
+    ],
+    "map_weak": [
+      "COMTE_DU_DRAGON",
+      "BAIE_DE_COEUR_NOIR"
+    ],
+    "synergy_with": [
+      "Arthas",
+      "Kerrigan",
+      "Maeiv",
+      "Malfurion"
+    ],
+    "counter_by": [
+      "Leoric",
+      "Lunara",
+      "Malthael",
+      "Nova",
+      "Tracer",
+      "Valla"
+    ]
+  },
+  {
     "name": "Leoric",
     "tier": "A",
     "role": "Bruiser",
@@ -2155,7 +2183,7 @@
   },
   {
     "name": "Thrall",
-      "tier": "A",
+    "tier": "A",
     "role": "Bruiser",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -2402,6 +2430,68 @@
     ]
   },
   {
+    "name": "Varian",
+    "tier": "C",
+    "role": "Bruiser",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE",
+      "TEMPLE_D_HAANMURA",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": [
+      "ETC",
+      "Kramer",
+      "Li-ming",
+      "Tyrande"
+    ],
+    "counter_by": [
+      "ETC",
+      "Arthas",
+      "Lunara",
+      "Medivh",
+      "Rehgar"
+    ]
+  },
+  {
+    "name": "Varian",
+    "tier": "C",
+    "role": "Dps Mêléee",
+    "map_strong": [
+      "LABORATOIRE_DE_BRAXIS",
+      "COMTE_DU_DRAGON",
+      "TOURS_DU_DESTIN",
+      "MENACE_NUCLEAIRE",
+      "TEMPLE_D_HAANMURA",
+      "JARDINS_DE_TERREUR"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "SANCTUAIRES_INFERNAUX",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": [
+      "ETC",
+      "Kramer",
+      "Li-ming",
+      "Tyrande"
+    ],
+    "counter_by": [
+      "ETC",
+      "Arthas",
+      "Lunara",
+      "Medivh",
+      "Rehgar"
+    ]
+  },
+  {
     "name": "Les vikings perdus",
     "tier": "C",
     "role": "Range Auto",
@@ -2606,7 +2696,4 @@
       "Uther"
     ]
   }
-
 ]
-
-
