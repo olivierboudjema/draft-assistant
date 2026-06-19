@@ -39,7 +39,7 @@
   },
   {
     "name": "Alexstrasza",
-    "tier": "C",
+    "tier": "B",
     "role": "Healer",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX"
@@ -122,7 +122,7 @@
   },
   {
     "name": "Aile de mort",
-    "tier": "S",
+    "tier": "A",
     "role": "Dps Mêléee",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -171,7 +171,7 @@
   },
   {
     "name": "Anub'arak",
-    "tier": "A",
+    "tier": "B",
     "role": "Tank",
     "map_strong": [
       "VAL_MAUDIT",
@@ -298,7 +298,7 @@
   },
   {
     "name": "Asmodan",
-    "tier": "A",
+    "tier": "B",
     "role": "Mage",
     "map_strong": [
       "VAL_MAUDIT",
@@ -331,7 +331,7 @@
   },
   {
     "name": "Balafre",
-    "tier": "B",
+    "tier": "C",
     "role": "Tank",
     "map_strong": [
       "VAL_MAUDIT",
@@ -389,7 +389,7 @@
   },
   {
     "name": "Butcher",
-    "tier": "C",
+    "tier": "B",
     "role": "Dps Mêléee",
     "map_strong": [
       "COMTE_DU_DRAGON",
@@ -440,7 +440,7 @@
   },
   {
     "name": "Chacal",
-    "tier": "A",
+    "tier": "B",
     "role": "Mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -593,7 +593,7 @@
   },
   {
     "name": "Dehaka",
-    "tier": "S",
+    "tier": "A",
     "role": "Bruiser",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -625,7 +625,7 @@
   },
   {
     "name": "Deckard",
-    "tier": "A",
+    "tier": "B",
     "role": "Healer",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -654,7 +654,7 @@
   },
   {
     "name": "Diablo",
-    "tier": "A",
+    "tier": "B",
     "role": "Tank",
     "map_strong": [
       "VAL_MAUDIT",
@@ -715,7 +715,7 @@
   },
   {
     "name": "ETC",
-    "tier": "A",
+    "tier": "B",
     "role": "Tank",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE"
@@ -823,7 +823,7 @@
   },
   {
     "name": "Gazlowe",
-    "tier": "B",
+    "tier": "C",
     "role": "Bruiser",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -937,7 +937,7 @@
   },
   {
     "name": "Hammer",
-    "tier": "B",
+    "tier": "A",
     "role": "Range Auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -966,7 +966,7 @@
   },
   {
     "name": "Hanzo",
-    "tier": "C",
+    "tier": "B",
     "role": "Range Auto",
     "map_strong": [
       "VAL_MAUDIT",
@@ -1030,7 +1030,7 @@
   },
   {
     "name": "Imperius",
-    "tier": "B",
+    "tier": "C",
     "role": "Bruiser",
     "map_strong": [
       "TOURS_DU_DESTIN",
@@ -1063,7 +1063,7 @@
   },
   {
     "name": "Jaina",
-    "tier": "A",
+    "tier": "B",
     "role": "Mage",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -1095,7 +1095,7 @@
   },
   {
     "name": "Johanna",
-    "tier": "S",
+    "tier": "B",
     "role": "Tank",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -1127,7 +1127,7 @@
   },
   {
     "name": "Kaelthas",
-    "tier": "A",
+    "tier": "B",
     "role": "Mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -1272,7 +1272,7 @@
   },
   {
     "name": "Kramer Tank",
-    "tier": "C",
+    "tier": "D",
     "role": "Tank",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
@@ -1439,7 +1439,7 @@
   },
   {
     "name": "Luisaile",
-    "tier": "A",
+    "tier": "S",
     "role": "Healer",
     "map_strong": [
       "VAL_MAUDIT",
@@ -1491,7 +1491,7 @@
   },
   {
     "name": "Malganis",
-    "tier": "C",
+    "tier": "S",
     "role": "Tank",
     "map_strong": [
       "SANCTUAIRES_INFERNAUX",
@@ -1654,7 +1654,7 @@
   },
   {
     "name": "Mei",
-    "tier": "B",
+    "tier": "C",
     "role": "Tank",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -1740,7 +1740,7 @@
   },
   {
     "name": "Muradin",
-    "tier": "A",
+    "tier": "C",
     "role": "Tank",
     "map_strong": [
       "TEMPLE_D_HAANMURA",
@@ -1770,7 +1770,7 @@
   },
   {
     "name": "Bourbie",
-    "tier": "C",
+    "tier": "D",
     "role": "Bruiser",
     "map_strong": [
       "JARDINS_DE_TERREUR"
@@ -1909,7 +1909,7 @@
   },
   {
     "name": "Qhira",
-    "tier": "D",
+    "tier": "C",
     "role": "Dps Mêléee",
     "map_strong": [
       "COMTE_DU_DRAGON",
@@ -1935,7 +1935,7 @@
   },
   {
     "name": "Ragnaros",
-    "tier": "A",
+    "tier": "B",
     "role": "Bruiser",
     "map_strong": [
       "MENACE_NUCLEAIRE",
@@ -1963,7 +1963,7 @@
   },
   {
     "name": "Raynor",
-    "tier": "A",
+    "tier": "B",
     "role": "Range Auto",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -2036,7 +2036,7 @@
   },
   {
     "name": "Samuro",
-    "tier": "A",
+    "tier": "B",
     "role": "Dps Mêléee",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -2098,7 +2098,7 @@
   },
   {
     "name": "Stukov",
-    "tier": "A",
+    "tier": "B",
     "role": "Healer",
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
@@ -2266,7 +2266,7 @@
   },
   {
     "name": "Tyrael",
-    "tier": "S",
+    "tier": "A",
     "role": "Tank",
     "map_strong": [
       "VAL_MAUDIT",
@@ -2294,7 +2294,7 @@
   },
   {
     "name": "Tyrande",
-    "tier": "B",
+    "tier": "A",
     "role": "Healer",
     "map_strong": [
       "CHAMPS_DE_L_ETERNITE",
@@ -2493,7 +2493,7 @@
   },
   {
     "name": "Les vikings perdus",
-    "tier": "C",
+    "tier": "B",
     "role": "Range Auto",
     "map_strong": [
       "PASSE_D_ALTERAC",
@@ -2528,7 +2528,7 @@
   },
   {
     "name": "Xul",
-    "tier": "A",
+    "tier": "B",
     "role": "Bruiser",
     "map_strong": [
       "VAL_MAUDIT",
@@ -2583,7 +2583,7 @@
   },
   {
     "name": "Zagara",
-    "tier": "A",
+    "tier": "B",
     "role": "Mage",
     "map_strong": [
       "PASSE_D_ALTERAC",
