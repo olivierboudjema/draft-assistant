@@ -33,7 +33,7 @@
       "Zeratul",
       "Ragnaros",
       "Zarya",
-      "Hammer",
+      "Sergent Marteau",
       "Sylvanas"
     ]
   },
@@ -191,7 +191,7 @@
       "Kaelthas",
       "Kerrigan",
       "Rehgar",
-      "Butcher"
+      "Boucher"
     ],
     "counter_by": [
       "Leoric",
@@ -388,7 +388,7 @@
     ]
   },
   {
-    "name": "Butcher",
+    "name": "Boucher",
     "tier": "B",
     "role": "Dps Mêléee",
     "map_strong": [
@@ -619,7 +619,7 @@
       "Raynor",
       "Valla",
       "ETC",
-      "Hammer",
+      "Sergent Marteau",
       "Lucio"
     ]
   },
@@ -936,7 +936,7 @@
     ]
   },
   {
-    "name": "Hammer",
+    "name": "Sergent Marteau",
     "tier": "A",
     "role": "Range Auto",
     "map_strong": [
@@ -1055,7 +1055,7 @@
     "counter_by": [
       "Jaina",
       "Raynor",
-      "Hammer",
+      "Sergent Marteau",
       "Zuljin",
       "ETC",
       "Lucio"
@@ -1433,7 +1433,7 @@
     "counter_by": [
       "Varian Tank",
       "Anub'arak",
-      "Hammer",
+      "Sergent Marteau",
       "Raynor"
     ]
   },
@@ -1788,7 +1788,7 @@
     "counter_by": [
       "Sonya",
       "Falstad",
-      "Butcher",
+      "Boucher",
       "Alarak"
     ]
   },
@@ -2236,7 +2236,7 @@
       "Diablo",
       "Medivh",
       "Raynor",
-      "Hammer"
+      "Sergent Marteau"
     ]
   },
   {
@@ -2282,7 +2282,7 @@
       "Kramer Tank",
       "Illidan",
       "Alarak",
-      "Hammer",
+      "Sergent Marteau",
       "Lt morales"
     ],
     "counter_by": [
@@ -2514,7 +2514,7 @@
       "Garrosh",
       "Sylvanas",
       "Raynor",
-      "Hammer"
+      "Sergent Marteau"
     ],
     "counter_by": [
       "Zagara",
@@ -2525,6 +2525,15 @@
       "Dehaka",
       "Li-ming"
     ]
+  },
+  {
+    "name": "Xal'Atath",
+    "tier": "A",
+    "role": "Mage",
+    "map_strong": [],
+    "map_weak": [],
+    "synergy_with": [],
+    "counter_by": []
   },
   {
     "name": "Xul",
@@ -2553,7 +2562,7 @@
       "ETC",
       "Johanna",
       "Jaina",
-      "Hammer",
+      "Sergent Marteau",
       "Auriel"
     ]
   },
