@@ -28,7 +28,7 @@ const HERO_SLUG_OVERRIDES = {
   "balafre": "stitches",
   "blanchetete": "whitemane",
   "bourbie": "murky",
-  "butcher": "thebutcher",
+  "boucher": "thebutcher",
   "chacal": "junkrat",
   "cho": "chogall",
   "gall": "chogall",
@@ -37,7 +37,7 @@ const HERO_SLUG_OVERRIDES = {
   "varian dps mêlée": "varian",
   "dva": "dva",
   "etc": "etc",
-  "hammer": "sgthammer",
+  "sergent marteau": "sgthammer",
   "kramer tank": "blaze",
   "kramer dps": "blaze",
   "lardeur": "hogger",
@@ -667,10 +667,6 @@ function HeroCard({ name, role, score, breakdown, DB }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const cardRef = useRef(null);
 
-  const handleMouseEnter = () => {
-    setShowTooltips(true);
-  };
-
   const handleMouseLeave = (event) => {
     const next = event?.relatedTarget;
     const isInsideCard = next && cardRef.current?.contains(next);
@@ -704,7 +700,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div>
             <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
           </div>
           <div className="min-w-0">
@@ -728,10 +724,6 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const rowRef = useRef(null);
 
-  const handleMouseEnter = () => {
-    setShowTooltips(true);
-  };
-
   const handleMouseLeave = (event) => {
     const next = event?.relatedTarget;
     const isInsideRow = next && rowRef.current?.contains(next);
@@ -753,7 +745,7 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
       className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
     >
       <div className="flex items-center flex-1 gap-1.5 min-w-0">
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div>
           <HeroPortrait name={name} src={DB[name]?.portrait} size={compact ? 28 : 34} score={score} />
         </div>
         <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips} onHoverChange={handleHoverChange}>
