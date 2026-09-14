@@ -382,7 +382,7 @@ function explainScore(hero, DB, state, opts = {}) {
   // --- CARTES ---
   if (state.map && H.favMaps && H.favMaps.includes(state.map)) {
     rows.push({
-      label: `Carte favorable (${state.map})`,
+      label: `Carte favorable `,
       delta: +1,
     });
   }
@@ -523,7 +523,7 @@ function HeroPortrait({ name, src, size = 48, score = null }) {
 function RoleChip({ role }) {
   const m = ROLE_META[role] || { badge: "•", cls: "bg-slate-800/40" };
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded-full border ${m.cls}`}>
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded-full border whitespace-nowrap ${m.cls}`}>
       <span>{m.badge}</span>
       {role}
     </span>
