@@ -630,7 +630,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
   const badgeStyle = getScoreBadgeStyle(value);
   const Tooltip = breakdown
     ? (
-      <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[300px] max-w-[92vw] p-4 text-[12px] shadow-2xl text-slate-200">
+      <div className="rounded-2xl border border-indigo-700/40 bg-[#05070f] w-[220px] max-w-[92vw] p-4 text-[12px] shadow-2xl text-slate-200">
         <div className="font-semibold text-sm mb-2">Détail du score</div>
         <ul className="space-y-1 max-h-64 overflow-auto pr-1">
           {breakdown.map((row, idx) => (
@@ -1125,7 +1125,7 @@ export default function DraftAssistant() {
         score: computeScoreFor(h, DB, mirrorState, { sideForRole: "allies" }),
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 6);
+      .slice(0, 8);
   }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
 
   const comp = getCompositionStatus(allies, DB);
@@ -1272,7 +1272,7 @@ export default function DraftAssistant() {
                 <div className={SECTION_TITLE_CLASS}>Reco allié à pick</div>
                 <span className="text-[11px] text-slate-400">Top {allyReco.length}</span>
               </div>
-              <div className="max-h-[380px] overflow-y-auto no-scrollbar reco-scroll pr-1">
+              <div className="max-h-[330px] overflow-y-auto no-scrollbar reco-scroll pr-1">
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {allyReco.map((r) => (
                     <HeroCard
