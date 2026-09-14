@@ -666,6 +666,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
 function HeroCard({ name, role, score, breakdown, DB }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const cardRef = useRef(null);
+  const dragGhostRef = useRef(null);
 
   const handleMouseLeave = (event) => {
     const next = event?.relatedTarget;
@@ -688,6 +689,59 @@ function HeroCard({ name, role, score, breakdown, DB }) {
       onDragStart={(e) => {
         e.dataTransfer.setData("hero", name);
         e.dataTransfer.effectAllowed = "copy";
+
+        // Chrome/Edge assombrissent systématiquement l'aperçu natif du glisser-déposer,
+        // même avec une image personnalisée. On masque donc cet aperçu natif (image vide)
+        // et on affiche nous-mêmes un clone de la carte, opaque, qui suit le curseur.
+        const original = e.currentTarget;
+        const rect = original.getBoundingClientRect();
+        const offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+        const emptyImage = document.createElement("canvas");
+        emptyImage.width = 1;
+        emptyImage.height = 1;
+        e.dataTransfer.setDragImage(emptyImage, 0, 0);
+
+        const ghost = original.cloneNode(true);
+        ghost.style.position = "fixed";
+        ghost.style.zIndex = "9999";
+        ghost.style.width = `${rect.width}px`;
+        ghost.style.height = `${rect.height}px`;
+        ghost.style.left = `${rect.left}px`;
+        ghost.style.top = `${rect.top}px`;
+        ghost.style.margin = "0";
+        ghost.style.pointerEvents = "none";
+        ghost.style.opacity = "1";
+        ghost.style.backdropFilter = "none";
+        ghost.style.background = "linear-gradient(to bottom right, #1c2f53, #284573, #2f5b88)";
+        ghost.style.transform = "none";
+        document.body.appendChild(ghost);
+        dragGhostRef.current = ghost;
+
+        // On pilote le clone via des écouteurs globaux (et non les props React
+        // onDrag/onDragEnd) : le drop peut faire disparaître cette carte de la liste
+        // (ex. déplacée vers "Picks alliés"), et un composant démonté ne reçoit plus
+        // ses événements React, ce qui laisserait le clone bloqué à l'écran.
+        const handleDrag = (ev) => {
+          // En fin de glisser, certains navigateurs renvoient (0,0) : on ignore ce cas.
+          if (ev.clientX === 0 && ev.clientY === 0) return;
+          ghost.style.left = `${ev.clientX - offset.x}px`;
+          ghost.style.top = `${ev.clientY - offset.y}px`;
+        };
+
+        const cleanup = () => {
+          ghost.remove();
+          if (dragGhostRef.current === ghost) dragGhostRef.current = null;
+          document.removeEventListener("drag", handleDrag);
+          document.removeEventListener("dragend", cleanup);
+          document.removeEventListener("drop", cleanup, true);
+        };
+
+        document.addEventListener("drag", handleDrag);
+        // "drop" (capturé avant que le composant source ne soit démonté par le
+        // changement d'état) couvre le dépôt réussi ; "dragend" couvre l'annulation.
+        document.addEventListener("drop", cleanup, true);
+        document.addEventListener("dragend", cleanup);
       }}
       onMouseLeave={handleMouseLeave}
       className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70 cursor-grab active:cursor-grabbing"
@@ -704,7 +758,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
             <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
           </div>
           <div className="min-w-0">
-            <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips} onHoverChange={handleHoverChange}>
+            <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
               <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
             </HeroInfoHover>
             <div className="mt-1 flex">
@@ -748,7 +802,7 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
         <div>
           <HeroPortrait name={name} src={DB[name]?.portrait} size={compact ? 28 : 34} score={score} />
         </div>
-        <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips} onHoverChange={handleHoverChange}>
+        <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
           <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
             {name}
           </span>
@@ -826,45 +880,17 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
             selfNeutralizeRole: true,
             sideForRole: side,
           });
-          if (side === "allies") {
-            return (
-              <HeroListRow
-                key={h + String(i)}
-                name={h}
-                role={role}
-                score={score}
-                breakdown={breakdown}
-                DB={DB}
-                compact={compact}
-                onRemove={() => onRemove && onRemove(i)}
-              />
-            );
-          }
           return (
-            <div key={h + String(i)} className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}>
-              <div className="flex items-center flex-1 gap-1.5 min-w-0">
-                <HeroPortrait name={h} src={DB[h]?.portrait} size={compact ? 28 : 34} />
-                <HeroInfoHover name={h} DB={DB}>
-                  <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
-                    {h}
-                  </span>
-                </HeroInfoHover>
-                {role && (
-                  <span className="ml-1">
-                    <RoleChip role={role} />
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                <ScoreBadge value={score} breakdown={breakdown} />
-                <button
-                  onClick={() => onRemove && onRemove(i)}
-                  className={`${compact ? "text-[10px] px-2 py-0.5" : "text-xs px-3 py-1"} rounded-full border border-rose-500/30 text-rose-100 bg-rose-500/10 hover:bg-rose-500/30 transition`}
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
+            <HeroListRow
+              key={h + String(i)}
+              name={h}
+              role={role}
+              score={score}
+              breakdown={breakdown}
+              DB={DB}
+              compact={compact}
+              onRemove={() => onRemove && onRemove(i)}
+            />
           );
         })}
         {items.length === 0 && (
@@ -1247,7 +1273,7 @@ export default function DraftAssistant() {
                 <span className="text-[11px] text-slate-400">Top {allyReco.length}</span>
               </div>
               <div className="max-h-[380px] overflow-y-auto no-scrollbar reco-scroll pr-1">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {allyReco.map((r) => (
                     <HeroCard
                       key={r.name}
@@ -1271,7 +1297,7 @@ export default function DraftAssistant() {
                   Reco à ban (meilleurs picks potentiels pour l'adversaire)
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-4 gap-2.5">
                 {enemyPotential.map((r) => (
                   <HeroCard
                     key={r.name}
@@ -1294,7 +1320,7 @@ export default function DraftAssistant() {
                   />
                 ))}
                 {enemyPotential.length === 0 && (
-                  <div className="col-span-3 text-xs opacity-60">
+                  <div className="col-span-4 text-xs opacity-60">
                     Aucun héros à ban suggéré
                   </div>
                 )}
