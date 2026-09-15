@@ -20,6 +20,11 @@ const TIER_BONUS = {
 // Plage visuelle utilisée pour le dégradé des scores
 const SCORE_VISUAL_RANGE = { min: 5, max: 22 };
 
+// Événements globaux signalant qu'une carte héros est en cours de glisser-déposer,
+// pour que les zones de dépôt (ListBox) puissent se mettre en surbrillance.
+const HERO_DRAG_START_EVENT = "hero-drag-start";
+const HERO_DRAG_END_EVENT = "hero-drag-end";
+
 const HERO_IMAGE_BASE = "https://raw.githubusercontent.com/heroespatchnotes/heroes-talents/master/images/heroes";
 
 const HERO_SLUG_OVERRIDES = {
@@ -689,6 +694,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
       onDragStart={(e) => {
         e.dataTransfer.setData("hero", name);
         e.dataTransfer.effectAllowed = "copy";
+        document.dispatchEvent(new CustomEvent(HERO_DRAG_START_EVENT));
 
         // Chrome/Edge assombrissent systématiquement l'aperçu natif du glisser-déposer,
         // même avec une image personnalisée. On masque donc cet aperçu natif (image vide)
@@ -735,6 +741,7 @@ function HeroCard({ name, role, score, breakdown, DB }) {
           document.removeEventListener("drag", handleDrag);
           document.removeEventListener("dragend", cleanup);
           document.removeEventListener("drop", cleanup, true);
+          document.dispatchEvent(new CustomEvent(HERO_DRAG_END_EVENT));
         };
 
         document.addEventListener("drag", handleDrag);
@@ -828,6 +835,18 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
 
 function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", children = null, tall = false, onDrop }) {
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isHeroDragging, setIsHeroDragging] = useState(false);
+
+  useEffect(() => {
+    const onStart = () => setIsHeroDragging(true);
+    const onEnd = () => setIsHeroDragging(false);
+    document.addEventListener(HERO_DRAG_START_EVENT, onStart);
+    document.addEventListener(HERO_DRAG_END_EVENT, onEnd);
+    return () => {
+      document.removeEventListener(HERO_DRAG_START_EVENT, onStart);
+      document.removeEventListener(HERO_DRAG_END_EVENT, onEnd);
+    };
+  }, []);
 
   const heightCls = tall
     ? compact
@@ -858,7 +877,12 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
 
   return (
     <div
-      className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"} transition-all ${isDragOver ? "ring-2 ring-cyan-400/70 bg-cyan-500/5" : ""}`}
+      className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"} transition-all ${isDragOver
+          ? "ring-2 ring-cyan-400/70 bg-cyan-500/5"
+          : isHeroDragging
+            ? "ring-2 ring-cyan-300/60 bg-cyan-500/[0.04]"
+            : ""
+        }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
