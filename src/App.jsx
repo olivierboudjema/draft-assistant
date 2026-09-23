@@ -1111,6 +1111,13 @@ export default function DraftAssistant() {
     setMap(ALL_MAPS[0]);
   }
 
+  function swapTeams() {
+    setAllies(enemies);
+    setEnemies(allies);
+    setBansAllies(bansEnemies);
+    setBansEnemies(bansAllies);
+  }
+
   const allyReco = useMemo(() => {
     return HERO_LIST.filter(
       (h) =>
@@ -1181,6 +1188,13 @@ export default function DraftAssistant() {
                 className="rounded-2xl border border-indigo-400/40 bg-indigo-500/20 px-4 py-2 text-sm font-semibold hover:bg-indigo-500/40 transition"
               >
                 Algo
+              </button>
+              <button
+                onClick={swapTeams}
+                title="Échanger les héros (picks et bans) entre les deux équipes"
+                className="rounded-2xl border border-cyan-400/40 bg-cyan-500/20 px-4 py-2 text-sm font-semibold hover:bg-cyan-500/35 transition"
+              >
+                ⇄ Échanger
               </button>
               <button
                 onClick={resetAll}
