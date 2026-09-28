@@ -2530,10 +2530,33 @@
     "name": "Xal'Atath",
     "tier": "A",
     "role": "Mage",
-    "map_strong": [],
-    "map_weak": [],
-    "synergy_with": [],
-    "counter_by": []
+    "map_strong": [
+      "PASSE_D_ALTERAC",
+      "COMTE_DU_DRAGON",
+      "SANCTUAIRES_INFERNAUX",
+      "TOURS_DU_DESTIN",
+      "FONDERIE_VOLSKAYA"
+    ],
+    "map_weak": [
+      "CHAMPS_DE_L_ETERNITE",
+      "TEMPLE_D_HAANMURA",
+      "TEMPLE_CELESTE"
+    ],
+    "synergy_with": [
+      "Zeratul",
+      "Maiev",
+      "Anub'arak",
+      "ETC",
+      "Diablo"
+    ],
+    "counter_by": [
+      "Genji",
+      "Tracer",
+      "Zeratul",
+      "Sonya",
+      "Hanzo",
+      "Alarak"
+    ]
   },
   {
     "name": "Xul",
