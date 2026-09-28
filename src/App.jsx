@@ -65,7 +65,16 @@ function heroSlug(name) {
   return slug || null;
 }
 
+// Portraits hébergés localement pour les héros absents du dépôt d'images externe
+// (ex. héros tout juste sortis, pas encore repris par heroespatchnotes/heroes-talents).
+const LOCAL_PORTRAIT_OVERRIDES = {
+  "xal'atath": "/xalatath-portrait.jpg",
+};
+
 function heroPortraitUrl(name) {
+  const key = String(name || "").trim().toLowerCase();
+  if (LOCAL_PORTRAIT_OVERRIDES[key]) return LOCAL_PORTRAIT_OVERRIDES[key];
+
   const slug = heroSlug(name);
   if (!slug) return null;
   return `${HERO_IMAGE_BASE}/${slug}.png`;
