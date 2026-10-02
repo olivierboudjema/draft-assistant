@@ -5,6 +5,8 @@ import maps from '../maps.json';
 import heroes from '../heroes.json';
 
 const ALL_MAPS = maps.map((m) => m.name);
+const DEFAULT_MAP = "Comté du dragon";
+const MAP_LANES = Object.fromEntries(maps.map((m) => [m.name, m.lanes]));
 const HERO_LIST = heroes.map((h) => h.name);
 
 const HERO_PAIRS = { "Cho": "Gall", "Gall": "Cho" };
@@ -493,7 +495,7 @@ const ROLE_META = {
 };
 
 const PANEL_CLASS =
-  "rounded-3xl border border-indigo-900/50 bg-gradient-to-br from-[#0a1330]/95 via-[#101B35]/90 to-[#292757]/85 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
+  "rounded-3xl border border-indigo-900/50 bg-gradient-to-br from-[#0a1330]/75 via-[#101B35]/70 to-[#292757]/65 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
 
 const SECTION_TITLE_CLASS =
   "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
@@ -857,12 +859,14 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
     };
   }, []);
 
+  // Hauteur réservée = juste la place des lignes compactes (3 bans ou 5 picks),
+  // pour que les colonnes latérales tiennent dans l'écran sans scroller.
   const heightCls = tall
     ? compact
-      ? "min-h-[140px]"
-      : "min-h-[200px]"
+      ? "min-h-[96px]"
+      : "min-h-[164px]"
     : compact
-      ? "min-h-[140px]"
+      ? "min-h-[164px]"
       : "min-h-[200px]";
 
   const handleDragOver = (e) => {
@@ -887,20 +891,20 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
   return (
     <div
       className={`${PANEL_CLASS} ${compact ? "p-3.5" : "p-4"} transition-all ${isDragOver
-          ? "ring-2 ring-cyan-400/70 bg-cyan-500/5"
-          : isHeroDragging
-            ? "ring-2 ring-cyan-300/60 bg-cyan-500/[0.04]"
-            : ""
+        ? "ring-2 ring-cyan-400/70 bg-cyan-500/5"
+        : isHeroDragging
+          ? "ring-2 ring-cyan-300/60 bg-cyan-500/[0.04]"
+          : ""
         }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className={`flex items-center justify-between ${compact ? "mb-2" : "mb-3"}`}>
         <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[9px]" : ""}`}>{title}</div>
         <span className="text-[10px] text-slate-400 tracking-widest">#{items.length}</span>
       </div>
-      {children && <div className="mb-3">{children}</div>}
+      {children && <div className={compact ? "mb-2" : "mb-3"}>{children}</div>}
       <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-2"} ${heightCls}`}>
         {items.map((h, i) => {
           const role = DB[h]?.role;
@@ -927,7 +931,7 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
           );
         })}
         {items.length === 0 && (
-          <div className="text-[11px] text-slate-400/70 text-center py-4">
+          <div className={`text-[11px] text-slate-400/70 text-center ${compact ? "py-2" : "py-4"}`}>
             Aucun héros pour le moment
           </div>
         )}
@@ -1077,9 +1081,80 @@ function GlobalScores({ DB, state }) {
   );
 }
 
+// Images des cartes : public/maps/<ID>.jpg (ID tel que défini dans maps.json),
+// tirées des écrans de chargement du jeu (dépôt HeroesToolChest/heroes-images)
+const MAP_IMAGE_BASE = "/maps";
+
+// Vues de dessus des cartes : public/maps/layout/<ID>.jpg, tirées de nexuscompendium.com
+const MAP_LAYOUT_BASE = "/maps/layout";
+
+function mapImageUrl(mapName) {
+  const m = maps.find((x) => x.name === mapName);
+  return m ? `${MAP_IMAGE_BASE}/${m.id}.jpg` : null;
+}
+
+function mapLayoutUrl(mapName) {
+  const m = maps.find((x) => x.name === mapName);
+  return m ? `${MAP_LAYOUT_BASE}/${m.id}.jpg` : null;
+}
+
+// Prend toute la hauteur restante de la colonne (flex-1) : l'image est positionnée en absolu
+// pour ne pas agrandir la colonne, qui reste ainsi alignée sur la hauteur de la colonne centrale.
+function MapImagePanel({ title, src, alt, fit = "cover", enlargeable = false }) {
+  const [failedSrc, setFailedSrc] = useState(null);
+  if (!src || failedSrc === src) return null;
+
+  return (
+    <div className={`${PANEL_CLASS} p-3 flex-1 flex flex-col min-h-[180px]`}>
+      <div className="flex items-center justify-between mb-2 px-1">
+        {typeof title === "string" ? <div className={SECTION_TITLE_CLASS}>{title}</div> : title}
+        {enlargeable && (
+          <a
+            href={src}
+            target="_blank"
+            rel="noreferrer"
+            className="text-[11px] text-slate-400 hover:text-cyan-300 transition"
+          >
+            Agrandir ↗
+          </a>
+        )}
+      </div>
+      <div className="relative flex-1 min-h-0 overflow-hidden rounded-2xl border border-white/10">
+        <img
+          key={src}
+          src={src}
+          alt={alt}
+          className={`map-bg-fade absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain" : "object-cover"}`}
+          onError={() => setFailedSrc(src)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MapBackground({ map }) {
+  const src = mapImageUrl(map);
+  if (!src) return null;
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+      {/* key={src} : l'image est recréée à chaque changement de carte, ce qui relance le fondu */}
+      <img
+        key={src}
+        src={src}
+        alt=""
+        className="map-bg-fade absolute inset-0 h-full w-full object-cover"
+        onError={(e) => (e.currentTarget.style.display = "none")}
+      />
+      {/* Voile sombre pour garder les panneaux lisibles par-dessus l'image */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#01030a]/55 via-[#030712]/45 to-[#050c1c]/65" />
+    </div>
+  );
+}
+
 export default function DraftAssistant() {
   const DB = useMemo(() => buildHeroDB(), []);
-  const [map, setMap] = useState(ALL_MAPS[0]);
+  const [map, setMap] = useState(DEFAULT_MAP);
   const [allies, setAllies] = useState([]);
   const [enemies, setEnemies] = useState([]);
   const [bansAllies, setBansAllies] = useState([]);
@@ -1117,7 +1192,7 @@ export default function DraftAssistant() {
     setEnemies([]);
     setBansAllies([]);
     setBansEnemies([]);
-    setMap(ALL_MAPS[0]);
+    setMap(DEFAULT_MAP);
   }
 
   function swapTeams() {
@@ -1165,15 +1240,16 @@ export default function DraftAssistant() {
         score: computeScoreFor(h, DB, mirrorState, { sideForRole: "allies" }),
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 8);
+      .slice(0, 24);
   }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
 
   const comp = getCompositionStatus(allies, DB);
 
   return (
     <div className="min-h-screen w-full text-slate-100 app-gradient-bg">
-      <div className="relative z-10">
-        <div className="sticky top-0 z-30 app-gradient-bg backdrop-blur-2xl">
+      <MapBackground map={map} />
+      <div className="relative z-10 min-h-screen flex flex-col">
+        <div className="sticky top-0 z-30 bg-[#030712]/55 backdrop-blur-2xl">
           <div className="w-full flex items-center justify-between px-3 py-2">
             <div>
               <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
@@ -1251,7 +1327,7 @@ export default function DraftAssistant() {
           </div>
         )}
 
-        <div className="w-full grid grid-cols-12 gap-3 p-3">
+        <div className="w-full flex-1 grid grid-cols-12 gap-3 p-3">
           <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
             <ListBox
               title="Ban allié"
@@ -1274,6 +1350,7 @@ export default function DraftAssistant() {
               title="Picks alliés"
               items={allies}
               onRemove={(i) => removeFrom(setAllies, allies, i)}
+              compact
               DB={DB}
               state={state}
               side="allies"
@@ -1285,6 +1362,21 @@ export default function DraftAssistant() {
                 disabled={allies.length >= 5}
               />
             </ListBox>
+            <MapImagePanel
+              title={
+                MAP_LANES[map] ? (
+                  <div className="text-[13px] uppercase tracking-[0.4em] font-bold text-white">
+                    Map à <span className="text-cyan-300">{MAP_LANES[map]}</span> lanes
+                  </div>
+                ) : (
+                  "Structure de la map"
+                )
+              }
+              src={mapLayoutUrl(map)}
+              alt={`Vue de dessus : ${map}`}
+              fit="contain"
+              enlargeable
+            />
           </aside>
 
           {/* Centre */}
@@ -1314,12 +1406,15 @@ export default function DraftAssistant() {
               </div>
             </div>
 
-            <div className={`${PANEL_CLASS} p-4`}>
+            {/* Les listes de reco prennent toute la hauteur dispo (flex) et défilent au-delà.
+                Le contenu est en absolu pour ne pas agrandir la ligne de la grille. */}
+            <div className={`${PANEL_CLASS} p-4 flex-[3] flex flex-col`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={SECTION_TITLE_CLASS}>Reco allié à pick</div>
                 <span className="text-[11px] text-slate-400">Top {allyReco.length}</span>
               </div>
-              <div className="max-h-[330px] overflow-y-auto no-scrollbar reco-scroll pr-1">
+              <div className="relative flex-1 min-h-[330px]">
+              <div className="absolute inset-0 overflow-y-auto no-scrollbar reco-scroll pr-1">
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {allyReco.map((r) => (
                     <HeroCard
@@ -1336,14 +1431,17 @@ export default function DraftAssistant() {
                   )}
                 </div>
               </div>
+              </div>
             </div>
 
-            <div className={`${PANEL_CLASS} p-4`}>
+            <div className={`${PANEL_CLASS} p-4 flex-[2] flex flex-col`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={SECTION_TITLE_CLASS}>
                   Reco à ban (meilleurs picks potentiels pour l'adversaire)
                 </div>
               </div>
+              <div className="relative flex-1 min-h-[160px]">
+              <div className="absolute inset-0 overflow-y-auto no-scrollbar reco-scroll pr-1">
               <div className="grid grid-cols-4 gap-2.5">
                 {enemyPotential.map((r) => (
                   <HeroCard
@@ -1372,6 +1470,8 @@ export default function DraftAssistant() {
                   </div>
                 )}
               </div>
+              </div>
+              </div>
             </div>
           </main>
 
@@ -1398,6 +1498,7 @@ export default function DraftAssistant() {
               title="Picks adverses"
               items={enemies}
               onRemove={(i) => removeFrom(setEnemies, enemies, i)}
+              compact
               DB={DB}
               state={state}
               side="enemies"
@@ -1409,6 +1510,7 @@ export default function DraftAssistant() {
                 disabled={enemies.length >= 5}
               />
             </ListBox>
+            <MapImagePanel title={map} src={mapImageUrl(map)} alt={map} />
           </aside>
         </div>
       </div>

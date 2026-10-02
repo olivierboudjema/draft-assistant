@@ -1,62 +1,77 @@
 [
   {
     "id": "BAIE_DE_COEUR_NOIR",
-    "name": "Baie de coeur noir"
+    "name": "Baie de coeur noir",
+    "lanes": 3
   },
   {
     "id": "CHAMPS_DE_L_ETERNITE",
-    "name": "Champs de l'Éternité"
+    "name": "Champs de l'Éternité",
+    "lanes": 2
   },
   {
     "id": "COMTE_DU_DRAGON",
-    "name": "Comté du dragon"
+    "name": "Comté du dragon",
+    "lanes": 3
   },
   {
     "id": "FONDERIE_VOLSKAYA",
-    "name": "Fonderie Volskaya"
+    "name": "Fonderie Volskaya",
+    "lanes": 3
   },
   {
     "id": "JARDINS_DE_TERREUR",
-    "name": "Jardins de Terreur"
+    "name": "Jardins de Terreur",
+    "lanes": 3
   },
   {
     "id": "LABORATOIRE_DE_BRAXIS",
-    "name": "Laboratoire de Braxis"
+    "name": "Laboratoire de Braxis",
+    "lanes": 2
   },
   {
     "id": "MENACE_NUCLEAIRE",
-    "name": "Menace nucléaire"
+    "name": "Menace nucléaire",
+    "lanes": 3
   },
   {
     "id": "MINE_HANTEE",
-    "name": "Mine hantée"
+    "name": "Mine hantée",
+    "lanes": 2
   },
   {
     "id": "PASSE_D_ALTERAC",
-    "name": "Passe d'Alterac"
+    "name": "Passe d'Alterac",
+    "lanes": 3
   },
   {
     "id": "SANCTUAIRES_INFERNAUX",
-    "name": "Sanctuaires infernaux"
+    "name": "Sanctuaires infernaux",
+    "lanes": 3
   },
   {
     "id": "TEMPLE_CELESTE",
-    "name": "Temple céleste"
+    "name": "Temple céleste",
+    "lanes": 3
   },
   {
     "id": "TEMPLE_D_HAANMURA",
-    "name": "Temple d'Hanamura"
+    "name": "Temple d'Hanamura",
+    "lanes": 2
   },
   {
     "id": "TOMBE_DE_LA_REINE_ARAIGNEE",
-    "name": "Tombe de la Reine araignée"
+    "name": "Tombe de la Reine araignée",
+    "lanes": 3
   },
   {
     "id": "TOURS_DU_DESTIN",
-    "name": "Tours du destin"
+    "name": "Tours du destin",
+    "lanes": 3
   },
   {
     "id": "VAL_MAUDIT",
-    "name": "Val maudit"
+    "name": "Val maudit",
+    "lanes": 3
   }
 ]

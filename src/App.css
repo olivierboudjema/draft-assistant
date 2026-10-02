@@ -43,3 +43,13 @@ body::-webkit-scrollbar,
 #root::-webkit-scrollbar {
   display: none;
 }
+
+.map-bg-fade {
+  animation: map-bg-fade-in 0.6s ease-out;
+}
+
+@keyframes map-bg-fade-in {
+  from {
+    opacity: 0;
+  }
+}
