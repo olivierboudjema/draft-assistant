@@ -686,7 +686,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
   );
 }
 
-function HeroCard({ name, role, score, breakdown, DB }) {
+function HeroCard({ name, role, score, breakdown, DB, popular = false }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const cardRef = useRef(null);
   const dragGhostRef = useRef(null);
@@ -779,8 +779,16 @@ function HeroCard({ name, role, score, breakdown, DB }) {
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <div>
+          <div className="relative">
             <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
+            {popular && (
+              <span
+                title="Top 25% des héros les plus pick/ban"
+                className="absolute -top-1.5 -left-1.5 z-10 rounded-full border border-red-300/70 bg-red-600 px-1.5 py-px text-[8px] font-bold uppercase tracking-wider text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+              >
+                Top
+              </span>
+            )}
           </div>
           <div className="min-w-0">
             <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
@@ -1299,7 +1307,6 @@ export default function DraftAssistant() {
   const [showHelp, setShowHelp] = useState(false);
   const [popularity, setPopularity] = useState(() => mergePopularity(filePopularity(), loadLocalPopularity()));
   const [lastValidatedDraft, setLastValidatedDraft] = useState(null);
-  const [validationMsg, setValidationMsg] = useState(null);
 
   const popularityBonus = useMemo(() => computePopularityBonus(popularity), [popularity]);
   const state = { map, allies, enemies, bansAllies, bansEnemies, popularityBonus };
@@ -1307,14 +1314,14 @@ export default function DraftAssistant() {
   const gameHeroes = [...new Set([...allies, ...enemies, ...bansAllies, ...bansEnemies])];
   // Empêche de compter deux fois la même draft (double clic, re-validation)
   const draftKey = JSON.stringify([allies, enemies, bansAllies, bansEnemies]);
-  const canValidate = gameHeroes.length > 0 && draftKey !== lastValidatedDraft;
+  const draftComplete = allies.length + enemies.length === 10;
+  const gameValidated = draftKey === lastValidatedDraft;
+  const canValidate = draftComplete && !gameValidated;
 
   async function validateGame() {
     if (!canValidate) return;
     setLastValidatedDraft(draftKey);
     setPopularity(await recordGame(gameHeroes));
-    setValidationMsg(`Game validée : +1 pour ${gameHeroes.length} héros`);
-    setTimeout(() => setValidationMsg(null), 3000);
   }
 
   function addTo(setter, list, name, limit) {
@@ -1438,16 +1445,22 @@ export default function DraftAssistant() {
               </select>
             </div>
             <div className="flex items-center gap-2">
-              {validationMsg && (
-                <span className="text-[11px] text-emerald-300">{validationMsg}</span>
-              )}
               <button
                 onClick={validateGame}
                 disabled={!canValidate}
-                title="Ajoute +1 de popularité à chaque héros pick ou ban de cette game"
-                className="rounded-2xl border border-emerald-400/40 bg-emerald-500/20 px-4 py-2 text-sm font-semibold hover:bg-emerald-500/35 transition disabled:opacity-40 disabled:hover:bg-emerald-500/20"
+                title={
+                  gameValidated
+                    ? "Cette game a déjà été comptée"
+                    : draftComplete
+                      ? "Ajoute +1 de popularité à chaque héros pick ou ban de cette game"
+                      : "Les 10 héros doivent être pick pour valider la game"
+                }
+                className={`rounded-2xl border px-4 py-2 text-sm font-semibold transition ${gameValidated
+                  ? "border-emerald-300/70 bg-emerald-500/40 text-emerald-50 cursor-default"
+                  : "border-emerald-400/40 bg-emerald-500/20 hover:bg-emerald-500/35 disabled:opacity-40 disabled:hover:bg-emerald-500/20"
+                  }`}
               >
-                ✔ Valider la game
+                {gameValidated ? "✔ Game validée" : "✔ Valider la game"}
               </button>
               <button
                 onClick={() => setShowHelp(true)}
@@ -1613,6 +1626,7 @@ export default function DraftAssistant() {
                       score={r.score}
                       breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
                       DB={DB}
+                      popular={popularityBonus[r.name] >= 1}
                     />
                   ))}
                   {allyReco.length === 0 && (
@@ -1652,6 +1666,7 @@ export default function DraftAssistant() {
                       { sideForRole: "allies" }
                     )}
                     DB={DB}
+                    popular={popularityBonus[r.name] >= 1}
                   />
                 ))}
                 {enemyPotential.length === 0 && (
