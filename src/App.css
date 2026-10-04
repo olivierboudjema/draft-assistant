@@ -57,6 +57,9 @@ body::-webkit-scrollbar,
 /* Badge "Top 5" de popularité : dégradé doré qui pulse, et halo doré pulsant autour du portrait */
 .top5-badge {
   background: linear-gradient(110deg, #f59e0b 0%, #fde68a 25%, #fffbeb 40%, #fbbf24 55%, #f59e0b 75%, #fde68a 100%);
+  /* Cadrage figé sur une partie du dégradé (comme au début de l'ancienne animation) */
+  background-size: 250% 100%;
+  background-position: 100% 0;
   animation: top5-glow 1.6s ease-in-out infinite alternate;
 }
 

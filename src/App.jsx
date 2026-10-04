@@ -693,7 +693,7 @@ function PopularityBadge({ rank }) {
     return (
       <span
         title={`Top 5 des héros les plus pick/ban (n°${rank})`}
-        className="top5-badge absolute -top-1.5 -left-1.5 z-10 whitespace-nowrap rounded-full border border-yellow-100/90 px-1 py-px text-[7px] font-black uppercase tracking-wider text-amber-950"
+        className="top5-badge absolute -top-2 -left-2 z-10 whitespace-nowrap rounded-full border border-yellow-100/90 px-1.5 py-px text-[8px] font-black uppercase tracking-wider text-amber-950"
       >
         👑 Top 5
       </span>
