@@ -273,6 +273,7 @@ function computeScoreFor(hero, DB, state, opts = {}) {
   // Base
   let score = 10;
   score += TIER_BONUS[H.tier] ?? 0;
+  score += state.popularityBonus?.[hero] ?? 0;
 
   // Côté de référence
   const teamList = sideForRole === "enemies" ? state.enemies : state.allies;
@@ -367,6 +368,12 @@ function explainScore(hero, DB, state, opts = {}) {
   const tier = TIER_BONUS[H.tier] ?? 0;
   if (tier) {
     rows.push({ label: `Tier ${H.tier}`, delta: tier });
+  }
+
+  // Popularité
+  const pop = state.popularityBonus?.[hero] ?? 0;
+  if (pop) {
+    rows.push({ label: pop >= 1 ? "Top 25% popularité" : "Top 50% popularité", delta: pop });
   }
 
   // Côté de référence
@@ -1152,16 +1159,163 @@ function MapBackground({ map }) {
   );
 }
 
+// Popularité des héros (+1 par game où le héros est pick ou ban).
+// La source de vérité est heroes.json, mis à jour par l'endpoint du serveur Vite (voir vite.config.js).
+// Si l'endpoint est absent (site statique), les incréments sont gardés dans le navigateur.
+const POPULARITY_API = "/api/validate-game";
+const LOCAL_POPULARITY_KEY = "hero-popularity-local";
+
+function filePopularity() {
+  return Object.fromEntries(heroes.map((h) => [h.name, h.popularity || 0]));
+}
+
+function loadLocalPopularity() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_POPULARITY_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveLocalPopularity(local) {
+  try {
+    localStorage.setItem(LOCAL_POPULARITY_KEY, JSON.stringify(local));
+  } catch {
+    // stockage indisponible : l'incrément ne sera pas conservé
+  }
+}
+
+function mergePopularity(base, local) {
+  const merged = { ...base };
+  Object.entries(local).forEach(([name, n]) => {
+    merged[name] = (merged[name] || 0) + n;
+  });
+  return merged;
+}
+
+async function recordGame(names) {
+  try {
+    const res = await fetch(POPULARITY_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ heroes: names }),
+    });
+    if (res.ok) return mergePopularity(await res.json(), loadLocalPopularity());
+  } catch {
+    // serveur injoignable : repli sur le stockage local
+  }
+
+  const local = loadLocalPopularity();
+  names.forEach((n) => {
+    local[n] = (local[n] || 0) + 1;
+  });
+  saveLocalPopularity(local);
+  return mergePopularity(filePopularity(), local);
+}
+
+// Bonus de score : +1 dans le top 25% des héros les plus populaires, +0.5 dans le top 50%.
+// Les ex æquo au seuil en profitent aussi ; un héros jamais pick/ban (0) n'a pas de bonus.
+function computePopularityBonus(popularity) {
+  const counts = HERO_LIST.map((h) => popularity[h] || 0).sort((a, b) => b - a);
+  const top25 = counts[Math.ceil(counts.length * 0.25) - 1];
+  const top50 = counts[Math.ceil(counts.length * 0.5) - 1];
+  return Object.fromEntries(
+    HERO_LIST.map((h) => {
+      const n = popularity[h] || 0;
+      return [h, n > 0 && n >= top25 ? 1 : n > 0 && n >= top50 ? 0.5 : 0];
+    })
+  );
+}
+
+function PopularityPage({ DB, popularity }) {
+  const [roleFilter, setRoleFilter] = useState(null);
+
+  const ranking = HERO_LIST
+    .filter((h) => !roleFilter || DB[h]?.role === roleFilter)
+    .map((h) => ({ name: h, role: DB[h]?.role, count: popularity[h] || 0 }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  const max = Math.max(1, ...ranking.map((r) => r.count));
+
+  return (
+    <div className="w-full flex-1 p-3">
+      <div className={`${PANEL_CLASS} p-4 max-w-4xl mx-auto`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <div className={SECTION_TITLE_CLASS}>Popularité des héros</div>
+            <div className="text-[11px] text-slate-400 mt-1">+1 à chaque game validée où le héros est pick ou ban</div>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              onClick={() => setRoleFilter(null)}
+              className={`px-2.5 py-0.5 text-[10px] rounded-full border transition ${!roleFilter ? "border-cyan-300/70 bg-cyan-500/25 text-white" : "border-white/15 text-slate-300 hover:bg-white/10"}`}
+            >
+              Tous
+            </button>
+            {ROLE_KEYS.map((r) => (
+              <button
+                key={r}
+                onClick={() => setRoleFilter(roleFilter === r ? null : r)}
+                className={`rounded-full transition ${roleFilter === r ? "ring-2 ring-cyan-300/70" : "opacity-70 hover:opacity-100"}`}
+              >
+                <RoleChip role={r} />
+              </button>
+            ))}
+          </div>
+        </div>
+        <ol className="flex flex-col gap-1.5">
+          {ranking.map((r, i) => (
+            <li key={r.name} className="flex items-center gap-3 text-sm">
+              <span className="w-7 text-right font-mono text-slate-400">{i + 1}</span>
+              <HeroPortrait name={r.name} src={DB[r.name]?.portrait} size={34} />
+              <HeroInfoHover name={r.name} DB={DB}>
+                <span className="w-40 truncate inline-block">{r.name}</span>
+              </HeroInfoHover>
+              <span className="w-28 hidden sm:block">
+                <RoleChip role={r.role} />
+              </span>
+              <div className="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-cyan-300"
+                  style={{ width: `${(r.count / max) * 100}%` }}
+                />
+              </div>
+              <span className="w-10 text-right font-mono font-semibold">{r.count}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
+
 export default function DraftAssistant() {
   const DB = useMemo(() => buildHeroDB(), []);
+  const [view, setView] = useState("draft");
   const [map, setMap] = useState(DEFAULT_MAP);
   const [allies, setAllies] = useState([]);
   const [enemies, setEnemies] = useState([]);
   const [bansAllies, setBansAllies] = useState([]);
   const [bansEnemies, setBansEnemies] = useState([]);
   const [showHelp, setShowHelp] = useState(false);
+  const [popularity, setPopularity] = useState(() => mergePopularity(filePopularity(), loadLocalPopularity()));
+  const [lastValidatedDraft, setLastValidatedDraft] = useState(null);
+  const [validationMsg, setValidationMsg] = useState(null);
 
-  const state = { map, allies, enemies, bansAllies, bansEnemies };
+  const popularityBonus = useMemo(() => computePopularityBonus(popularity), [popularity]);
+  const state = { map, allies, enemies, bansAllies, bansEnemies, popularityBonus };
+
+  const gameHeroes = [...new Set([...allies, ...enemies, ...bansAllies, ...bansEnemies])];
+  // Empêche de compter deux fois la même draft (double clic, re-validation)
+  const draftKey = JSON.stringify([allies, enemies, bansAllies, bansEnemies]);
+  const canValidate = gameHeroes.length > 0 && draftKey !== lastValidatedDraft;
+
+  async function validateGame() {
+    if (!canValidate) return;
+    setLastValidatedDraft(draftKey);
+    setPopularity(await recordGame(gameHeroes));
+    setValidationMsg(`Game validée : +1 pour ${gameHeroes.length} héros`);
+    setTimeout(() => setValidationMsg(null), 3000);
+  }
 
   function addTo(setter, list, name, limit) {
     if (!HERO_LIST.includes(name)) return;
@@ -1217,7 +1371,7 @@ export default function DraftAssistant() {
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 88);
-  }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
+  }, [map, allies, enemies, bansAllies, bansEnemies, popularityBonus, DB]);
 
   const enemyPotential = useMemo(() => {
     const mirrorState = {
@@ -1226,6 +1380,7 @@ export default function DraftAssistant() {
       enemies: allies,
       bansAllies: bansEnemies,
       bansEnemies: bansAllies,
+      popularityBonus,
     };
     return HERO_LIST.filter(
       (h) =>
@@ -1241,7 +1396,7 @@ export default function DraftAssistant() {
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 24);
-  }, [map, allies, enemies, bansAllies, bansEnemies, DB]);
+  }, [map, allies, enemies, bansAllies, bansEnemies, popularityBonus, DB]);
 
   const comp = getCompositionStatus(allies, DB);
 
@@ -1251,10 +1406,25 @@ export default function DraftAssistant() {
       <div className="relative z-10 min-h-screen flex flex-col">
         <div className="sticky top-0 z-30 bg-[#030712]/55 backdrop-blur-2xl">
           <div className="w-full flex items-center justify-between px-3 py-2">
-            <div>
-              <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
-              <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
+            <div className="flex items-center gap-4">
+              <div>
+                <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
+                <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
+              </div>
+              <nav className="flex rounded-2xl border border-white/15 bg-white/5 p-1 text-sm">
+                {[["draft", "Draft"], ["popularity", "Popularité"]].map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => setView(key)}
+                    className={`rounded-xl px-3 py-1.5 font-semibold transition ${view === key ? "bg-indigo-500/40 text-white" : "text-slate-300 hover:bg-white/10"}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </nav>
             </div>
+            {view === "draft" && (
+            <>
             <div className="flex-1 text-sm text-center flex flex-col sm:flex-row sm:items-center sm:justify-center gap-1">
               <span className="text-[12px] uppercase tracking-[0.4em] text-slate-300">Map</span>
               <select
@@ -1268,6 +1438,17 @@ export default function DraftAssistant() {
               </select>
             </div>
             <div className="flex items-center gap-2">
+              {validationMsg && (
+                <span className="text-[11px] text-emerald-300">{validationMsg}</span>
+              )}
+              <button
+                onClick={validateGame}
+                disabled={!canValidate}
+                title="Ajoute +1 de popularité à chaque héros pick ou ban de cette game"
+                className="rounded-2xl border border-emerald-400/40 bg-emerald-500/20 px-4 py-2 text-sm font-semibold hover:bg-emerald-500/35 transition disabled:opacity-40 disabled:hover:bg-emerald-500/20"
+              >
+                ✔ Valider la game
+              </button>
               <button
                 onClick={() => setShowHelp(true)}
                 className="rounded-2xl border border-indigo-400/40 bg-indigo-500/20 px-4 py-2 text-sm font-semibold hover:bg-indigo-500/40 transition"
@@ -1288,11 +1469,17 @@ export default function DraftAssistant() {
                 Reset
               </button>
             </div>
+            </>
+            )}
           </div>
-          <div className="w-full px-3 pb-2.5">
-            <GlobalScores DB={DB} state={state} />
-          </div>
+          {view === "draft" && (
+            <div className="w-full px-3 pb-2.5">
+              <GlobalScores DB={DB} state={state} />
+            </div>
+          )}
         </div>
+
+        {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} />}
 
         {showHelp && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">
@@ -1314,6 +1501,7 @@ export default function DraftAssistant() {
                 <p className="text-slate-300">Chaque héros démarre à 10, puis :</p>
                 <ul className="list-disc ml-5 space-y-1 text-left text-slate-100">
                   <li>Tier : S = +1, A = +0.5, B = 0, C = −0.5, D = −1</li>
+                  <li>Popularité : top 25% = +1, top 50% = +0.5</li>
                   <li>Rôle déjà présent : −1 (−2 si déjà 2×)</li>
                   <li>Carte : favorable +1, défavorable −1</li>
                   <li>Contre un ennemi : +1.5 par cible</li>
@@ -1327,6 +1515,7 @@ export default function DraftAssistant() {
           </div>
         )}
 
+        {view === "draft" && (
         <div className="w-full flex-1 grid grid-cols-12 gap-3 p-3">
           <aside className="col-span-12 md:col-span-3 flex flex-col gap-3">
             <ListBox
@@ -1458,6 +1647,7 @@ export default function DraftAssistant() {
                         enemies: allies,
                         bansAllies: bansEnemies,
                         bansEnemies: bansAllies,
+                        popularityBonus,
                       },
                       { sideForRole: "allies" }
                     )}
@@ -1513,6 +1703,7 @@ export default function DraftAssistant() {
             <MapImagePanel title={map} src={mapImageUrl(map)} alt={map} />
           </aside>
         </div>
+        )}
       </div>
     </div>
   );
