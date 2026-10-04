@@ -686,7 +686,30 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
   );
 }
 
-function HeroCard({ name, role, score, breakdown, DB, popular = false }) {
+// Badge sur le portrait : "Top 5" doré et animé, "Top 10" rouge.
+function PopularityBadge({ rank }) {
+  if (rank > 10) return null;
+  if (rank <= 5) {
+    return (
+      <span
+        title={`Top 5 des héros les plus pick/ban (n°${rank})`}
+        className="top5-badge absolute -top-2 -left-2 z-10 whitespace-nowrap rounded-full border border-yellow-100/90 px-1.5 py-px text-[8px] font-black uppercase tracking-wider text-amber-950"
+      >
+        👑 Top 5
+      </span>
+    );
+  }
+  return (
+    <span
+      title={`Top 10 des héros les plus pick/ban (n°${rank})`}
+      className="absolute -top-1.5 -left-1.5 z-10 whitespace-nowrap rounded-full border border-red-300/70 bg-red-600 px-1.5 py-px text-[8px] font-bold uppercase tracking-wider text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+    >
+      Top 10
+    </span>
+  );
+}
+
+function HeroCard({ name, role, score, breakdown, DB, popularityRank = Infinity }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const cardRef = useRef(null);
   const dragGhostRef = useRef(null);
@@ -779,16 +802,9 @@ function HeroCard({ name, role, score, breakdown, DB, popular = false }) {
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="relative">
+          <div className={`relative ${popularityRank <= 5 ? "top5-ring rounded-xl" : ""}`}>
             <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
-            {popular && (
-              <span
-                title="Top 25% des héros les plus pick/ban"
-                className="absolute -top-1.5 -left-1.5 z-10 rounded-full border border-red-300/70 bg-red-600 px-1.5 py-px text-[8px] font-bold uppercase tracking-wider text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]"
-              >
-                Top
-              </span>
-            )}
+            <PopularityBadge rank={popularityRank} />
           </div>
           <div className="min-w-0">
             <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
@@ -1235,6 +1251,18 @@ function computePopularityBonus(popularity) {
   );
 }
 
+// Classement de popularité (1 = le plus pick/ban). Les ex æquo partagent le même rang ;
+// un héros jamais pick/ban n'est pas classé (Infinity).
+function computePopularityRanks(popularity) {
+  const counts = HERO_LIST.map((h) => popularity[h] || 0);
+  return Object.fromEntries(
+    HERO_LIST.map((h) => {
+      const n = popularity[h] || 0;
+      return [h, n > 0 ? 1 + counts.filter((c) => c > n).length : Infinity];
+    })
+  );
+}
+
 function PopularityPage({ DB, popularity }) {
   const [roleFilter, setRoleFilter] = useState(null);
 
@@ -1309,6 +1337,7 @@ export default function DraftAssistant() {
   const [lastValidatedDraft, setLastValidatedDraft] = useState(null);
 
   const popularityBonus = useMemo(() => computePopularityBonus(popularity), [popularity]);
+  const popularityRanks = useMemo(() => computePopularityRanks(popularity), [popularity]);
   const state = { map, allies, enemies, bansAllies, bansEnemies, popularityBonus };
 
   const gameHeroes = [...new Set([...allies, ...enemies, ...bansAllies, ...bansEnemies])];
@@ -1626,7 +1655,7 @@ export default function DraftAssistant() {
                       score={r.score}
                       breakdown={explainScore(r.name, DB, state, { sideForRole: "allies" })}
                       DB={DB}
-                      popular={popularityBonus[r.name] >= 1}
+                      popularityRank={popularityRanks[r.name]}
                     />
                   ))}
                   {allyReco.length === 0 && (
@@ -1666,7 +1695,7 @@ export default function DraftAssistant() {
                       { sideForRole: "allies" }
                     )}
                     DB={DB}
-                    popular={popularityBonus[r.name] >= 1}
+                    popularityRank={popularityRanks[r.name]}
                   />
                 ))}
                 {enemyPotential.length === 0 && (

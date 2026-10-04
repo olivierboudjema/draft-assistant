@@ -53,3 +53,48 @@ body::-webkit-scrollbar,
     opacity: 0;
   }
 }
+
+/* Badge "Top 5" de popularité : or chatoyant qui scintille, et halo doré pulsant autour du portrait */
+.top5-badge {
+  background: linear-gradient(110deg, #f59e0b 0%, #fde68a 25%, #fffbeb 40%, #fbbf24 55%, #f59e0b 75%, #fde68a 100%);
+  background-size: 250% 100%;
+  animation: top5-shimmer 2.4s linear infinite, top5-glow 1.6s ease-in-out infinite alternate;
+}
+
+.top5-ring {
+  animation: top5-ring-pulse 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes top5-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+@keyframes top5-glow {
+  from {
+    box-shadow: 0 0 6px rgba(251, 191, 36, 0.7), 0 0 12px rgba(253, 230, 138, 0.35);
+  }
+  to {
+    box-shadow: 0 0 10px rgba(251, 191, 36, 1), 0 0 22px rgba(253, 230, 138, 0.7);
+  }
+}
+
+@keyframes top5-ring-pulse {
+  from {
+    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.55), 0 0 10px rgba(251, 191, 36, 0.35);
+  }
+  to {
+    box-shadow: 0 0 0 2px rgba(253, 230, 138, 0.95), 0 0 20px rgba(251, 191, 36, 0.75);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top5-badge,
+  .top5-ring {
+    animation: none;
+  }
+}
