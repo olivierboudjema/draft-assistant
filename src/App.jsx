@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './App.css'
 import maps from '../maps.json';
 import heroes from '../heroes.json';
+import gamesFile from '../games.json';
 
 const ALL_MAPS = maps.map((m) => m.name);
 const DEFAULT_MAP = "Comté du dragon";
@@ -1217,14 +1218,41 @@ function mergePopularity(base, local) {
   return merged;
 }
 
-async function recordGame(names) {
+// Historique des games : games.json (même principe que la popularité, repli navigateur si pas de serveur).
+const LOCAL_GAMES_KEY = "game-history-local";
+
+function loadLocalGames() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_GAMES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalGames(local) {
+  try {
+    localStorage.setItem(LOCAL_GAMES_KEY, JSON.stringify(local));
+  } catch {
+    // stockage indisponible : la game ne sera pas conservée
+  }
+}
+
+// Enregistre une game validée : popularité de ses héros + entrée dans l'historique.
+// Renvoie { popularity, games } à jour.
+async function recordGame(names, game) {
   try {
     const res = await fetch(POPULARITY_API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ heroes: names }),
+      body: JSON.stringify({ heroes: names, game }),
     });
-    if (res.ok) return mergePopularity(await res.json(), loadLocalPopularity());
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        popularity: mergePopularity(data.popularity, loadLocalPopularity()),
+        games: [...data.games, ...loadLocalGames()],
+      };
+    }
   } catch {
     // serveur injoignable : repli sur le stockage local
   }
@@ -1234,7 +1262,91 @@ async function recordGame(names) {
     local[n] = (local[n] || 0) + 1;
   });
   saveLocalPopularity(local);
-  return mergePopularity(filePopularity(), local);
+
+  const localGames = [...loadLocalGames(), game];
+  saveLocalGames(localGames);
+
+  return {
+    popularity: mergePopularity(filePopularity(), local),
+    games: [...gamesFile, ...localGames],
+  };
+}
+
+const TEAM_LABEL = { allies: "Alliés", enemies: "Adversaires" };
+
+function formatGameDate(iso) {
+  return new Date(iso).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
+}
+
+function HistoryTeam({ label, team, won, DB }) {
+  return (
+    <div className={`flex-1 min-w-0 rounded-2xl border p-3 ${won ? "border-emerald-400/50 bg-emerald-500/10" : "border-white/10 bg-white/[0.03]"}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span className={`text-[11px] uppercase tracking-[0.3em] font-semibold ${won ? "text-emerald-300" : "text-slate-300"}`}>{label}</span>
+        {won && <span className="text-[10px] font-bold text-emerald-300">🏆 Victoire</span>}
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {team.picks.map((h) => (
+          <HeroInfoHover key={h} name={h} DB={DB}>
+            <HeroPortrait name={h} src={DB[h]?.portrait} size={38} />
+          </HeroInfoHover>
+        ))}
+      </div>
+      {team.bans.length > 0 && (
+        <div className="mt-2 flex items-center gap-1.5">
+          <span className="text-[10px] text-slate-400 mr-1">Bans</span>
+          {team.bans.map((h) => (
+            <span key={h} className="opacity-60 grayscale" title={h}>
+              <HeroPortrait name={h} src={DB[h]?.portrait} size={24} />
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function HistoryPage({ DB, games }) {
+  const wins = games.filter((g) => g.winner === "allies").length;
+  const sorted = [...games].sort((a, b) => b.date.localeCompare(a.date));
+
+  return (
+    <div className="w-full flex-1 p-3">
+      <div className={`${PANEL_CLASS} p-4 max-w-5xl mx-auto`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <div className={SECTION_TITLE_CLASS}>Historique des games</div>
+            <div className="text-[11px] text-slate-400 mt-1">Enregistré dans games.json à chaque game validée</div>
+          </div>
+          {games.length > 0 && (
+            <div className="flex gap-4 text-sm font-semibold">
+              <span>{games.length} game{games.length > 1 ? "s" : ""}</span>
+              <span className="text-emerald-300">{wins} victoire{wins > 1 ? "s" : ""}</span>
+              <span className="text-rose-300">{games.length - wins} défaite{games.length - wins > 1 ? "s" : ""}</span>
+              <span>{Math.round((wins / games.length) * 100)}% win</span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col gap-3">
+          {sorted.map((g) => (
+            <div key={g.id} className="rounded-2xl border border-white/10 bg-black/20 p-3">
+              <div className="flex items-center justify-between mb-2 text-xs">
+                <span className="font-semibold text-white">{g.map}</span>
+                <span className="text-slate-400">{formatGameDate(g.date)}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <HistoryTeam label={TEAM_LABEL.allies} team={g.allies} won={g.winner === "allies"} DB={DB} />
+                <HistoryTeam label={TEAM_LABEL.enemies} team={g.enemies} won={g.winner === "enemies"} DB={DB} />
+              </div>
+            </div>
+          ))}
+          {games.length === 0 && (
+            <div className="text-xs text-slate-400 text-center py-6">Aucune game validée pour le moment</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // Bonus de score : +1 dans le top 25% des héros les plus populaires, +0.5 dans le top 50%.
@@ -1335,6 +1447,8 @@ export default function DraftAssistant() {
   const [showHelp, setShowHelp] = useState(false);
   const [popularity, setPopularity] = useState(() => mergePopularity(filePopularity(), loadLocalPopularity()));
   const [lastValidatedDraft, setLastValidatedDraft] = useState(null);
+  const [games, setGames] = useState(() => [...gamesFile, ...loadLocalGames()]);
+  const [askWinner, setAskWinner] = useState(false);
 
   const popularityBonus = useMemo(() => computePopularityBonus(popularity), [popularity]);
   const popularityRanks = useMemo(() => computePopularityRanks(popularity), [popularity]);
@@ -1347,10 +1461,22 @@ export default function DraftAssistant() {
   const gameValidated = draftKey === lastValidatedDraft;
   const canValidate = draftComplete && !gameValidated;
 
-  async function validateGame() {
+  async function validateGame(winner) {
+    setAskWinner(false);
     if (!canValidate) return;
     setLastValidatedDraft(draftKey);
-    setPopularity(await recordGame(gameHeroes));
+    const game = {
+      id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+      date: new Date().toISOString(),
+      map,
+      mapId: maps.find((m) => m.name === map)?.id ?? null,
+      winner,
+      allies: { picks: allies, bans: bansAllies },
+      enemies: { picks: enemies, bans: bansEnemies },
+    };
+    const result = await recordGame(gameHeroes, game);
+    setPopularity(result.popularity);
+    setGames(result.games);
   }
 
   function addTo(setter, list, name, limit) {
@@ -1448,7 +1574,7 @@ export default function DraftAssistant() {
                 <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
               </div>
               <nav className="flex rounded-2xl border border-white/15 bg-white/5 p-1 text-sm">
-                {[["draft", "Draft"], ["popularity", "Popularité"]].map(([key, label]) => (
+                {[["draft", "Draft"], ["popularity", "Popularité"], ["history", "Historique"]].map(([key, label]) => (
                   <button
                     key={key}
                     onClick={() => setView(key)}
@@ -1475,13 +1601,13 @@ export default function DraftAssistant() {
             </div>
             <div className="flex items-center gap-2">
               <button
-                onClick={validateGame}
+                onClick={() => setAskWinner(true)}
                 disabled={!canValidate}
                 title={
                   gameValidated
                     ? "Cette game a déjà été comptée"
                     : draftComplete
-                      ? "Ajoute +1 de popularité à chaque héros pick ou ban de cette game"
+                      ? "Enregistre la game dans l'historique et ajoute +1 de popularité à chaque héros pick ou ban"
                       : "Les 10 héros doivent être pick pour valider la game"
                 }
                 className={`rounded-2xl border px-4 py-2 text-sm font-semibold transition ${gameValidated
@@ -1522,6 +1648,40 @@ export default function DraftAssistant() {
         </div>
 
         {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} />}
+        {view === "history" && <HistoryPage DB={DB} games={games} />}
+
+        {askWinner && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center">
+            <div
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={() => setAskWinner(false)}
+            />
+            <div className="relative z-50 w-[380px] max-w-[92vw] rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#050917]/95 via-[#0b1130]/90 to-[#050917]/95 p-6 text-center shadow-[0_25px_80px_rgba(3,3,16,0.9)]">
+              <div className="text-xl font-semibold text-white mb-1">Qui a gagné ?</div>
+              <div className="text-xs text-slate-400 mb-5">{map}</div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => validateGame("allies")}
+                  className="flex-1 rounded-2xl border border-emerald-400/50 bg-emerald-500/25 px-4 py-3 font-semibold hover:bg-emerald-500/45 transition"
+                >
+                  Alliés
+                </button>
+                <button
+                  onClick={() => validateGame("enemies")}
+                  className="flex-1 rounded-2xl border border-rose-400/50 bg-rose-500/25 px-4 py-3 font-semibold hover:bg-rose-500/45 transition"
+                >
+                  Adversaires
+                </button>
+              </div>
+              <button
+                onClick={() => setAskWinner(false)}
+                className="mt-4 text-xs text-slate-400 hover:text-white transition"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
 
         {showHelp && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">

@@ -179,7 +179,7 @@
     "name": "Anub'arak",
     "tier": "B",
     "role": "Tank",
-    "popularity": 2,
+    "popularity": 3,
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -457,7 +457,7 @@
     "name": "Chacal",
     "tier": "B",
     "role": "Mage",
-    "popularity": 0,
+    "popularity": 1,
     "map_strong": [
       "PASSE_D_ALTERAC",
       "TOURS_DU_DESTIN",
@@ -1134,7 +1134,7 @@
     "name": "Johanna",
     "tier": "S",
     "role": "Tank",
-    "popularity": 2,
+    "popularity": 3,
     "map_strong": [
       "PASSE_D_ALTERAC",
       "TOURS_DU_DESTIN",
@@ -1490,7 +1490,7 @@
     "name": "Luisaile",
     "tier": "S",
     "role": "Healer",
-    "popularity": 0,
+    "popularity": 1,
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",
@@ -1645,7 +1645,7 @@
     "name": "Maiev",
     "tier": "A",
     "role": "Dps Mêléee",
-    "popularity": 2,
+    "popularity": 3,
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "VAL_MAUDIT",
@@ -1911,7 +1911,7 @@
     "name": "Orphea",
     "tier": "B",
     "role": "Mage",
-    "popularity": 0,
+    "popularity": 1,
     "map_strong": [
       "PASSE_D_ALTERAC",
       "VAL_MAUDIT",
@@ -2057,7 +2057,7 @@
     "name": "Rehgar",
     "tier": "S",
     "role": "Healer",
-    "popularity": 0,
+    "popularity": 1,
     "map_strong": [
       "VAL_MAUDIT",
       "JARDINS_DE_TERREUR",
@@ -2087,7 +2087,7 @@
     "name": "Rexxar",
     "tier": "A",
     "role": "Bruiser",
-    "popularity": 1,
+    "popularity": 2,
     "map_strong": [
       "COMTE_DU_DRAGON",
       "TOMBE_DE_LA_REINE_ARAIGNEE",
@@ -2197,7 +2197,7 @@
     "name": "Sylvanas",
     "tier": "S",
     "role": "Mage",
-    "popularity": 0,
+    "popularity": 1,
     "map_strong": [
       "LABORATOIRE_DE_BRAXIS",
       "PASSE_D_ALTERAC",
@@ -2287,7 +2287,7 @@
     "name": "Tracer",
     "tier": "A",
     "role": "Range Auto",
-    "popularity": 2,
+    "popularity": 3,
     "map_strong": [
       "VAL_MAUDIT",
       "COMTE_DU_DRAGON",

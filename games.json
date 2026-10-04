@@ -1,0 +1,29 @@
+[
+  {
+    "id": "muu9mpm0-7b5y4c",
+    "date": "2026-10-04T20:20:41.640Z",
+    "map": "Comté du dragon",
+    "mapId": "COMTE_DU_DRAGON",
+    "winner": "allies",
+    "allies": {
+      "picks": [
+        "Anub'arak",
+        "Tracer",
+        "Rexxar",
+        "Maiev",
+        "Rehgar"
+      ],
+      "bans": []
+    },
+    "enemies": {
+      "picks": [
+        "Orphea",
+        "Sylvanas",
+        "Chacal",
+        "Luisaile",
+        "Johanna"
+      ],
+      "bans": []
+    }
+  }
+]

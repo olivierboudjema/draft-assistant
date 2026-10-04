@@ -4,27 +4,45 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const HEROES_FILE = path.resolve(import.meta.dirname, 'heroes.json')
+const GAMES_FILE = path.resolve(import.meta.dirname, 'games.json')
 
-// Endpoint POST /api/validate-game : incrémente "popularity" dans heroes.json
-// pour chaque héros pick ou ban de la game validée.
+function readJson(file, fallback) {
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : fallback
+}
+
+// Endpoint POST /api/validate-game :
+// - incrémente "popularity" dans heroes.json pour chaque héros pick ou ban de la game validée ;
+// - ajoute la game (équipes, map, vainqueur) à l'historique games.json.
 // Le navigateur ne pouvant pas écrire de fichier, c'est le serveur Vite (dev / preview) qui s'en charge.
 function popularityApi() {
   const middleware = (req, res, next) => {
     if (req.url !== '/api/validate-game' || req.method !== 'POST') return next()
 
-    let body = ''
-    req.on('data', (chunk) => (body += chunk))
+    // Octets concaténés avant décodage, pour ne pas couper un caractère accentué entre deux morceaux
+    const chunks = []
+    req.on('data', (chunk) => chunks.push(chunk))
     req.on('end', () => {
       try {
-        const names = new Set(JSON.parse(body).heroes || [])
-        const heroes = JSON.parse(fs.readFileSync(HEROES_FILE, 'utf8'))
+        const { heroes: picked = [], game } = JSON.parse(Buffer.concat(chunks).toString('utf8'))
+
+        const names = new Set(picked)
+        const heroes = readJson(HEROES_FILE, [])
         heroes.forEach((h) => {
           if (names.has(h.name)) h.popularity = (h.popularity || 0) + 1
         })
         fs.writeFileSync(HEROES_FILE, JSON.stringify(heroes, null, 2))
 
+        const games = readJson(GAMES_FILE, [])
+        if (game) {
+          games.push(game)
+          fs.writeFileSync(GAMES_FILE, JSON.stringify(games, null, 2))
+        }
+
         res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify(Object.fromEntries(heroes.map((h) => [h.name, h.popularity || 0]))))
+        res.end(JSON.stringify({
+          popularity: Object.fromEntries(heroes.map((h) => [h.name, h.popularity || 0])),
+          games,
+        }))
       } catch (err) {
         res.statusCode = 500
         res.end(String(err))
