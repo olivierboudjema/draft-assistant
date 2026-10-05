@@ -1184,30 +1184,57 @@ function MapBackground({ map }) {
   );
 }
 
-// Popularité des héros (+1 par game où le héros est pick ou ban).
-// La source de vérité est heroes.json, mis à jour par l'endpoint du serveur Vite (voir vite.config.js).
-// Si l'endpoint est absent (site statique), les incréments sont gardés dans le navigateur.
+// Popularité des héros (+1 par game où le héros est pick ou ban) et historique des games.
+// La source de vérité est heroes.json + games.json, mis à jour par l'endpoint du serveur Vite (voir vite.config.js).
+// Si l'endpoint est absent (site déployé statique), les games sont gardées dans le navigateur ("en attente")
+// jusqu'à ce que les JSON exportés soient remis dans le dépôt : une game dont l'id figure déjà dans
+// games.json n'est alors plus comptée en local, ce qui évite de la compter deux fois.
 const POPULARITY_API = "/api/validate-game";
-const LOCAL_POPULARITY_KEY = "hero-popularity-local";
 
 function filePopularity() {
   return Object.fromEntries(heroes.map((h) => [h.name, h.popularity || 0]));
 }
 
-function loadLocalPopularity() {
+function filePopularityTotal() {
+  return heroes.reduce((acc, h) => acc + (h.popularity || 0), 0);
+}
+
+// Ancien stockage : de simples compteurs, sans historique de games. On les rattache à la version
+// de heroes.json en cours ; dès que ce fichier change (export remis dans le dépôt), ils sont
+// considérés comme intégrés et supprimés.
+const LEGACY_POPULARITY_KEY = "hero-popularity-local";
+
+function loadLegacyPopularity() {
   try {
-    return JSON.parse(localStorage.getItem(LOCAL_POPULARITY_KEY)) || {};
+    const raw = JSON.parse(localStorage.getItem(LEGACY_POPULARITY_KEY));
+    if (!raw) return {};
+    if (raw.counts === undefined) {
+      localStorage.setItem(LEGACY_POPULARITY_KEY, JSON.stringify({ base: filePopularityTotal(), counts: raw }));
+      return raw;
+    }
+    if (raw.base !== filePopularityTotal()) {
+      localStorage.removeItem(LEGACY_POPULARITY_KEY);
+      return {};
+    }
+    return raw.counts;
   } catch {
     return {};
   }
 }
 
-function saveLocalPopularity(local) {
-  try {
-    localStorage.setItem(LOCAL_POPULARITY_KEY, JSON.stringify(local));
-  } catch {
-    // stockage indisponible : l'incrément ne sera pas conservé
-  }
+function gamesPopularity(games) {
+  const counts = {};
+  games.forEach((g) => {
+    new Set([...g.allies.picks, ...g.allies.bans, ...g.enemies.picks, ...g.enemies.bans]).forEach((n) => {
+      counts[n] = (counts[n] || 0) + 1;
+    });
+  });
+  return counts;
+}
+
+// Popularité pas encore présente dans heroes.json (games en attente + anciens compteurs)
+function localPopularity() {
+  return mergePopularity(loadLegacyPopularity(), gamesPopularity(pendingLocalGames()));
 }
 
 function mergePopularity(base, local) {
@@ -1218,7 +1245,6 @@ function mergePopularity(base, local) {
   return merged;
 }
 
-// Historique des games : games.json (même principe que la popularité, repli navigateur si pas de serveur).
 const LOCAL_GAMES_KEY = "game-history-local";
 
 function loadLocalGames() {
@@ -1227,6 +1253,12 @@ function loadLocalGames() {
   } catch {
     return [];
   }
+}
+
+// Games validées dans ce navigateur et pas encore dans games.json
+function pendingLocalGames() {
+  const fileIds = new Set(gamesFile.map((g) => g.id));
+  return loadLocalGames().filter((g) => !fileIds.has(g.id));
 }
 
 function saveLocalGames(local) {
@@ -1249,27 +1281,35 @@ async function recordGame(names, game) {
     if (res.ok) {
       const data = await res.json();
       return {
-        popularity: mergePopularity(data.popularity, loadLocalPopularity()),
-        games: [...data.games, ...loadLocalGames()],
+        popularity: mergePopularity(data.popularity, localPopularity()),
+        games: [...data.games, ...pendingLocalGames()],
       };
     }
   } catch {
     // serveur injoignable : repli sur le stockage local
   }
 
-  const local = loadLocalPopularity();
-  names.forEach((n) => {
-    local[n] = (local[n] || 0) + 1;
-  });
-  saveLocalPopularity(local);
-
-  const localGames = [...loadLocalGames(), game];
-  saveLocalGames(localGames);
-
+  saveLocalGames([...pendingLocalGames(), game]);
   return {
-    popularity: mergePopularity(filePopularity(), local),
-    games: [...gamesFile, ...localGames],
+    popularity: mergePopularity(filePopularity(), localPopularity()),
+    games: [...gamesFile, ...pendingLocalGames()],
   };
+}
+
+function downloadJson(filename, data) {
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Télécharge heroes.json et games.json à jour (fichiers du dépôt + données de ce navigateur),
+// prêts à remplacer ceux du dépôt.
+function exportJsonFiles(popularity) {
+  downloadJson("heroes.json", heroes.map((h) => ({ ...h, popularity: popularity[h.name] ?? h.popularity ?? 0 })));
+  downloadJson("games.json", [...gamesFile, ...pendingLocalGames()]);
 }
 
 const TEAM_LABEL = { allies: "Alliés", enemies: "Adversaires" };
@@ -1306,8 +1346,9 @@ function HistoryTeam({ label, team, won, DB }) {
   );
 }
 
-function HistoryPage({ DB, games }) {
+function HistoryPage({ DB, games, onExport }) {
   const wins = games.filter((g) => g.winner === "allies").length;
+  const pendingCount = pendingLocalGames().length;
   const sorted = [...games].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
@@ -1326,6 +1367,20 @@ function HistoryPage({ DB, games }) {
               <span>{Math.round((wins / games.length) * 100)}% win</span>
             </div>
           )}
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2">
+          <span className="text-[11px] text-slate-300">
+            {pendingCount > 0
+              ? `${pendingCount} game${pendingCount > 1 ? "s" : ""} enregistrée${pendingCount > 1 ? "s" : ""} dans ce navigateur, pas encore dans le dépôt`
+              : "Aucune game en attente dans ce navigateur"}
+          </span>
+          <button
+            onClick={onExport}
+            title="Télécharge heroes.json et games.json à jour, à mettre à la place de ceux du dépôt GitHub"
+            className="rounded-2xl border border-cyan-400/40 bg-cyan-500/20 px-3 py-1.5 text-xs font-semibold hover:bg-cyan-500/35 transition"
+          >
+            ⬇ Télécharger les JSON
+          </button>
         </div>
         <div className="flex flex-col gap-3">
           {sorted.map((g) => (
@@ -1445,9 +1500,9 @@ export default function DraftAssistant() {
   const [bansAllies, setBansAllies] = useState([]);
   const [bansEnemies, setBansEnemies] = useState([]);
   const [showHelp, setShowHelp] = useState(false);
-  const [popularity, setPopularity] = useState(() => mergePopularity(filePopularity(), loadLocalPopularity()));
+  const [popularity, setPopularity] = useState(() => mergePopularity(filePopularity(), localPopularity()));
   const [lastValidatedDraft, setLastValidatedDraft] = useState(null);
-  const [games, setGames] = useState(() => [...gamesFile, ...loadLocalGames()]);
+  const [games, setGames] = useState(() => [...gamesFile, ...pendingLocalGames()]);
   const [askWinner, setAskWinner] = useState(false);
 
   const popularityBonus = useMemo(() => computePopularityBonus(popularity), [popularity]);
@@ -1648,7 +1703,7 @@ export default function DraftAssistant() {
         </div>
 
         {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} />}
-        {view === "history" && <HistoryPage DB={DB} games={games} />}
+        {view === "history" && <HistoryPage DB={DB} games={games} onExport={() => exportJsonFiles(popularity)} />}
 
         {askWinner && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">
