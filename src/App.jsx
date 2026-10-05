@@ -1346,9 +1346,8 @@ function HistoryTeam({ label, team, won, DB }) {
   );
 }
 
-function HistoryPage({ DB, games, onExport }) {
+function HistoryPage({ DB, games }) {
   const wins = games.filter((g) => g.winner === "allies").length;
-  const pendingCount = pendingLocalGames().length;
   const sorted = [...games].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
@@ -1367,20 +1366,6 @@ function HistoryPage({ DB, games, onExport }) {
               <span>{Math.round((wins / games.length) * 100)}% win</span>
             </div>
           )}
-        </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2">
-          <span className="text-[11px] text-slate-300">
-            {pendingCount > 0
-              ? `${pendingCount} game${pendingCount > 1 ? "s" : ""} enregistrée${pendingCount > 1 ? "s" : ""} dans ce navigateur, pas encore dans le dépôt`
-              : "Aucune game en attente dans ce navigateur"}
-          </span>
-          <button
-            onClick={onExport}
-            title="Télécharge heroes.json et games.json à jour, à mettre à la place de ceux du dépôt GitHub"
-            className="rounded-2xl border border-cyan-400/40 bg-cyan-500/20 px-3 py-1.5 text-xs font-semibold hover:bg-cyan-500/35 transition"
-          >
-            ⬇ Télécharger les JSON
-          </button>
         </div>
         <div className="flex flex-col gap-3">
           {sorted.map((g) => (
@@ -1430,7 +1415,8 @@ function computePopularityRanks(popularity) {
   );
 }
 
-function PopularityPage({ DB, popularity }) {
+function PopularityPage({ DB, popularity, onExport }) {
+  const pendingCount = pendingLocalGames().length;
   const [roleFilter, setRoleFilter] = useState(null);
 
   const ranking = HERO_LIST
@@ -1446,6 +1432,13 @@ function PopularityPage({ DB, popularity }) {
           <div>
             <div className={SECTION_TITLE_CLASS}>Popularité des héros</div>
             <div className="text-[11px] text-slate-400 mt-1">+1 à chaque game validée où le héros est pick ou ban</div>
+            <button
+              onClick={onExport}
+              title="Télécharge heroes.json et games.json à jour, à mettre à la place de ceux du dépôt GitHub"
+              className="mt-1 text-[10px] text-slate-500 hover:text-slate-300 hover:underline transition"
+            >
+              ⬇ Télécharger les JSON{pendingCount > 0 ? ` (${pendingCount} game${pendingCount > 1 ? "s" : ""} en attente)` : ""}
+            </button>
           </div>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -1702,8 +1695,8 @@ export default function DraftAssistant() {
           )}
         </div>
 
-        {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} />}
-        {view === "history" && <HistoryPage DB={DB} games={games} onExport={() => exportJsonFiles(popularity)} />}
+        {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} onExport={() => exportJsonFiles(popularity)} />}
+        {view === "history" && <HistoryPage DB={DB} games={games} />}
 
         {askWinner && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">
