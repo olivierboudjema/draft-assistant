@@ -897,39 +897,114 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
   );
 }
 
-function AddHeroInput({ placeholder, onAdd, disabled }) {
+// Recherche sans accents ni ponctuation, sur le nom français et le nom anglais (slug des portraits)
+function searchKey(s) {
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+}
+
+const HERO_SEARCH_INDEX = HERO_LIST.map((name) => ({ name, keys: [searchKey(name), heroSlug(name) || ""] }));
+
+function searchHeroes(query, exclude) {
+  const q = searchKey(query);
+  if (!q) return [];
+  const available = HERO_SEARCH_INDEX.filter((h) => !exclude.includes(h.name));
+  const starts = available.filter((h) => h.keys.some((k) => k.startsWith(q)));
+  const contains = available.filter((h) => !starts.includes(h) && h.keys.some((k) => k.includes(q)));
+  return [...starts, ...contains].slice(0, 8).map((h) => h.name);
+}
+
+// Champ d'ajout de héros : taper quelques lettres puis Entrée (ou clic) ajoute le premier résultat.
+// Flèches haut/bas pour choisir un autre résultat, Échap pour fermer.
+function AddHeroInput({ placeholder, onAdd, disabled, exclude = [], DB }) {
   const [value, setValue] = useState("");
-  const submit = () => {
-    if (!value) return;
-    onAdd(value);
+  const [highlight, setHighlight] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState(null);
+  const inputRef = useRef(null);
+
+  const results = searchHeroes(value, exclude);
+  const showList = open && !disabled && results.length > 0;
+
+  // La liste est affichée dans un portail (position fixe) pour passer au-dessus des autres panneaux
+  useEffect(() => {
+    if (!showList) return;
+    function update() {
+      const r = inputRef.current?.getBoundingClientRect();
+      if (r) setPos({ left: r.left, top: r.bottom + 4, width: r.width });
+    }
+    update();
+    window.addEventListener("scroll", update, true);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update, true);
+      window.removeEventListener("resize", update);
+    };
+  }, [showList]);
+
+  function pick(name) {
+    if (!name) return;
+    onAdd(name);
     setValue("");
-  };
+    setHighlight(0);
+  }
+
   return (
-    <div className="flex gap-2 items-center">
+    <>
       <input
+        ref={inputRef}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") submit();
+        onChange={(e) => {
+          setValue(e.target.value);
+          setHighlight(0);
+          setOpen(true);
         }}
-        list="all-heroes"
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            pick(results[highlight]);
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setHighlight((i) => Math.min(i + 1, results.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setHighlight((i) => Math.max(i - 1, 0));
+          } else if (e.key === "Escape") {
+            setOpen(false);
+          }
+        }}
         placeholder={placeholder}
         disabled={disabled}
-        className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-500/20 transition disabled:opacity-40"
+        autoComplete="off"
+        className="w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-500/20 transition disabled:opacity-40"
       />
-      <button
-        onClick={submit}
-        disabled={disabled}
-        className="px-4 py-2 text-sm font-semibold rounded-2xl border border-indigo-400/40 bg-indigo-500/20 text-white shadow-[0_10px_25px_rgba(46,74,255,0.35)] hover:bg-indigo-500/35 transition disabled:opacity-40"
-      >
-        OK
-      </button>
-      <datalist id="all-heroes">
-        {HERO_LIST.map((h) => (
-          <option key={h} value={h} />
-        ))}
-      </datalist>
-    </div>
+      {showList && pos &&
+        ReactDOM.createPortal(
+          <ul
+            style={{ left: pos.left, top: pos.top, width: Math.max(pos.width, 220) }}
+            className="fixed z-50 max-h-80 overflow-auto rounded-2xl border border-indigo-700/40 bg-[#05070f] p-1 shadow-2xl"
+          >
+            {results.map((name, i) => (
+              <li
+                key={name}
+                // mousedown (et non click) : sinon le champ perd le focus et la liste se ferme avant le clic
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  pick(name);
+                }}
+                onMouseEnter={() => setHighlight(i)}
+                className={`flex items-center gap-2 rounded-xl px-2 py-1.5 cursor-pointer text-sm ${i === highlight ? "bg-indigo-500/30 text-white" : "text-slate-200"}`}
+              >
+                <HeroPortrait name={name} src={DB[name]?.portrait} size={26} />
+                <span className="flex-1 truncate">{name}</span>
+                <RoleChip role={DB[name]?.role} />
+              </li>
+            ))}
+          </ul>,
+          document.body
+        )}
+    </>
   );
 }
 
@@ -1448,6 +1523,419 @@ function PopularityPage({ DB, popularity, onExport }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Onglet Stats : graphiques calculés sur l'historique des games
+
+// Paire divergente (validée sur le fond sombre de l'app) : au-dessus de 50% = bon pour nous, en dessous = mauvais
+const STAT_COLORS = { good: "#3987e5", bad: "#e66767" };
+const STATS_MIN_GAMES = 20;
+const OUR_PLAYERS = ["Skippy", "Lisou92"];
+
+const STATS_PERIODS = [
+  { key: "all", label: "Tout", months: null },
+  { key: "12m", label: "12 mois", months: 12 },
+  { key: "6m", label: "6 mois", months: 6 },
+  { key: "3m", label: "3 mois", months: 3 },
+];
+
+function pct(x) {
+  return `${Math.round(100 * x)}%`;
+}
+
+function filterStatsGames(games, player, period) {
+  const months = STATS_PERIODS.find((p) => p.key === period)?.months;
+  const since = months ? Date.now() - months * 30.44 * 24 * 3600 * 1000 : null;
+  return games.filter(
+    (g) =>
+      (!since || new Date(g.date).getTime() >= since) &&
+      (player === "all" || g.allies.players?.includes(player))
+  );
+}
+
+// entries : [clé, gagné (bool)] → { clé: { games, wins, rate } }
+function tally(entries) {
+  const out = {};
+  entries.forEach(([k, won]) => {
+    const o = (out[k] ??= { games: 0, wins: 0 });
+    o.games++;
+    if (won) o.wins++;
+  });
+  Object.values(out).forEach((o) => (o.rate = o.wins / o.games));
+  return out;
+}
+
+function computeStats(games, DB) {
+  const won = (g) => g.winner === "allies";
+
+  // Héros, toutes équipes confondues : un pick gagne si son équipe gagne
+  const heroes = tally(
+    games.flatMap((g) => ["allies", "enemies"].flatMap((side) => g[side].picks.map((h) => [h, g.winner === side])))
+  );
+  const ranked = Object.entries(heroes)
+    .filter(([, s]) => s.games >= STATS_MIN_GAMES)
+    .sort((a, b) => b[1].rate - a[1].rate || b[1].games - a[1].games);
+
+  // Héros adverses : leur win rate contre nous, et combien de fois on les bannit
+  const nemesisTally = tally(games.flatMap((g) => g.enemies.picks.map((h) => [h, !won(g)])));
+  const ourBans = {};
+  games.forEach((g) => g.allies.bans.forEach((h) => (ourBans[h] = (ourBans[h] || 0) + 1)));
+  const nemesis = Object.entries(nemesisTally)
+    .filter(([, s]) => s.games >= STATS_MIN_GAMES)
+    .sort((a, b) => b[1].rate - a[1].rate)
+    .slice(0, 10)
+    .map(([h, s]) => ({ ...s, hero: h, bans: ourBans[h] || 0 }));
+
+  const maps = Object.entries(tally(games.map((g) => [g.map, won(g)]))).sort((a, b) => b[1].rate - a[1].rate);
+
+  // Héros joués par chacun de nous (games importées des replays : on sait qui jouait quoi)
+  const perPlayer = Object.fromEntries(
+    OUR_PLAYERS.map((p) => {
+      const t = tally(
+        games
+          .filter((g) => g.allies.players?.includes(p))
+          .map((g) => [g.allies.picks[g.allies.players.indexOf(p)], won(g)])
+      );
+      return [p, Object.entries(t).sort((a, b) => b[1].games - a[1].games).slice(0, 10)];
+    })
+  );
+
+  const roles = Object.entries(
+    tally(games.flatMap((g) => ["allies", "enemies"].flatMap((side) => g[side].picks.map((h) => [DB[h]?.role || "?", g.winner === side]))))
+  ).sort((a, b) => b[1].rate - a[1].rate);
+
+  const comps = Object.entries(
+    tally(
+      games.map((g) => {
+        const r = g.allies.picks.map((h) => DB[h]?.role);
+        const n = (role) => r.filter((x) => x === role).length;
+        return [`${n("Tank")} tank · ${n("Healer")} healer`, won(g)];
+      })
+    )
+  ).sort((a, b) => b[1].games - a[1].games);
+
+  const duo = tally(
+    games.filter((g) => OUR_PLAYERS.every((p) => g.allies.players?.includes(p))).map((g) => ["duo", won(g)])
+  ).duo;
+
+  // Win rate glissant sur 50 games, dans l'ordre chronologique
+  const chrono = [...games].sort((a, b) => a.date.localeCompare(b.date));
+  const WINDOW = 50;
+  const rolling = [];
+  let wins = 0;
+  chrono.forEach((g, i) => {
+    if (won(g)) wins++;
+    if (i >= WINDOW && won(chrono[i - WINDOW])) wins--;
+    if (i >= WINDOW - 1) rolling.push({ date: g.date, rate: wins / WINDOW, index: i + 1 });
+  });
+
+  const quarters = Object.entries(
+    tally(chrono.map((g) => [`${g.date.slice(0, 4)} T${Math.ceil(Number(g.date.slice(5, 7)) / 3)}`, won(g)]))
+  );
+
+  return {
+    total: games.length,
+    wins: games.filter(won).length,
+    top: ranked.slice(0, 10),
+    flop: ranked.slice(-10).reverse(),
+    nemesis,
+    maps,
+    perPlayer,
+    roles,
+    comps,
+    duo,
+    rolling,
+    quarters,
+  };
+}
+
+function StatPanel({ title, subtitle, children, className = "" }) {
+  return (
+    <div className={`${PANEL_CLASS} p-4 ${className}`}>
+      <div className={SECTION_TITLE_CLASS}>{title}</div>
+      {subtitle && <div className="text-[11px] text-slate-400 mt-1">{subtitle}</div>}
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
+
+function StatTile({ label, value, detail }) {
+  return (
+    <div className={`${PANEL_CLASS} px-4 py-3`}>
+      <div className="text-[11px] text-slate-400">{label}</div>
+      <div className="text-2xl font-semibold text-white mt-1 truncate">{value}</div>
+      {detail && <div className="text-[11px] text-slate-400 mt-0.5">{detail}</div>}
+    </div>
+  );
+}
+
+// Barres divergentes autour de 50% : à droite (bleu) au-dessus, à gauche (rouge) en dessous.
+// Chaque ligne affiche sa valeur et son nombre de games : la barre n'est qu'un repère visuel.
+function WinRateBars({ rows, DB, extra }) {
+  const span = Math.max(0.15, ...rows.map((r) => Math.abs(r.rate - 0.5)));
+  const grid = "grid grid-cols-[minmax(0,9rem)_1fr_5rem] items-center gap-2";
+  return (
+    <div className="flex flex-col gap-1">
+      {rows.map((r) => {
+        const dev = r.rate - 0.5;
+        return (
+          <div
+            key={r.key}
+            className={`${grid} rounded-lg px-1 py-0.5 hover:bg-white/5`}
+            title={`${r.label} : ${r.wins} victoires sur ${r.games} games (${pct(r.rate)})`}
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              {DB && <HeroPortrait name={r.label} src={DB[r.label]?.portrait} size={22} />}
+              <span className="truncate text-xs text-slate-200">{r.label}</span>
+            </div>
+            <div className="relative h-3">
+              <div className="absolute -inset-y-1 left-1/2 w-px bg-white/20" />
+              <div
+                className={`absolute top-0 h-3 ${dev >= 0 ? "left-1/2 rounded-r" : "right-1/2 rounded-l"}`}
+                style={{ width: `${(Math.abs(dev) / span) * 50}%`, background: dev >= 0 ? STAT_COLORS.good : STAT_COLORS.bad }}
+              />
+            </div>
+            <div className="text-right text-xs tabular-nums">
+              <span className="font-semibold text-white">{pct(r.rate)}</span>
+              <span className="text-slate-500"> · {r.games}g</span>
+              {extra && <div className="text-[10px] text-slate-400">{extra(r)}</div>}
+            </div>
+          </div>
+        );
+      })}
+      {rows.length === 0 && <div className="text-xs text-slate-400">Pas assez de games</div>}
+      {rows.length > 0 && (
+        <div className={`${grid} px-1 text-[10px] text-slate-500`}>
+          <span />
+          <span className="text-center">50%</span>
+          <span />
+        </div>
+      )}
+    </div>
+  );
+}
+
+const toBarRows = (entries) => entries.map(([k, s]) => ({ key: k, label: k, ...s }));
+
+// Courbe du win rate glissant, avec repère à 50% et lecture au survol
+function RollingWinRateChart({ points }) {
+  const [hover, setHover] = useState(null);
+  // Le graphique est dessiné à la largeur réelle du conteneur : les textes gardent leur taille
+  const wrapRef = useRef(null);
+  const [W, setW] = useState(640);
+  const hasData = points.length >= 2;
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setW(Math.max(320, Math.round(entry.contentRect.width))));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [hasData]);
+  if (!hasData) return <div className="text-xs text-slate-400">Pas assez de games (il en faut au moins 50)</div>;
+
+  const H = 220, PAD = { l: 36, r: 44, t: 12, b: 24 };
+  const values = points.map((p) => p.rate);
+  const yMin = Math.min(0.3, Math.floor(Math.min(...values) * 10) / 10);
+  const yMax = Math.max(0.7, Math.ceil(Math.max(...values) * 10) / 10);
+  const x = (i) => PAD.l + (i / (points.length - 1)) * (W - PAD.l - PAD.r);
+  const y = (v) => PAD.t + (1 - (v - yMin) / (yMax - yMin)) * (H - PAD.t - PAD.b);
+  const path = points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.rate).toFixed(1)}`).join(" ");
+  const ticks = [];
+  for (let v = yMin; v <= yMax + 1e-9; v += 0.1) ticks.push(Math.round(v * 10) / 10);
+  const years = [];
+  points.forEach((p, i) => {
+    const yr = p.date.slice(0, 4);
+    if (i === 0 || yr !== points[i - 1].date.slice(0, 4)) years.push({ i, yr });
+  });
+  // Une année trop proche de la suivante (ex. 2 games en 2022) n'est pas affichée, pour éviter le chevauchement
+  const yearLabels = years.filter((yv, k) => k === years.length - 1 || x(years[k + 1].i) - x(yv.i) >= 40);
+  const last = points[points.length - 1];
+  const hp = hover != null ? points[hover] : null;
+
+  return (
+    <div className="relative" ref={wrapRef}>
+      <svg
+        width={W}
+        height={H}
+        className="block"
+        onPointerMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          const px = ((e.clientX - r.left) / r.width) * W;
+          const i = Math.round(((px - PAD.l) / (W - PAD.l - PAD.r)) * (points.length - 1));
+          setHover(Math.max(0, Math.min(points.length - 1, i)));
+        }}
+        onPointerLeave={() => setHover(null)}
+      >
+        {ticks.map((v) => (
+          <g key={v}>
+            <line
+              x1={PAD.l} x2={W - PAD.r} y1={y(v)} y2={y(v)}
+              stroke={v === 0.5 ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.08)"}
+              strokeWidth="1"
+            />
+            <text x={PAD.l - 6} y={y(v) + 3} textAnchor="end" fontSize="10" fill="#94a3b8">{pct(v)}</text>
+          </g>
+        ))}
+        {yearLabels.map(({ i, yr }) => (
+          <text key={yr} x={x(i)} y={H - 6} fontSize="10" fill="#94a3b8" textAnchor={i === 0 ? "start" : "middle"}>{yr}</text>
+        ))}
+        <path d={path} fill="none" stroke={STAT_COLORS.good} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={x(points.length - 1)} cy={y(last.rate)} r="4" fill={STAT_COLORS.good} stroke="#0f1833" strokeWidth="2" />
+        <text x={x(points.length - 1) + 8} y={y(last.rate) + 4} textAnchor="start" fontSize="11" fontWeight="600" fill="#ffffff">{pct(last.rate)}</text>
+        {hp && (
+          <g>
+            <line x1={x(hover)} x2={x(hover)} y1={PAD.t} y2={H - PAD.b} stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+            <circle cx={x(hover)} cy={y(hp.rate)} r="4" fill={STAT_COLORS.good} stroke="#0f1833" strokeWidth="2" />
+          </g>
+        )}
+      </svg>
+      {hp && (
+        <div
+          className="pointer-events-none absolute top-0 rounded-xl border border-indigo-700/40 bg-[#05070f] px-3 py-2 text-xs shadow-2xl whitespace-nowrap"
+          style={{
+            left: `${(x(hover) / W) * 100}%`,
+            transform: hover > points.length / 2 ? "translateX(calc(-100% - 8px))" : "translateX(8px)",
+          }}
+        >
+          <div className="font-semibold text-white">{pct(hp.rate)}</div>
+          <div className="text-slate-400">sur les 50 games jusqu&apos;au {new Date(hp.date).toLocaleDateString("fr-FR")}</div>
+          <div className="text-slate-500">game n°{hp.index}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatsTable({ head, rows }) {
+  return (
+    <table className="w-full text-xs">
+      <thead>
+        <tr className="text-slate-400">
+          {head.map((h, i) => (
+            <th key={h} className={`pb-1 font-normal ${i ? "text-right" : "text-left"}`}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="tabular-nums">
+        {rows.map((r) => (
+          <tr key={r[0]} className="border-t border-white/5">
+            {r.map((c, i) => (
+              <td key={i} className={`py-1 ${i ? "text-right text-slate-300" : "text-slate-200"}`}>{c}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function StatsPage({ DB, games }) {
+  const [player, setPlayer] = useState("all");
+  const [period, setPeriod] = useState("all");
+  const filtered = useMemo(() => filterStatsGames(games, player, period), [games, player, period]);
+  const s = useMemo(() => computeStats(filtered, DB), [filtered, DB]);
+
+  const chip = (active) =>
+    `rounded-xl px-3 py-1.5 text-xs font-semibold transition ${active ? "bg-indigo-500/40 text-white" : "text-slate-300 hover:bg-white/10"}`;
+  const heroRows = (entries) => entries.map(([h, st]) => ({ key: h, label: h, ...st }));
+
+  return (
+    <div className="w-full flex-1 p-3">
+      <div className="max-w-6xl mx-auto flex flex-col gap-3">
+        {/* Filtres : ils s'appliquent à tous les graphiques de la page */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex rounded-2xl border border-white/15 bg-white/5 p-1">
+            {STATS_PERIODS.map((p) => (
+              <button key={p.key} onClick={() => setPeriod(p.key)} className={chip(period === p.key)}>{p.label}</button>
+            ))}
+          </div>
+          <div className="flex rounded-2xl border border-white/15 bg-white/5 p-1">
+            {["all", ...OUR_PLAYERS].map((p) => (
+              <button key={p} onClick={() => setPlayer(p)} className={chip(player === p)}>{p === "all" ? "Tous" : p}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <StatTile label="Games" value={s.total} />
+          <StatTile
+            label="Win rate"
+            value={s.total ? pct(s.wins / s.total) : "—"}
+            detail={`${s.wins} victoires · ${s.total - s.wins} défaites`}
+          />
+          <StatTile
+            label="Skippy + Lisou92 ensemble"
+            value={s.duo ? pct(s.duo.rate) : "—"}
+            detail={s.duo ? `sur ${s.duo.games} games` : ""}
+          />
+          <StatTile
+            label="Meilleure map"
+            value={s.maps[0]?.[0] || "—"}
+            detail={s.maps[0] ? `${pct(s.maps[0][1].rate)} sur ${s.maps[0][1].games} games` : ""}
+          />
+        </div>
+
+        {s.total === 0 ? (
+          <div className={`${PANEL_CLASS} p-6 text-center text-sm text-slate-400`}>Aucune game pour ces filtres</div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              <StatPanel title="Top 10 · meilleurs win rates" subtitle={`Picks des deux équipes, minimum ${STATS_MIN_GAMES} games`}>
+                <WinRateBars rows={heroRows(s.top)} DB={DB} />
+              </StatPanel>
+              <StatPanel title="Flop 10 · pires win rates" subtitle={`Picks des deux équipes, minimum ${STATS_MIN_GAMES} games`}>
+                <WinRateBars rows={heroRows(s.flop)} DB={DB} />
+              </StatPanel>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              <StatPanel title="Win rate par map" subtitle="Notre win rate sur chaque map">
+                <WinRateBars rows={toBarRows(s.maps)} />
+              </StatPanel>
+              <StatPanel
+                title="Némésis"
+                subtitle={`Héros adverses qui nous battent le plus (leur win rate contre nous, minimum ${STATS_MIN_GAMES} games)`}
+              >
+                <WinRateBars
+                  rows={s.nemesis.map((n) => ({ key: n.hero, label: n.hero, ...n }))}
+                  DB={DB}
+                  extra={(r) => (r.bans ? `banni ${r.bans}×` : "jamais banni")}
+                />
+              </StatPanel>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              {OUR_PLAYERS.map((p) => (
+                <StatPanel key={p} title={`Héros de ${p}`} subtitle="Les 10 plus joués, avec leur win rate">
+                  <WinRateBars rows={toBarRows(s.perPlayer[p])} DB={DB} />
+                </StatPanel>
+              ))}
+            </div>
+
+            <StatPanel title="Évolution du win rate" subtitle="Moyenne glissante sur 50 games">
+              <RollingWinRateChart points={s.rolling} />
+              <details className="mt-2 text-xs text-slate-400">
+                <summary className="cursor-pointer hover:text-slate-200">Voir par trimestre</summary>
+                <div className="mt-2 max-w-md">
+                  <StatsTable head={["Trimestre", "Games", "Win rate"]} rows={s.quarters.map(([q, st]) => [q, st.games, pct(st.rate)])} />
+                </div>
+              </details>
+            </StatPanel>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              <StatPanel title="Rôles" subtitle="Win rate de chaque rôle, picks des deux équipes">
+                <StatsTable head={["Rôle", "Picks", "Win rate"]} rows={s.roles.map(([r, st]) => [r, st.games, pct(st.rate)])} />
+              </StatPanel>
+              <StatPanel title="Compositions" subtitle="Notre équipe : nombre de tanks et de healers">
+                <StatsTable head={["Compo", "Games", "Win rate"]} rows={s.comps.map(([c, st]) => [c, st.games, pct(st.rate)])} />
+              </StatPanel>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function DraftAssistant() {
   const [view, setView] = useState("draft");
   const [map, setMap] = useState(DEFAULT_MAP);
@@ -1468,7 +1956,8 @@ export default function DraftAssistant() {
   const popularityRanks = useMemo(() => computePopularityRanks(popularity), [popularity]);
   const state = { map, allies, enemies, bansAllies, bansEnemies, popularityBonus, performanceBonus, heroStats };
 
-  const gameHeroes = [...new Set([...allies, ...enemies, ...bansAllies, ...bansEnemies])];
+  const takenHeroes = [...allies, ...enemies, ...bansAllies, ...bansEnemies];
+  const gameHeroes = [...new Set(takenHeroes)];
   // Empêche de compter deux fois la même draft (double clic, re-validation)
   const draftKey = JSON.stringify([allies, enemies, bansAllies, bansEnemies]);
   const draftComplete = allies.length + enemies.length === 10;
@@ -1590,7 +2079,7 @@ export default function DraftAssistant() {
                 <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
               </div>
               <nav className="flex rounded-2xl border border-white/15 bg-white/5 p-1 text-sm">
-                {[["draft", "Draft"], ["popularity", "Popularité"], ["history", "Historique"]].map(([key, label]) => (
+                {[["draft", "Draft"], ["popularity", "Popularité"], ["history", "Historique"], ["stats", "Stats"]].map(([key, label]) => (
                   <button
                     key={key}
                     onClick={() => setView(key)}
@@ -1665,6 +2154,7 @@ export default function DraftAssistant() {
 
         {view === "popularity" && <PopularityPage DB={DB} popularity={popularity} onExport={() => exportJsonFiles(popularity)} />}
         {view === "history" && <HistoryPage DB={DB} games={games} />}
+        {view === "stats" && <StatsPage DB={DB} games={games} />}
 
         {askWinner && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">
@@ -1756,6 +2246,8 @@ export default function DraftAssistant() {
               onDrop={(name) => addTo(setBansAllies, bansAllies, name, 3)}
             >
               <AddHeroInput
+                DB={DB}
+                exclude={takenHeroes}
                 placeholder="Ajouter un ban…"
                 onAdd={(v) => addTo(setBansAllies, bansAllies, v, 3)}
                 disabled={bansAllies.length >= 3}
@@ -1772,6 +2264,8 @@ export default function DraftAssistant() {
               onDrop={(name) => addTo(setAllies, allies, name, 5)}
             >
               <AddHeroInput
+                DB={DB}
+                exclude={takenHeroes}
                 placeholder="Ajouter un pick…"
                 onAdd={(v) => addTo(setAllies, allies, v, 5)}
                 disabled={allies.length >= 5}
@@ -1909,6 +2403,8 @@ export default function DraftAssistant() {
               onDrop={(name) => addTo(setBansEnemies, bansEnemies, name, 3)}
             >
               <AddHeroInput
+                DB={DB}
+                exclude={takenHeroes}
                 placeholder="Ajouter un ban adverse…"
                 onAdd={(v) => addTo(setBansEnemies, bansEnemies, v, 3)}
                 disabled={bansEnemies.length >= 3}
@@ -1925,6 +2421,8 @@ export default function DraftAssistant() {
               onDrop={(name) => addTo(setEnemies, enemies, name, 5)}
             >
               <AddHeroInput
+                DB={DB}
+                exclude={takenHeroes}
                 placeholder="Ajouter un pick adverse…"
                 onAdd={(v) => addTo(setEnemies, enemies, v, 5)}
                 disabled={enemies.length >= 5}
