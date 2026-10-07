@@ -27,6 +27,9 @@ const SCORE_VISUAL_RANGE = { min: 5, max: 22 };
 // pour que les zones de dépôt (ListBox) puissent se mettre en surbrillance.
 const HERO_DRAG_START_EVENT = "hero-drag-start";
 const HERO_DRAG_END_EVENT = "hero-drag-end";
+// Type ajouté au glisser quand le héros vient d'une liste pick/ban : lisible pendant le survol
+// (contrairement à la valeur), il permet d'accepter le dépôt au centre pour retirer le héros.
+const HERO_FROM_LIST_TYPE = "hero-from-list";
 
 const HERO_IMAGE_BASE = "https://raw.githubusercontent.com/heroespatchnotes/heroes-talents/master/images/heroes";
 
@@ -635,10 +638,69 @@ function PopularityBadge({ rank }) {
   );
 }
 
+// Démarre le glisser d'un héros (carte de reco ou ligne d'une liste pick/ban).
+function startHeroDrag(e, name, fromList = false) {
+  e.dataTransfer.setData("hero", name);
+  if (fromList) e.dataTransfer.setData(HERO_FROM_LIST_TYPE, name);
+  e.dataTransfer.effectAllowed = "copyMove";
+  document.dispatchEvent(new CustomEvent(HERO_DRAG_START_EVENT));
+
+  // Chrome/Edge assombrissent systématiquement l'aperçu natif du glisser-déposer,
+  // même avec une image personnalisée. On masque donc cet aperçu natif (image vide)
+  // et on affiche nous-mêmes un clone de la carte, opaque, qui suit le curseur.
+  const original = e.currentTarget;
+  const rect = original.getBoundingClientRect();
+  const offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+  const emptyImage = document.createElement("canvas");
+  emptyImage.width = 1;
+  emptyImage.height = 1;
+  e.dataTransfer.setDragImage(emptyImage, 0, 0);
+
+  const ghost = original.cloneNode(true);
+  ghost.style.position = "fixed";
+  ghost.style.zIndex = "9999";
+  ghost.style.width = `${rect.width}px`;
+  ghost.style.height = `${rect.height}px`;
+  ghost.style.left = `${rect.left}px`;
+  ghost.style.top = `${rect.top}px`;
+  ghost.style.margin = "0";
+  ghost.style.pointerEvents = "none";
+  ghost.style.opacity = "1";
+  ghost.style.backdropFilter = "none";
+  ghost.style.background = "linear-gradient(to bottom right, #1c2f53, #284573, #2f5b88)";
+  ghost.style.transform = "none";
+  document.body.appendChild(ghost);
+
+  // On pilote le clone via des écouteurs globaux (et non les props React
+  // onDrag/onDragEnd) : le drop peut faire disparaître cette carte de la liste
+  // (ex. déplacée vers "Picks alliés"), et un composant démonté ne reçoit plus
+  // ses événements React, ce qui laisserait le clone bloqué à l'écran.
+  const handleDrag = (ev) => {
+    // En fin de glisser, certains navigateurs renvoient (0,0) : on ignore ce cas.
+    if (ev.clientX === 0 && ev.clientY === 0) return;
+    ghost.style.left = `${ev.clientX - offset.x}px`;
+    ghost.style.top = `${ev.clientY - offset.y}px`;
+  };
+
+  const cleanup = () => {
+    ghost.remove();
+    document.removeEventListener("drag", handleDrag);
+    document.removeEventListener("dragend", cleanup);
+    document.removeEventListener("drop", cleanup, true);
+    document.dispatchEvent(new CustomEvent(HERO_DRAG_END_EVENT));
+  };
+
+  document.addEventListener("drag", handleDrag);
+  // "drop" (capturé avant que le composant source ne soit démonté par le
+  // changement d'état) couvre le dépôt réussi ; "dragend" couvre l'annulation.
+  document.addEventListener("drop", cleanup, true);
+  document.addEventListener("dragend", cleanup);
+}
+
 function HeroCard({ name, role, score, breakdown, DB, popularityRank = Infinity }) {
   const [showTooltips, setShowTooltips] = useState(false);
   const cardRef = useRef(null);
-  const dragGhostRef = useRef(null);
 
   const handleMouseLeave = (event) => {
     const next = event?.relatedTarget;
@@ -658,65 +720,7 @@ function HeroCard({ name, role, score, breakdown, DB, popularityRank = Infinity 
     <div
       ref={cardRef}
       draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData("hero", name);
-        e.dataTransfer.effectAllowed = "copy";
-        document.dispatchEvent(new CustomEvent(HERO_DRAG_START_EVENT));
-
-        // Chrome/Edge assombrissent systématiquement l'aperçu natif du glisser-déposer,
-        // même avec une image personnalisée. On masque donc cet aperçu natif (image vide)
-        // et on affiche nous-mêmes un clone de la carte, opaque, qui suit le curseur.
-        const original = e.currentTarget;
-        const rect = original.getBoundingClientRect();
-        const offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-
-        const emptyImage = document.createElement("canvas");
-        emptyImage.width = 1;
-        emptyImage.height = 1;
-        e.dataTransfer.setDragImage(emptyImage, 0, 0);
-
-        const ghost = original.cloneNode(true);
-        ghost.style.position = "fixed";
-        ghost.style.zIndex = "9999";
-        ghost.style.width = `${rect.width}px`;
-        ghost.style.height = `${rect.height}px`;
-        ghost.style.left = `${rect.left}px`;
-        ghost.style.top = `${rect.top}px`;
-        ghost.style.margin = "0";
-        ghost.style.pointerEvents = "none";
-        ghost.style.opacity = "1";
-        ghost.style.backdropFilter = "none";
-        ghost.style.background = "linear-gradient(to bottom right, #1c2f53, #284573, #2f5b88)";
-        ghost.style.transform = "none";
-        document.body.appendChild(ghost);
-        dragGhostRef.current = ghost;
-
-        // On pilote le clone via des écouteurs globaux (et non les props React
-        // onDrag/onDragEnd) : le drop peut faire disparaître cette carte de la liste
-        // (ex. déplacée vers "Picks alliés"), et un composant démonté ne reçoit plus
-        // ses événements React, ce qui laisserait le clone bloqué à l'écran.
-        const handleDrag = (ev) => {
-          // En fin de glisser, certains navigateurs renvoient (0,0) : on ignore ce cas.
-          if (ev.clientX === 0 && ev.clientY === 0) return;
-          ghost.style.left = `${ev.clientX - offset.x}px`;
-          ghost.style.top = `${ev.clientY - offset.y}px`;
-        };
-
-        const cleanup = () => {
-          ghost.remove();
-          if (dragGhostRef.current === ghost) dragGhostRef.current = null;
-          document.removeEventListener("drag", handleDrag);
-          document.removeEventListener("dragend", cleanup);
-          document.removeEventListener("drop", cleanup, true);
-          document.dispatchEvent(new CustomEvent(HERO_DRAG_END_EVENT));
-        };
-
-        document.addEventListener("drag", handleDrag);
-        // "drop" (capturé avant que le composant source ne soit démonté par le
-        // changement d'état) couvre le dépôt réussi ; "dragend" couvre l'annulation.
-        document.addEventListener("drop", cleanup, true);
-        document.addEventListener("dragend", cleanup);
-      }}
+      onDragStart={(e) => startHeroDrag(e, name)}
       onMouseLeave={handleMouseLeave}
       className="group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-[#1c2f53]/78 via-[#284573]/65 to-[#2f5b88]/55 p-2.5 shadow-[0_10px_24px_rgba(5,10,26,0.55)] backdrop-blur transition hover:border-cyan-300/70 cursor-grab active:cursor-grabbing"
       style={{
@@ -770,8 +774,11 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
   return (
     <div
       ref={rowRef}
+      draggable
+      onDragStart={(e) => startHeroDrag(e, name, true)}
       onMouseLeave={handleMouseLeave}
-      className={`flex items-center justify-between ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
+      title="Glisser vers une autre liste pour le déplacer, ou au centre pour le retirer"
+      className={`flex items-center justify-between rounded-xl cursor-grab active:cursor-grabbing ${compact ? "gap-1 text-xs" : "gap-2 text-sm"}`}
     >
       <div className="flex items-center flex-1 gap-1.5 min-w-0">
         <div>
@@ -1994,6 +2001,37 @@ export default function DraftAssistant() {
     setter([...list, ...toAdd]);
   }
 
+  // Dépôt d'un héros sur une liste pick/ban : ajout s'il est libre,
+  // déplacement (avec son partenaire Cho/Gall) s'il est déjà dans une autre liste.
+  const draftLists = {
+    bansAllies: [bansAllies, setBansAllies, 3],
+    allies: [allies, setAllies, 5],
+    bansEnemies: [bansEnemies, setBansEnemies, 3],
+    enemies: [enemies, setEnemies, 5],
+  };
+
+  function dropHero(targetKey, name) {
+    const [target, setTarget, limit] = draftLists[targetKey];
+    const sourceKey = Object.keys(draftLists).find((k) => draftLists[k][0].includes(name));
+    if (!sourceKey) return addTo(setTarget, target, name, limit);
+    if (sourceKey === targetKey) return;
+
+    const [source, setSource] = draftLists[sourceKey];
+    const partner = HERO_PAIRS[name];
+    const moving = partner && source.includes(partner) ? [name, partner] : [name];
+    if (target.length + moving.length > limit) return;
+    setSource(source.filter((h) => !moving.includes(h)));
+    setTarget([...target, ...moving]);
+  }
+
+  // Héros reposé au centre : on le retire de sa liste (avec son partenaire Cho/Gall)
+  function returnHero(name) {
+    const sourceKey = Object.keys(draftLists).find((k) => draftLists[k][0].includes(name));
+    if (!sourceKey) return;
+    const [source, setSource] = draftLists[sourceKey];
+    removeFrom(setSource, source, source.indexOf(name));
+  }
+
   function removeFrom(setter, list, idx) {
     const name = list[idx];
     const partner = HERO_PAIRS[name];
@@ -2066,6 +2104,8 @@ export default function DraftAssistant() {
   }, [map, allies, enemies, bansAllies, bansEnemies, popularityBonus, performanceBonus, heroStats, DB]);
 
   const comp = getCompositionStatus(allies, DB);
+  const isFromList = (e) => e.dataTransfer.types.includes(HERO_FROM_LIST_TYPE);
+  const [centerDragOver, setCenterDragOver] = useState(false);
 
   return (
     <div className="min-h-screen w-full text-slate-100 app-gradient-bg">
@@ -2243,7 +2283,7 @@ export default function DraftAssistant() {
               state={state}
               side="allies"
               tall
-              onDrop={(name) => addTo(setBansAllies, bansAllies, name, 3)}
+              onDrop={(name) => dropHero("bansAllies", name)}
             >
               <AddHeroInput
                 DB={DB}
@@ -2261,7 +2301,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="allies"
-              onDrop={(name) => addTo(setAllies, allies, name, 5)}
+              onDrop={(name) => dropHero("allies", name)}
             >
               <AddHeroInput
                 DB={DB}
@@ -2289,7 +2329,24 @@ export default function DraftAssistant() {
           </aside>
 
           {/* Centre */}
-          <main className="col-span-12 md:col-span-6 flex flex-col gap-4">
+          <main
+            className={`col-span-12 md:col-span-6 flex flex-col gap-4 rounded-3xl transition ${centerDragOver ? "ring-2 ring-rose-400/60 bg-rose-500/5" : ""}`}
+            onDragOver={(e) => {
+              if (!isFromList(e)) return;
+              e.preventDefault();
+              e.dataTransfer.dropEffect = "move";
+              setCenterDragOver(true);
+            }}
+            onDragLeave={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) setCenterDragOver(false);
+            }}
+            onDrop={(e) => {
+              setCenterDragOver(false);
+              if (!isFromList(e)) return;
+              e.preventDefault();
+              returnHero(e.dataTransfer.getData("hero"));
+            }}
+          >
             <div className={`${PANEL_CLASS} p-4 text-xs`}>
               <div className="flex items-center gap-2 flex-wrap">
                 <StatusChip
@@ -2400,7 +2457,7 @@ export default function DraftAssistant() {
               state={state}
               side="enemies"
               tall
-              onDrop={(name) => addTo(setBansEnemies, bansEnemies, name, 3)}
+              onDrop={(name) => dropHero("bansEnemies", name)}
             >
               <AddHeroInput
                 DB={DB}
@@ -2418,7 +2475,7 @@ export default function DraftAssistant() {
               DB={DB}
               state={state}
               side="enemies"
-              onDrop={(name) => addTo(setEnemies, enemies, name, 5)}
+              onDrop={(name) => dropHero("enemies", name)}
             >
               <AddHeroInput
                 DB={DB}
