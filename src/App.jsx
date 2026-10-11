@@ -12,6 +12,19 @@ const HERO_LIST = heroes.map((h) => h.name);
 
 const HERO_PAIRS = { "Cho": "Gall", "Gall": "Cho" };
 
+// Variantes d'un même héros en jeu : une seule peut être pick ou bannie par game
+const HERO_VARIANT_GROUPS = [
+  ["Varian Tank", "Varian Bruiser", "Varian Dps Mêlée"],
+  ["Kramer Tank", "Kramer Dps"],
+];
+
+// Héros indisponibles : ceux de la liste + les autres variantes du même héros
+function withVariants(names) {
+  const out = new Set(names);
+  names.forEach((n) => HERO_VARIANT_GROUPS.find((g) => g.includes(n))?.forEach((v) => out.add(v)));
+  return [...out];
+}
+
 const TIER_BONUS = {
   "S": 1,
   "A": 0.5,
@@ -295,7 +308,7 @@ function computeScoreFor(hero, DB, state, opts = {}) {
 
   // On évite les héros déjà pick ou bannis (sauf si ignoreLocks)
   if (!ignoreLocks) {
-    const locked = [...state.allies, ...state.enemies, ...state.bansAllies, ...state.bansEnemies];
+    const locked = withVariants([...state.allies, ...state.enemies, ...state.bansAllies, ...state.bansEnemies]);
     if (locked.includes(hero)) return -999;
   }
 
@@ -1963,8 +1976,10 @@ export default function DraftAssistant() {
   const popularityRanks = useMemo(() => computePopularityRanks(popularity), [popularity]);
   const state = { map, allies, enemies, bansAllies, bansEnemies, popularityBonus, performanceBonus, heroStats };
 
-  const takenHeroes = [...allies, ...enemies, ...bansAllies, ...bansEnemies];
-  const gameHeroes = [...new Set(takenHeroes)];
+  const draftHeroes = [...allies, ...enemies, ...bansAllies, ...bansEnemies];
+  // Indisponibles à l'ajout (variantes comprises) ; la popularité, elle, ne compte que les héros réellement pris
+  const takenHeroes = withVariants(draftHeroes);
+  const gameHeroes = [...new Set(draftHeroes)];
   // Empêche de compter deux fois la même draft (double clic, re-validation)
   const draftKey = JSON.stringify([allies, enemies, bansAllies, bansEnemies]);
   const draftComplete = allies.length + enemies.length === 10;
@@ -1992,7 +2007,7 @@ export default function DraftAssistant() {
   function addTo(setter, list, name, limit) {
     if (!HERO_LIST.includes(name)) return;
     if (list.includes(name)) return;
-    const allPicked = [...allies, ...enemies, ...bansAllies, ...bansEnemies];
+    const allPicked = withVariants([...allies, ...enemies, ...bansAllies, ...bansEnemies]);
     if (allPicked.includes(name)) return;
     const partner = HERO_PAIRS[name];
     if (partner && allPicked.includes(partner)) return;
@@ -2060,13 +2075,8 @@ export default function DraftAssistant() {
   }
 
   const allyReco = useMemo(() => {
-    return HERO_LIST.filter(
-      (h) =>
-        !allies.includes(h) &&
-        !enemies.includes(h) &&
-        !bansAllies.includes(h) &&
-        !bansEnemies.includes(h)
-    )
+    const unavailable = withVariants([...allies, ...enemies, ...bansAllies, ...bansEnemies]);
+    return HERO_LIST.filter((h) => !unavailable.includes(h))
       .map((h) => ({
         name: h,
         role: DB[h].role,
@@ -2087,13 +2097,8 @@ export default function DraftAssistant() {
       performanceBonus,
       heroStats,
     };
-    return HERO_LIST.filter(
-      (h) =>
-        !allies.includes(h) &&
-        !enemies.includes(h) &&
-        !bansAllies.includes(h) &&
-        !bansEnemies.includes(h)
-    )
+    const unavailable = withVariants([...allies, ...enemies, ...bansAllies, ...bansEnemies]);
+    return HERO_LIST.filter((h) => !unavailable.includes(h))
       .map((h) => ({
         name: h,
         role: DB[h].role,
