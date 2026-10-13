@@ -10,6 +10,15 @@ const DEFAULT_MAP = "Comté du dragon";
 const MAP_LANES = Object.fromEntries(maps.map((m) => [m.name, m.lanes]));
 const HERO_LIST = heroes.map((h) => h.name);
 
+// Typographie : tout s'affiche en minuscules sauf la première lettre, y compris les noms
+// de héros, de maps et de joueurs (ex. "Xal'Atath" → "Xal'atath", "ETC" → "Etc").
+const sentence = (s) => {
+  const t = String(s ?? "");
+  return t.charAt(0).toLocaleUpperCase("fr-FR") + t.slice(1).toLocaleLowerCase("fr-FR");
+};
+const ROLE_LABELS = { "Dps Mêléee": "Dps mêlée", "Range Auto": "Range auto" };
+const roleLabel = (role) => ROLE_LABELS[role] || role;
+
 const HERO_PAIRS = { "Cho": "Gall", "Gall": "Cho" };
 
 // Variantes d'un même héros en jeu : une seule peut être pick ou bannie par game
@@ -215,7 +224,8 @@ function PortalTooltip({ children, content, isOpen = null, offset = 0, onHoverCh
         ref={ref}
         onMouseEnter={handleOpen}
         onMouseLeave={handleClose}
-        className="inline-block"
+        // max-w-full : le contenu (ex. un nom de héros) peut se tronquer à la largeur disponible
+        className="inline-block max-w-full align-top"
       >
         {children}
       </span>
@@ -362,11 +372,11 @@ function explainScore(hero, DB, state, opts = {}) {
   // --- RÔLES ---
   const counts = teamRoleCounts(listForCount, DB);
   if ((counts[H.role] || 0) >= 1) {
-    add(`Rôle déjà présent (${H.role})`, WEIGHTS.roleDuplicate, SCORE_COLORS.role);
+    add(`Rôle déjà présent (${roleLabel(H.role)})`, WEIGHTS.roleDuplicate, SCORE_COLORS.role);
   }
 
   if (H.role === "Dps Mêléee" && MêléeCount(listForCount, DB) >= 1) {
-    add("Deuxième Mêlée (éviter 2× Mêlée)", WEIGHTS.secondMelee, SCORE_COLORS.role);
+    add("Deuxième mêlée (éviter 2× mêlée)", WEIGHTS.secondMelee, SCORE_COLORS.role);
   }
 
   // --- CARTES ---
@@ -375,36 +385,36 @@ function explainScore(hero, DB, state, opts = {}) {
   }
 
   if (state.map && H.badMaps?.includes(state.map)) {
-    add(`Carte défavorable (${state.map})`, WEIGHTS.mapUnfavorable, SCORE_COLORS.mapBad);
+    add(`Carte défavorable (${sentence(state.map)})`, WEIGHTS.mapUnfavorable, SCORE_COLORS.mapBad);
   }
 
   // --- SYNERGIES ALLIÉES ---
   (H.synergies || []).forEach((ally) => {
-    if (teamList.includes(ally)) add(`Synergie avec ${ally}`, WEIGHTS.synergy, SCORE_COLORS.synergy);
+    if (teamList.includes(ally)) add(`Synergie avec ${sentence(ally)}`, WEIGHTS.synergy, SCORE_COLORS.synergy);
   });
 
   // --- CONTRE LES ENNEMIS (les ennemis ont un counter sur nous) ---
   oppList.forEach((enemy) => {
-    if ((DB[enemy]?.counters || []).includes(hero)) add(`Contre ${enemy}`, WEIGHTS.counters, SCORE_COLORS.counter);
+    if ((DB[enemy]?.counters || []).includes(hero)) add(`Contre ${sentence(enemy)}`, WEIGHTS.counters, SCORE_COLORS.counter);
   });
 
   // --- NOUS SOMMES CONTRÉS PAR CERTAINS HÉROS ---
   const counterByList = H.counters || [];
 
   oppList.forEach((enemy) => {
-    if (counterByList.includes(enemy)) add(`Se fait contrer par ${enemy}`, WEIGHTS.countered, SCORE_COLORS.counter);
+    if (counterByList.includes(enemy)) add(`Se fait contrer par ${sentence(enemy)}`, WEIGHTS.countered, SCORE_COLORS.counter);
   });
 
   teamList.forEach((ally) => {
     if (counterByList.includes(ally)) {
-      add(`Empeche de se faire contrer par ${ally}`, WEIGHTS.protectsFromCounter, SCORE_COLORS.counter);
+      add(`Empeche de se faire contrer par ${sentence(ally)}`, WEIGHTS.protectsFromCounter, SCORE_COLORS.counter);
     }
   });
 
   // --- BLOQUE LES SYNERGIES ADVERSES ---
   oppList.forEach((enemy) => {
     if ((DB[enemy]?.synergies || []).includes(hero)) {
-      add(`Bloque synergie adverse avec ${enemy}`, WEIGHTS.blocksEnemySynergy, SCORE_COLORS.synergy);
+      add(`Bloque synergie adverse avec ${sentence(enemy)}`, WEIGHTS.blocksEnemySynergy, SCORE_COLORS.synergy);
     }
   });
 
@@ -443,7 +453,7 @@ const PANEL_CLASS =
   "rounded-3xl border border-indigo-900/50 bg-gradient-to-br from-[#0a1330]/75 via-[#101B35]/70 to-[#292757]/65 backdrop-blur-2xl shadow-[0_20px_70px_rgba(2,6,23,0.65)]";
 
 const SECTION_TITLE_CLASS =
-  "text-[11px] uppercase tracking-[0.4em] text-indigo-100/70 font-semibold";
+  "text-xs tracking-wide text-indigo-100/80 font-semibold";
 
 function HeroPortrait({ name, src, size = 48, score = null }) {
   const [error, setError] = useState(false);
@@ -486,7 +496,7 @@ function RoleChip({ role }) {
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded-full border whitespace-nowrap ${m.cls}`}>
       <span>{m.badge}</span>
-      {role}
+      {roleLabel(role)}
     </span>
   );
 }
@@ -500,8 +510,8 @@ function HeroInfoHover({ name, DB, children, showTooltip = null, onHoverChange =
       <div className="flex items-center gap-3 mb-3">
         <HeroPortrait name={name} src={info.portrait} size={60} />
         <div className="min-w-0">
-          <div className="font-semibold text-sm text-indigo-300 truncate">{name}</div>
-          <div className="text-xs text-slate-400">{info.role}</div>
+          <div className="font-semibold text-sm text-indigo-300 truncate">{sentence(name)}</div>
+          <div className="text-xs text-slate-400">{roleLabel(info.role)}</div>
         </div>
       </div>
       <div className="flex flex-col text-[11px] text-left space-y-2">
@@ -513,27 +523,27 @@ function HeroInfoHover({ name, DB, children, showTooltip = null, onHoverChange =
           <span className="text-slate-200">{info.stats ? formatWinRate(info.stats) : "aucune game"}</span>
         </div>
         <div>
-          <b><span className="text-indigo-400">Rôle:</span></b> <span className="text-slate-200">{info.role}</span>
+          <b><span className="text-indigo-400">Rôle:</span></b> <span className="text-slate-200">{roleLabel(info.role)}</span>
         </div>
 
         <div>
           <b><span className="text-emerald-400">Maps favorable:</span></b>
-          <div className="text-slate-300 ml-2">{info.favMaps.join(", ") || "—"}</div>
+          <div className="text-slate-300 ml-2">{info.favMaps.map(sentence).join(", ") || "—"}</div>
         </div>
 
         <div>
           <b><span className="text-rose-400">Maps nulles:</span></b>
-          <div className="text-slate-300 ml-2">{info.badMaps.join(", ") || "—"}</div>
+          <div className="text-slate-300 ml-2">{info.badMaps.map(sentence).join(", ") || "—"}</div>
         </div>
 
         <div>
           <b><span className="text-cyan-400">Synergies:</span></b>
-          <div className="text-slate-300 ml-2">{info.synergies.join(", ") || "—"}</div>
+          <div className="text-slate-300 ml-2">{info.synergies.map(sentence).join(", ") || "—"}</div>
         </div>
 
         <div>
           <b><span className="text-amber-400">Se fait contrer:</span></b>
-          <div className="text-slate-300 ml-2">{info.counters.join(", ") || "—"}</div>
+          <div className="text-slate-300 ml-2">{info.counters.map(sentence).join(", ") || "—"}</div>
         </div>
       </div>
     </div>
@@ -601,7 +611,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
           {breakdown.map((row, idx) => (
             <li key={idx} className="flex justify-between gap-3">
               <span className={row.color || "text-slate-100"}>{row.label}</span>
-              <span className={`font-mono ${row.delta > 0 ? "text-emerald-300" : row.delta < 0 ? "text-rose-300" : "text-slate-100"}`}>
+              <span className={`tabular-nums ${row.delta > 0 ? "text-emerald-300" : row.delta < 0 ? "text-rose-300" : "text-slate-100"}`}>
                 {row.delta > 0 ? "+" : ""}
                 {row.delta.toFixed(2)}
               </span>
@@ -609,7 +619,7 @@ function ScoreBadge({ value, breakdown, showTooltip = null, onHoverChange = null
           ))}
           <li className="flex justify-between gap-3 pt-1 mt-1 border-t border-slate-700">
             <span className="font-semibold">Total</span>
-            <span className="font-mono font-bold text-slate-100">{value.toFixed(2)}</span>
+            <span className="tabular-nums font-bold text-slate-100">{value.toFixed(2)}</span>
           </li>
         </ul>
       </div>
@@ -635,7 +645,7 @@ function PopularityBadge({ rank }) {
     return (
       <span
         title={`Top 5 des héros les plus pick/ban (n°${rank})`}
-        className="top5-badge absolute -top-2 -left-2 z-10 whitespace-nowrap rounded-full border border-yellow-100/90 px-1.5 py-px text-[8px] font-black uppercase tracking-wider text-amber-950"
+        className="top5-badge absolute -top-2 -left-2 z-10 whitespace-nowrap rounded-full border border-yellow-100/90 px-1.5 py-px text-[8px] font-black tracking-wide text-amber-950"
       >
         👑 Top 5
       </span>
@@ -644,7 +654,7 @@ function PopularityBadge({ rank }) {
   return (
     <span
       title={`Top 10 des héros les plus pick/ban (n°${rank})`}
-      className="absolute -top-1 -left-1 z-10 whitespace-nowrap rounded-full border border-red-300/70 bg-red-600 px-1 py-px text-[7px] font-bold uppercase tracking-wider text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+      className="absolute -top-1 -left-1 z-10 whitespace-nowrap rounded-full border border-red-300/70 bg-red-600 px-1 py-px text-[7px] font-bold tracking-wide text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]"
     >
       Top 10
     </span>
@@ -743,17 +753,17 @@ function HeroCard({ name, role, score, breakdown, DB, popularityRank = Infinity 
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition">
         <div className="absolute -inset-8 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.65),_transparent_60%)] blur-3xl" />
       </div>
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={`relative ${popularityRank <= 5 ? "top5-ring rounded-xl" : ""}`}>
+      <div className="flex items-center justify-between gap-1">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className={`relative shrink-0 ${popularityRank <= 5 ? "top5-ring rounded-xl" : ""}`}>
             <HeroPortrait name={name} src={DB[name]?.portrait} size={52} score={score} />
             <PopularityBadge rank={popularityRank} />
           </div>
           <div className="min-w-0">
             <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
-              <div className="font-semibold text-sm truncate mr-2 tracking-wide">{name}</div>
+              <div className="font-semibold text-sm truncate tracking-wide">{sentence(name)}</div>
             </HeroInfoHover>
-            <div className="mt-1 flex">
+            <div className="mt-1 flex overflow-hidden rounded-full">
               <RoleChip role={role} />
             </div>
           </div>
@@ -799,11 +809,11 @@ function HeroListRow({ name, role, score, breakdown, DB, compact, onRemove }) {
         </div>
         <HeroInfoHover name={name} DB={DB} showTooltip={showTooltips}>
           <span className={`rounded-xl border border-white/10 bg-white/5 text-slate-100 shadow-inner ${compact ? "px-2 py-0.5" : "px-3 py-1"} inline-flex items-center max-w-full truncate`}>
-            {name}
+            {sentence(name)}
           </span>
         </HeroInfoHover>
         {role && (
-          <span className="ml-1">
+          <span className="ml-1 flex min-w-0 overflow-hidden rounded-full">
             <RoleChip role={role} />
           </span>
         )}
@@ -878,7 +888,7 @@ function ListBox({ title, items, onRemove, compact, DB, state, side = "allies", 
       onDrop={handleDrop}
     >
       <div className={`flex items-center justify-between ${compact ? "mb-2" : "mb-3"}`}>
-        <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[9px]" : ""}`}>{title}</div>
+        <div className={`${SECTION_TITLE_CLASS} ${compact ? "text-[11px]" : ""}`}>{title}</div>
         <span className="text-[10px] text-slate-400 tracking-widest">#{items.length}</span>
       </div>
       {children && <div className={compact ? "mb-2" : "mb-3"}>{children}</div>}
@@ -1017,7 +1027,7 @@ function AddHeroInput({ placeholder, onAdd, disabled, exclude = [], DB }) {
                 className={`flex items-center gap-2 rounded-xl px-2 py-1.5 cursor-pointer text-sm ${i === highlight ? "bg-indigo-500/30 text-white" : "text-slate-200"}`}
               >
                 <HeroPortrait name={name} src={DB[name]?.portrait} size={26} />
-                <span className="flex-1 truncate">{name}</span>
+                <span className="flex-1 truncate">{sentence(name)}</span>
                 <RoleChip role={DB[name]?.role} />
               </li>
             ))}
@@ -1342,7 +1352,7 @@ function HistoryTeam({ label, team, won, DB }) {
   return (
     <div className={`flex-1 min-w-0 rounded-2xl border p-3 ${won ? "border-emerald-400/50 bg-emerald-500/10" : "border-white/10 bg-white/[0.03]"}`}>
       <div className="flex items-center justify-between mb-2">
-        <span className={`text-[11px] uppercase tracking-[0.3em] font-semibold ${won ? "text-emerald-300" : "text-slate-300"}`}>{label}</span>
+        <span className={`text-[11px] tracking-wide font-semibold ${won ? "text-emerald-300" : "text-slate-300"}`}>{label}</span>
         {won && <span className="text-[10px] font-bold text-emerald-300">🏆 Victoire</span>}
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -1356,7 +1366,7 @@ function HistoryTeam({ label, team, won, DB }) {
         <div className="mt-2 flex items-center gap-1.5">
           <span className="text-[10px] text-slate-400 mr-1">Bans</span>
           {team.bans.map((h) => (
-            <span key={h} className="opacity-60 grayscale" title={h}>
+            <span key={h} className="opacity-60 grayscale" title={sentence(h)}>
               <HeroPortrait name={h} src={DB[h]?.portrait} size={24} />
             </span>
           ))}
@@ -1391,7 +1401,7 @@ function HistoryPage({ DB, games }) {
           {sorted.map((g) => (
             <div key={g.id} className="rounded-2xl border border-white/10 bg-black/20 p-3">
               <div className="flex items-center justify-between mb-2 text-xs">
-                <span className="font-semibold text-white">{g.map}</span>
+                <span className="font-semibold text-white">{sentence(g.map)}</span>
                 <span className="text-slate-400">{formatGameDate(g.date)}</span>
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
@@ -1520,10 +1530,10 @@ function PopularityPage({ DB, popularity, onExport }) {
         <ol className="flex flex-col gap-1.5">
           {ranking.map((r, i) => (
             <li key={r.name} className="flex items-center gap-3 text-sm">
-              <span className="w-7 text-right font-mono text-slate-400">{i + 1}</span>
+              <span className="w-7 text-right tabular-nums text-slate-400">{i + 1}</span>
               <HeroPortrait name={r.name} src={DB[r.name]?.portrait} size={34} />
               <HeroInfoHover name={r.name} DB={DB}>
-                <span className="w-40 truncate inline-block">{r.name}</span>
+                <span className="w-40 truncate inline-block">{sentence(r.name)}</span>
               </HeroInfoHover>
               <span className="w-28 hidden sm:block">
                 <RoleChip role={r.role} />
@@ -1534,7 +1544,7 @@ function PopularityPage({ DB, popularity, onExport }) {
                   style={{ width: `${(r.count / max) * 100}%` }}
                 />
               </div>
-              <span className="w-10 text-right font-mono font-semibold">{r.count}</span>
+              <span className="w-10 text-right tabular-nums font-semibold">{r.count}</span>
             </li>
           ))}
         </ol>
@@ -1701,11 +1711,11 @@ function WinRateBars({ rows, DB, extra }) {
           <div
             key={r.key}
             className={`${grid} rounded-lg px-1 py-0.5 hover:bg-white/5`}
-            title={`${r.label} : ${r.wins} victoires sur ${r.games} games (${pct(r.rate)})`}
+            title={`${sentence(r.label)} : ${r.wins} victoires sur ${r.games} games (${pct(r.rate)})`}
           >
             <div className="flex items-center gap-2 min-w-0">
               {DB && <HeroPortrait name={r.label} src={DB[r.label]?.portrait} size={22} />}
-              <span className="truncate text-xs text-slate-200">{r.label}</span>
+              <span className="truncate text-xs text-slate-200">{sentence(r.label)}</span>
             </div>
             <div className="relative h-3">
               <div className="absolute -inset-y-1 left-1/2 w-px bg-white/20" />
@@ -1870,7 +1880,7 @@ function StatsPage({ DB, games }) {
           </div>
           <div className="flex rounded-2xl border border-white/15 bg-white/5 p-1">
             {["all", ...OUR_PLAYERS].map((p) => (
-              <button key={p} onClick={() => setPlayer(p)} className={chip(player === p)}>{p === "all" ? "Tous" : p}</button>
+              <button key={p} onClick={() => setPlayer(p)} className={chip(player === p)}>{p === "all" ? "Tous" : sentence(p)}</button>
             ))}
           </div>
         </div>
@@ -1883,13 +1893,13 @@ function StatsPage({ DB, games }) {
             detail={`${s.wins} victoires · ${s.total - s.wins} défaites`}
           />
           <StatTile
-            label="Skippy + Lisou92 ensemble"
+            label={`${OUR_PLAYERS.map(sentence).join(" + ")} ensemble`}
             value={s.duo ? pct(s.duo.rate) : "—"}
             detail={s.duo ? `sur ${s.duo.games} games` : ""}
           />
           <StatTile
             label="Meilleure map"
-            value={s.maps[0]?.[0] || "—"}
+            value={s.maps[0] ? sentence(s.maps[0][0]) : "—"}
             detail={s.maps[0] ? `${pct(s.maps[0][1].rate)} sur ${s.maps[0][1].games} games` : ""}
           />
         </div>
@@ -1925,7 +1935,7 @@ function StatsPage({ DB, games }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               {OUR_PLAYERS.map((p) => (
-                <StatPanel key={p} title={`Héros de ${p}`} subtitle="Les 10 plus joués, avec leur win rate">
+                <StatPanel key={p} title={`Héros de ${sentence(p)}`} subtitle="Les 10 plus joués, avec leur win rate">
                   <WinRateBars rows={toBarRows(s.perPlayer[p])} DB={DB} />
                 </StatPanel>
               ))}
@@ -1943,7 +1953,7 @@ function StatsPage({ DB, games }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               <StatPanel title="Rôles" subtitle="Win rate de chaque rôle, picks des deux équipes">
-                <StatsTable head={["Rôle", "Picks", "Win rate"]} rows={s.roles.map(([r, st]) => [r, st.games, pct(st.rate)])} />
+                <StatsTable head={["Rôle", "Picks", "Win rate"]} rows={s.roles.map(([r, st]) => [roleLabel(r), st.games, pct(st.rate)])} />
               </StatPanel>
               <StatPanel title="Compositions" subtitle="Notre équipe : nombre de tanks et de healers">
                 <StatsTable head={["Compo", "Games", "Win rate"]} rows={s.comps.map(([c, st]) => [c, st.games, pct(st.rate)])} />
@@ -2120,8 +2130,8 @@ export default function DraftAssistant() {
           <div className="w-full flex items-center justify-between px-3 py-2">
             <div className="flex items-center gap-4">
               <div>
-                <div className={SECTION_TITLE_CLASS}>Heroes of the Storm</div>
-                <div className="text-xl font-semibold text-white mt-1">Draft Assistant</div>
+                <div className={SECTION_TITLE_CLASS}>Heroes of the storm</div>
+                <div className="text-xl font-semibold text-white mt-1">Draft assistant</div>
               </div>
               <nav className="flex rounded-2xl border border-white/15 bg-white/5 p-1 text-sm">
                 {[["draft", "Draft"], ["popularity", "Popularité"], ["history", "Historique"], ["stats", "Stats"]].map(([key, label]) => (
@@ -2138,14 +2148,14 @@ export default function DraftAssistant() {
             {view === "draft" && (
             <>
             <div className="flex-1 text-sm text-center flex flex-col sm:flex-row sm:items-center sm:justify-center gap-1">
-              <span className="text-[12px] uppercase tracking-[0.4em] text-slate-300">Map</span>
+              <span className="text-[12px] tracking-wide text-slate-300">Map</span>
               <select
                 className="ml-0 sm:ml-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-2 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
                 value={map}
                 onChange={(e) => setMap(e.target.value)}
               >
                 {ALL_MAPS.map((m) => (
-                  <option key={m}>{m}</option>
+                  <option key={m} value={m}>{sentence(m)}</option>
                 ))}
               </select>
             </div>
@@ -2209,7 +2219,7 @@ export default function DraftAssistant() {
             />
             <div className="relative z-50 w-[380px] max-w-[92vw] rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#050917]/95 via-[#0b1130]/90 to-[#050917]/95 p-6 text-center shadow-[0_25px_80px_rgba(3,3,16,0.9)]">
               <div className="text-xl font-semibold text-white mb-1">Qui a gagné ?</div>
-              <div className="text-xs text-slate-400 mb-5">{map}</div>
+              <div className="text-xs text-slate-400 mb-5">{sentence(map)}</div>
               <div className="flex gap-3">
                 <button
                   onClick={() => validateGame("allies")}
@@ -2257,7 +2267,7 @@ export default function DraftAssistant() {
                   <li>Popularité : top 25% = +1, top 50% = +0.5</li>
                   <li>Performance sur les games enregistrées : win rate ≥ 55% = +1, ≤ 45% = −1 (lissé vers 50%, minimum {PERF_MIN_GAMES} games)</li>
                   <li>Rôle déjà présent : {WEIGHTS.roleDuplicate}</li>
-                  <li>Deuxième DPS mêlée : {WEIGHTS.secondMelee}</li>
+                  <li>Deuxième dps mêlée : {WEIGHTS.secondMelee}</li>
                   <li>Carte : favorable +{WEIGHTS.mapFavorable}, défavorable {WEIGHTS.mapUnfavorable}</li>
                   <li>Contre un ennemi : +{WEIGHTS.counters} par cible</li>
                   <li>Se fait contrer par un ennemi : {WEIGHTS.countered} par héros</li>
@@ -2268,7 +2278,7 @@ export default function DraftAssistant() {
                 <div className="mt-4 rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-center">
                   <div className="text-2xl font-bold text-emerald-300">54,1 %</div>
                   <div className="text-xs text-slate-300 mt-1">
-                    de bonnes prédictions du vainqueur, testé sur 815 games de Ligue Storm
+                    de bonnes prédictions du vainqueur, testé sur 815 games de Ligue storm
                   </div>
                 </div>
               </div>
@@ -2319,7 +2329,7 @@ export default function DraftAssistant() {
             <MapImagePanel
               title={
                 MAP_LANES[map] ? (
-                  <div className="text-[13px] uppercase tracking-[0.4em] font-bold text-white">
+                  <div className="text-[13px] tracking-wide font-bold text-white">
                     Map à <span className="text-cyan-300">{MAP_LANES[map]}</span> lanes
                   </div>
                 ) : (
@@ -2367,11 +2377,11 @@ export default function DraftAssistant() {
                   state={!comp.healOk ? "need" : comp.healTooMany ? "warn" : "ok"}
                 />
                 <StatusChip
-                  label="Mage ou DPS mêlée"
+                  label="Mage ou dps mêlée"
                   state={!comp.dpsSlot1Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
                 />
                 <StatusChip
-                  label="Dps AA ou Mêlée"
+                  label="Dps aa ou mêlée"
                   state={!comp.dpsSlot2Ok ? "need" : !comp.noDoubleMêlée ? "warn" : "ok"}
                 />
               </div>
@@ -2386,7 +2396,8 @@ export default function DraftAssistant() {
               </div>
               <div className="relative flex-1 min-h-[330px]">
               <div className="absolute inset-0 overflow-y-auto no-scrollbar reco-scroll pr-1">
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {/* Nombre de colonnes selon la largeur : une carte doit garder la place du nom du héros */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 min-[1400px]:grid-cols-3 min-[1800px]:grid-cols-4 gap-2.5">
                   {allyReco.map((r) => (
                     <HeroCard
                       key={r.name}
@@ -2414,7 +2425,7 @@ export default function DraftAssistant() {
               </div>
               <div className="relative flex-1 min-h-[160px]">
               <div className="absolute inset-0 overflow-y-auto no-scrollbar reco-scroll pr-1">
-              <div className="grid grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 min-[1400px]:grid-cols-3 min-[1800px]:grid-cols-4 gap-2.5">
                 {enemyPotential.map((r) => (
                   <HeroCard
                     key={r.name}
@@ -2441,7 +2452,7 @@ export default function DraftAssistant() {
                   />
                 ))}
                 {enemyPotential.length === 0 && (
-                  <div className="col-span-4 text-xs opacity-60">
+                  <div className="col-span-full text-xs opacity-60">
                     Aucun héros à ban suggéré
                   </div>
                 )}
@@ -2490,7 +2501,7 @@ export default function DraftAssistant() {
                 disabled={enemies.length >= 5}
               />
             </ListBox>
-            <MapImagePanel title={map} src={mapImageUrl(map)} alt={map} />
+            <MapImagePanel title={sentence(map)} src={mapImageUrl(map)} alt={map} />
           </aside>
         </div>
         )}
